@@ -11,6 +11,14 @@ export interface TwitchResponse {
   token_type: string;
 }
 
+export interface RequestOptions {
+  method: string;
+  headers: {
+    "Content-Type": string;
+  };
+  body: string;
+}
+
 /// GAME TYPES
 
 export interface Game {

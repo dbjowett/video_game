@@ -11,7 +11,6 @@ function GameList({ type }: { type: PageTypes }) {
   }
 
   const GameItem = (game: Game) => {
-    //   <div className="h-100 w-80 bg-slate-100">{game.name}</div>;
     return (
       <div className="max-w-sm overflow-hidden rounded p-8 shadow-lg">
         <Image
@@ -24,11 +23,11 @@ function GameList({ type }: { type: PageTypes }) {
           alt={game.name.toString()}
         />
 
-        <div className="px-6 py-4">
+        <div className="py-4">
           <div className="mb-2 text-xl font-bold">{game.name}</div>
           <p className="text-base text-gray-700">{game.summary}</p>
         </div>
-        <div className="px-6 pb-2 pt-4">
+        <div className="pb-2 pt-4">
           {game.genres.map((genre) => (
             <span
               key={genre.id}
