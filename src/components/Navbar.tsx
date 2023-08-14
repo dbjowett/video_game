@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { TbDeviceGamepad2 } from "react-icons/tb";
+import { Button } from "../components/ui/button";
 
 export const TabItems = {
   upcoming: { param: "/upcoming", title: "Upcoming" },
@@ -90,12 +91,11 @@ export const NavBar = () => {
               />
             ))}
             <li className="self-center">
-              <button
+              <Button
                 onClick={() => (!hasAuth ? void signIn() : void signOut())}
-                className="rounded-md bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 {!hasAuth ? "Sign In" : "Sign Out"}
-              </button>
+              </Button>
             </li>
           </ul>
         </nav>
