@@ -2,12 +2,13 @@ import Image from "next/image";
 import useFetchGames, { type PageTypes } from "~/hooks/useFetchGames";
 import { type Game } from "~/pages/api/utils/types";
 import { imageLoader } from "~/utils/game";
+import { Spinner } from "./Spinner";
 
 function GameList({ type }: { type: PageTypes }) {
   const { games, isLoading } = useFetchGames(type);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   const GameItem = (game: Game) => {
