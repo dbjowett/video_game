@@ -4,25 +4,18 @@ import { getApiSettings } from "./useApiSettings";
 
 export type PageTypes = "popular" | "upcoming" | "toprated";
 
-const useFetchGames = (type: PageTypes) => {
-  const apiOptions = useMemo(() => getApiSettings(type), [type]); // Memoize options
+const useFetchGames = (type: PageTypes, small?: boolean) => {
+  const apiOptions = useMemo(() => getApiSettings(type, small), [type, small]);
 
   const [games, setGames] = useState<Game[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    let isMounted = true;
-
     async function fetchData() {
       setIsLoading(true);
 
       try {
         const response = await fetch("/api/games", apiOptions);
-
-        if (!isMounted) {
-          return;
-        }
-
         const data = (await response.json()) as Game[];
         setGames(data);
       } catch (error) {
@@ -31,12 +24,7 @@ const useFetchGames = (type: PageTypes) => {
         setIsLoading(false);
       }
     }
-
     fetchData().catch((err) => console.log(err));
-
-    return () => {
-      isMounted = false;
-    };
   }, [apiOptions]);
 
   return { games, isLoading };

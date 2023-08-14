@@ -12,8 +12,10 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center ">
-        <GameList type="popular" />
+      <main className="flex min-h-screen flex-col items-center  ">
+        <GameList small type="popular" />
+        <GameList small type="toprated" />
+        <GameList small type="upcoming" />
       </main>
     </>
   );
