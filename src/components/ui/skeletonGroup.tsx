@@ -32,10 +32,10 @@ export const SkeletonGroup = ({
               <div className="ml-3 flex flex-col justify-center gap-2.5 py-2 align-middle ">
                 <Skeleton className="h-3 w-[95%]  bg-slate-200" />
                 <Skeleton className="h-3 w-[95%]  bg-slate-200" />
-                <Skeleton className="h-3 w-[90%] bg-slate-200" />
-                <Skeleton className="h-3 w-[90%] bg-slate-200" />
-                <Skeleton className="h-3 w-[90%] bg-slate-200" />
-                <Skeleton className="h-3 w-[90%] bg-slate-200" />
+                <Skeleton className="h-3 w-[95%] bg-slate-200" />
+                <Skeleton className="h-3 w-[95%] bg-slate-200" />
+                <Skeleton className="h-3 w-[95%] bg-slate-200" />
+                <Skeleton className="h-3 w-[95%] bg-slate-200" />
               </div>
             </div>
           );
