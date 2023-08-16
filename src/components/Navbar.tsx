@@ -65,7 +65,6 @@ export const NavBar = () => {
 
   return (
     <nav className="dark-mode:bg-gray-900 mb-3 bg-slate-100 py-2 antialiased">
-      {/* <div className="dark-mode:text-gray-200 dark-mode:bg-gray-800 w-full text-gray-700"> */}
       <div className="mx-auto flex max-w-screen-xl flex-col px-4 md:flex-row md:items-center md:justify-between md:px-6 lg:px-8">
         <div className="flex flex-row items-center justify-between p-4">
           <Link
@@ -100,7 +99,6 @@ export const NavBar = () => {
           </ul>
         </nav>
       </div>
-      {/* </div> */}
     </nav>
   );
 };
