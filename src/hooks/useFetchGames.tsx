@@ -14,7 +14,11 @@ const useFetchGames = (type: PageTypes, small?: boolean) => {
     return data;
   };
 
-  const { data: games, isLoading, error } = useQuery([type], fetchGames);
+  const {
+    data: games,
+    isLoading,
+    error,
+  } = useQuery({ queryKey: [type], queryFn: fetchGames });
 
   return { games, isLoading, error };
 };

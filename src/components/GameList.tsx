@@ -4,8 +4,8 @@ import useFetchGames, { type PageTypes } from "~/hooks/useFetchGames";
 
 import { GameItem } from "./GameItem";
 import { TabItems } from "./Navbar";
-import { SkeletonGroup } from "./ui/skeletonGroup";
 import { Spinner } from "./ui/Spinner";
+import { SkeletonGroup } from "./ui/skeletonGroup";
 
 function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
   const { games, isLoading, error } = useFetchGames(type, small);
@@ -13,13 +13,13 @@ function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
   if (isLoading) {
     return <Spinner />;
   }
-  if (error) {
+  if (error || !games) {
     return <div>Something went wrong!</div>;
   }
 
   return (
     <div className="px-8 py-4">
-      {isLoading && games?.length === 0 ? (
+      {isLoading && games.length === 0 ? (
         <SkeletonGroup numberOfCards={9} title={TabItems[type].title} />
       ) : (
         <>
@@ -39,7 +39,7 @@ function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-            {games?.map((game) => (
+            {games.map((game) => (
               <GameItem key={game.id} {...game} />
             ))}
           </div>

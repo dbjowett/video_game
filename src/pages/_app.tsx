@@ -7,11 +7,11 @@ import Layout from "~/components/Layout";
 import "~/styles/globals.css";
 import { api } from "~/utils/api";
 
+const queryClient = new QueryClient();
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  const queryClient = new QueryClient();
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
