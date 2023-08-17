@@ -10,7 +10,7 @@ export default function Home() {
   const [input, setInput] = useState<string>("");
   const [searchedData, setSearchedData] = useState<Game[]>([]);
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const tInput = input.trim();
     void axios
@@ -45,7 +45,7 @@ export default function Home() {
         {searchedData.length > 0 ? (
           <>
             {searchedData.map((game) => (
-              <div>{game.name}</div>
+              <div key={game.id}>{game.name}</div>
             ))}
           </>
         ) : (

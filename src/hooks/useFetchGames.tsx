@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { type Game } from "~/pages/api/utils/types";
 import { getApiSettings } from "./useApiSettings";
 
@@ -7,27 +8,15 @@ export type PageTypes = "popular" | "upcoming" | "toprated";
 const useFetchGames = (type: PageTypes, small?: boolean) => {
   const apiOptions = useMemo(() => getApiSettings(type, small), [type, small]);
 
-  const [games, setGames] = useState<Game[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const fetchGames = async () => {
+    const response = await fetch("/api/games", apiOptions);
+    const data = (await response.json()) as Game[];
+    return data;
+  };
 
-  useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
+  const { data: games, isLoading, error } = useQuery([type], fetchGames);
 
-      try {
-        const response = await fetch("/api/games", apiOptions);
-        const data = (await response.json()) as Game[];
-        setGames(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchData().catch((err) => console.log(err));
-  }, [apiOptions]);
-
-  return { games, isLoading };
+  return { games, isLoading, error };
 };
 
 export default useFetchGames;
