@@ -24,8 +24,7 @@ export const getTwitchAuth = async (
     const {
       data: { expires_in, access_token },
     }: { data: TwitchResponse } = await axios.post(url);
-    const expiresIn = expires_in;
-    cache.set("access_token", access_token, expiresIn);
+    cache.set("access_token", access_token, expires_in);
     return access_token;
   }
 };
