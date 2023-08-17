@@ -6,14 +6,15 @@ export const getApiSettings = (
   type: "upcoming" | "toprated" | "popular",
   small?: boolean
 ) => {
-  const timeNow = Math.floor(Date.now() / 1000);
   const limit = small ? "3" : "20";
   const upcoming_options = {
     method: "POST",
     data: `
               fields name, release_dates.*, summary, screenshots.image_id, cover.*, rating, genres.name, platforms.*;
               where platforms= (${PS5},${XBOX_SERIES},${PS4},${PC},${SWITCH},${STEAM_OS}) & cover != null & category = 0
-              & first_release_date != n & first_release_date >${timeNow};
+              & first_release_date != n & first_release_date >${Math.floor(
+                Date.now() / 1000
+              )};
               sort first_release_date asc;
               limit ${limit};
                   `,

@@ -8,12 +8,12 @@ import { Spinner } from "./ui/Spinner";
 import { SkeletonGroup } from "./ui/skeletonGroup";
 
 function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
-  const { games, isLoading, error } = useFetchGames(type, small);
+  const { data: games, isLoading, isError } = useFetchGames(type, small);
 
   if (isLoading) {
     return <Spinner />;
   }
-  if (error || !games) {
+  if (isError || !games) {
     return <div>Something went wrong!</div>;
   }
 
