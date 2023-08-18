@@ -1,20 +1,22 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { type Game } from "~/pages/api/utils/types";
 import { getApiSettings } from "./useApiSettings";
 
 export type PageTypes = "popular" | "upcoming" | "toprated";
 
-const useFetchGames = (type: PageTypes, small?: boolean) => {
+const useFetchGames = (
+  type: PageTypes,
+  small?: boolean
+): UseQueryResult<Game[], unknown> => {
   const apiOptions = useMemo(() => getApiSettings(type, small), [type, small]);
 
   const fetchGames = async () => {
-    const response = await fetch("/api/games", apiOptions);
-    const data = (await response.json()) as Game[];
-    return data;
+    const res = await fetch("/api/games", apiOptions);
+    return (await res.json()) as Game[];
   };
 
-  return useQuery({ queryKey: [type], queryFn: fetchGames });
+  return useQuery<Game[]>({ queryKey: [type], queryFn: fetchGames });
 };
 
 export default useFetchGames;

@@ -8,7 +8,7 @@ import { Spinner } from "./ui/Spinner";
 import { SkeletonGroup } from "./ui/skeletonGroup";
 
 function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
-  const { data: games, isLoading, isError } = useFetchGames(type, small);
+  const { data, isLoading, isError } = useFetchGames(type, small);
 
   if (isLoading) {
     return <Spinner />;
@@ -16,10 +16,11 @@ function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
   if (isError) {
     return <div>Something went wrong!</div>;
   }
+  console.log(data);
 
   return (
     <div className="px-8 py-4">
-      {isLoading && games.length === 0 ? (
+      {isLoading && !data ? (
         <SkeletonGroup numberOfCards={9} title={TabItems[type].title} />
       ) : (
         <>
@@ -39,7 +40,7 @@ function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-            {games.map((game) => (
+            {data.map((game) => (
               <GameItem key={game.id} {...game} />
             ))}
           </div>
