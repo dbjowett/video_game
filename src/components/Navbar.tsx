@@ -1,9 +1,9 @@
 import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { TbDeviceGamepad2 } from "react-icons/tb";
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { Button } from "../components/ui/button";
 
 export const TabItems = {
@@ -65,6 +65,8 @@ export const NavBar = () => {
     );
   };
 
+  console.log(session);
+
   return (
     <nav className="dark-mode:bg-gray-900 mb-3 bg-slate-100 py-2 antialiased">
       <div className="mx-auto flex max-w-screen-xl flex-col px-4 md:flex-row md:items-center md:justify-between md:px-6 lg:px-8">
@@ -99,14 +101,17 @@ export const NavBar = () => {
               </Button>
             </li>
             <li>
-              {session.data?.user.image ? (
-                <Avatar>
-                  <AvatarImage
-                    src={session.data?.user.image}
-                    alt={session.data?.user?.name ?? "Username"}
-                  />
-                  <AvatarFallback>DJ</AvatarFallback>
-                </Avatar>
+              {session.data?.user ? (
+                <div className="avatar">
+                  <div className="w-12 rounded-full">
+                    <Image
+                      alt={session.data.user.name ?? "User Profile Image"}
+                      width={50}
+                      height={50}
+                      src={session.data?.user.image ?? ""}
+                    />
+                  </div>
+                </div>
               ) : null}
             </li>
           </ul>

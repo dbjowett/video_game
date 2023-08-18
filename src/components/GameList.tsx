@@ -1,14 +1,16 @@
 import Link from "next/link";
 import { TbArrowNarrowRight } from "react-icons/tb";
-import useFetchGames, { type PageTypes } from "~/hooks/useFetchGames";
+import { useFetchGames } from "~/hooks/useFetchGames";
 
 import { GameItem } from "./GameItem";
 import { TabItems } from "./Navbar";
 import { Spinner } from "./ui/Spinner";
 import { SkeletonGroup } from "./ui/skeletonGroup";
 
+export type PageTypes = keyof typeof TabItems;
+
 function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
-  const { data, isLoading, isError } = useFetchGames(type, small);
+  const { data, isLoading, isError } = useFetchGames(type);
 
   if (isLoading) {
     return <Spinner />;
