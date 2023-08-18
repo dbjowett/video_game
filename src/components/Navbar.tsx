@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { TbDeviceGamepad2 } from "react-icons/tb";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { Button } from "../components/ui/button";
 
 export const TabItems = {
@@ -42,7 +43,8 @@ const MenuButton = ({
 };
 
 export const NavBar = () => {
-  const hasAuth = useSession().status === "authenticated";
+  const session = useSession();
+  const hasAuth = session.status === "authenticated";
   const [open, setOpen] = useState(false);
   const { pathname } = useRouter();
 
@@ -95,6 +97,17 @@ export const NavBar = () => {
               >
                 {!hasAuth ? "Sign In" : "Sign Out"}
               </Button>
+            </li>
+            <li>
+              {session.data?.user.image ? (
+                <Avatar>
+                  <AvatarImage
+                    src={session.data?.user.image}
+                    alt={session.data?.user?.name ?? "Username"}
+                  />
+                  <AvatarFallback>DJ</AvatarFallback>
+                </Avatar>
+              ) : null}
             </li>
           </ul>
         </nav>

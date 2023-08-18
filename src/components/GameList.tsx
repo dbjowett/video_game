@@ -13,7 +13,7 @@ function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
   if (isLoading) {
     return <Spinner />;
   }
-  if (isError || !games) {
+  if (isError) {
     return <div>Something went wrong!</div>;
   }
 
