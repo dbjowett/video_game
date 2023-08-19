@@ -4,8 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useFetchGames } from "~/hooks/useFetchGames";
 import { GameItem } from "../GameItem";
 import { type PageTypes } from "../GameList";
-import { Spinner } from "./Spinner";
 import { TabItems } from "../Navbar";
+import { Spinner } from "./Spinner";
+import Text from "./Text";
 
 function Carousel({ type }: { type: PageTypes }) {
   const { data: games, isLoading, isError } = useFetchGames(type);
@@ -16,7 +17,10 @@ function Carousel({ type }: { type: PageTypes }) {
   return (
     <div className="w-screen">
       <div className="m-auto w-11/12">
-        <h1 className="mb-3 text-lg">{TabItems[type].title}</h1>
+        <Text as="h1" className="mb-4" size="lg">
+          {TabItems[type].title}
+        </Text>
+
         <Swiper slidesPerView={3} spaceBetween={30} className="h-full  px-4">
           {games.map((game) => (
             <SwiperSlide key={game.id} className="">
