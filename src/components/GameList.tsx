@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { TbArrowNarrowRight } from "react-icons/tb";
 import { useFetchGames } from "~/hooks/useFetchGames";
 
 import { GameItem } from "./GameItem";
@@ -10,7 +8,7 @@ import { SkeletonGroup } from "./ui/skeletonGroup";
 
 export type PageTypes = keyof typeof TabItems;
 
-function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
+function GameList({ type }: { type: PageTypes }) {
   const { data, isLoading, isError } = useFetchGames(type);
 
   if (isLoading) {
@@ -31,15 +29,6 @@ function GameList({ type, small }: { type: PageTypes; small?: boolean }) {
             <Text as="h1" className="mb-4" size="lg">
               {TabItems[type].title}
             </Text>
-            {small ? (
-              <Link className="self-end" href={TabItems[type].param}>
-                <span className="hover:border-b-1 flex items-center gap-1 rounded-md bg-gray-200 px-2 py-1 text-xs text-gray-500 hover:bg-gray-300 hover:text-gray-600">
-                  See More <TbArrowNarrowRight />
-                </span>
-              </Link>
-            ) : (
-              ""
-            )}
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">

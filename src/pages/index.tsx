@@ -29,7 +29,7 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center  ">
+      <main className="flex min-h-screen flex-col items-center">
         <form onSubmit={onSubmit} className="flex items-center space-x-2">
           <Input
             onChange={(e) => setInput(e.target.value)}
