@@ -77,7 +77,7 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
           spaceBetween={32}
           className="h-full px-4"
           modules={[Scrollbar]}
-          scrollbar={{ hide: false }}
+          scrollbar={{ hide: true }}
         >
           <>
             {games.map((game) => (
