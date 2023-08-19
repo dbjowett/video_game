@@ -1,8 +1,9 @@
 import "swiper/css";
+import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-import { Scrollbar } from "swiper/modules";
+import { Navigation, Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useFetchGames } from "~/hooks/useFetchGames";
 import { GameItem } from "../GameItem";
@@ -11,7 +12,7 @@ import { Spinner } from "./Spinner";
 import Text from "./Text";
 
 import Link from "next/link";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TbArrowNarrowRight } from "react-icons/tb";
 import { useWindowSize } from "~/hooks/useWindowSize";
 
@@ -44,7 +45,7 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
   const [numSlides, setNumSlides] = useState(breakPoints.lg.slide_count);
   const { width } = useWindowSize(400);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let numSlides = breakPoints.xxl.slide_count; // default;
     for (const key of Object.keys(breakPoints)) {
       if (width < breakPoints[key as bpKey].max_width) {
@@ -73,10 +74,11 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
         </div>
 
         <Swiper
+          navigation
           slidesPerView={numSlides}
           spaceBetween={32}
           className="h-full px-4"
-          modules={[Scrollbar]}
+          modules={[Scrollbar, Navigation]}
           scrollbar={{ hide: true }}
         >
           <>

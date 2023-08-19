@@ -2,8 +2,6 @@ import axios from "axios";
 import Head from "next/head";
 import { useState, type FormEvent } from "react";
 import { Carousel } from "~/components/ui/Carousel";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
 import { type Game } from "./api/utils/types";
 
 export default function Home() {
@@ -30,7 +28,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center">
-        <form onSubmit={onSubmit} className="mt-10 flex items-center space-x-2">
+        {/* <form onSubmit={onSubmit} className="mt-10 flex items-center space-x-2">
           <Input
             onChange={(e) => setInput(e.target.value)}
             value={input}
@@ -41,7 +39,7 @@ export default function Home() {
           <Button className="px-3" type="submit">
             Search
           </Button>
-        </form>
+        </form> */}
         {searchedData.length > 0 ? (
           <>
             {searchedData.map((game) => (

@@ -78,14 +78,9 @@
 }
 
 .swiper {
-  padding-bottom: 20px !important;
+  padding-bottom: 30px !important;
 }
 
 .swiper-slide {
   height: auto !important;
-}
-
-.scroll-bar {
-  /* margin-top: 20px; */
-  bottom: -20px;
 }
