@@ -3,6 +3,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
+import { useRef } from "react";
+import { type Swiper as SwiperType } from "swiper";
 import { Navigation, Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useFetchGames } from "~/hooks/useFetchGames";
@@ -13,7 +15,11 @@ import Text from "./Text";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { TbArrowNarrowRight } from "react-icons/tb";
+import {
+  TbArrowNarrowRight,
+  TbChevronLeft,
+  TbChevronRight,
+} from "react-icons/tb";
 import { useWindowSize } from "~/hooks/useWindowSize";
 
 const breakPoints = {
@@ -44,6 +50,7 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
   const { data: games, isLoading, isError } = useFetchGames(type);
   const [numSlides, setNumSlides] = useState(breakPoints.lg.slide_count);
   const { width } = useWindowSize(400);
+  const swiperRef = useRef<SwiperType>();
 
   useEffect(() => {
     let numSlides = breakPoints.xxl.slide_count; // default;
@@ -74,12 +81,14 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
         </div>
 
         <Swiper
-          navigation
           slidesPerView={numSlides}
           spaceBetween={32}
-          className="h-full px-4"
+          className="relative h-full px-4"
           modules={[Scrollbar, Navigation]}
           scrollbar={{ hide: true }}
+          onBeforeInit={(swiper) => {
+            swiperRef.current = swiper;
+          }}
         >
           <>
             {games.map((game) => (
@@ -88,6 +97,20 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
               </SwiperSlide>
             ))}
           </>
+          <div>
+            <button
+              className="absolute top-1/2 z-20 rounded-full bg-slate-50 p-1"
+              onClick={() => swiperRef.current?.slidePrev()}
+            >
+              <TbChevronLeft />
+            </button>
+            <button
+              className="absolute right-0 top-1/2 z-20 rounded-full bg-slate-50 p-1"
+              onClick={() => swiperRef.current?.slideNext()}
+            >
+              <TbChevronRight />
+            </button>
+          </div>
         </Swiper>
       </div>
     </div>
