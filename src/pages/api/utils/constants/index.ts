@@ -46,6 +46,7 @@ export const Platforms = Object.freeze({
   STADIA: 170,
 });
 
+export type GmKey = keyof typeof GenreMap;
 export const GenreMap = Object.freeze({
   2: {
     id: 2,

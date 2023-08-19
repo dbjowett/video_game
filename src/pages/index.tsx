@@ -1,7 +1,7 @@
 import axios from "axios";
 import Head from "next/head";
 import { useState, type FormEvent } from "react";
-import Carousel from "~/components/ui/Carousel";
+import { Carousel } from "~/components/ui/Carousel";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { type Game } from "./api/utils/types";

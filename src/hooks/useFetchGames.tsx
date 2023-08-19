@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { type PageTypes } from "~/components/GameList";
+import { type PageTypes } from "~/components/Navbar";
 import { type Game } from "~/pages/api/utils/types";
 import { getApiSettings } from "./useApiSettings";
 

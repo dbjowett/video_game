@@ -1,10 +1,12 @@
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
+import { Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useFetchGames } from "~/hooks/useFetchGames";
 import { GameItem } from "../GameItem";
-import { type PageTypes } from "../GameList";
-import { TabItems } from "../Navbar";
+import { TabItems, type PageTypes } from "../Navbar";
 import { Spinner } from "./Spinner";
 import Text from "./Text";
 
@@ -35,10 +37,9 @@ const breakPoints = {
     slide_count: 5,
   },
 };
-
 type bpKey = keyof typeof breakPoints;
 
-function Carousel({ type }: { type: PageTypes }) {
+export const Carousel = ({ type }: { type: PageTypes }) => {
   const { data: games, isLoading, isError } = useFetchGames(type);
   const [numSlides, setNumSlides] = useState(breakPoints.lg.slide_count);
   const { width } = useWindowSize(400);
@@ -74,17 +75,19 @@ function Carousel({ type }: { type: PageTypes }) {
         <Swiper
           slidesPerView={numSlides}
           spaceBetween={32}
-          className="h-full  px-4"
+          className="h-full px-4"
+          modules={[Scrollbar]}
+          scrollbar={{ hide: false }}
         >
-          {games.map((game) => (
-            <SwiperSlide key={game.id} className="">
-              <GameItem {...game} />
-            </SwiperSlide>
-          ))}
+          <>
+            {games.map((game) => (
+              <SwiperSlide key={game.id} className="h-auto">
+                <GameItem {...game} />
+              </SwiperSlide>
+            ))}
+          </>
         </Swiper>
       </div>
     </div>
   );
-}
-
-export default Carousel;
+};

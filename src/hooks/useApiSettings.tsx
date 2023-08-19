@@ -1,4 +1,4 @@
-import { type PageTypes } from "~/components/GameList";
+import { type PageTypes } from "~/components/Navbar";
 import { Platforms } from "~/pages/api/utils/constants";
 
 const { PS5, XBOX_SERIES, PS4, SWITCH, STEAM_OS, PC } = Platforms;

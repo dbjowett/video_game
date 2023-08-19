@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { GenreMap } from "~/pages/api/utils/constants";
+import { GenreMap, type GmKey } from "~/pages/api/utils/constants";
 import { type Game } from "~/pages/api/utils/types";
 import { imageLoader } from "~/utils/game";
 
 export const GameItem = (game: Game) => {
   return (
-    <div className="flex max-w-sm cursor-pointer flex-col overflow-hidden rounded bg-white shadow-lg hover:bg-gray-50">
+    <div className="flex h-full max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded bg-white shadow-lg hover:bg-gray-50">
       <div className="p-3 pb-0">
         <Image
           priority={false}
@@ -32,7 +32,7 @@ export const GameItem = (game: Game) => {
               key={genre.id}
               className=" inline-block rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-700"
             >
-              {GenreMap[genre.id as keyof typeof GenreMap].hashtag}
+              {GenreMap[genre.id as GmKey].hashtag}
             </span>
           ))}
         </div>

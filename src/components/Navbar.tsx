@@ -11,6 +11,7 @@ export const TabItems = {
   toprated: { param: "/toprated", title: "Top Rated" },
   popular: { param: "/popular", title: "Popular" },
 } as const;
+export type PageTypes = keyof typeof TabItems;
 
 const MenuButton = ({
   toggleOpen,
@@ -86,10 +87,7 @@ export const NavBar = () => {
         >
           <ul className="flex justify-end gap-4 align-middle">
             {Object.keys(TabItems).map((item) => (
-              <ListItem
-                key={item}
-                item={TabItems[item as keyof typeof TabItems]}
-              />
+              <ListItem key={item} item={TabItems[item as PageTypes]} />
             ))}
             <li className="self-center">
               <Button

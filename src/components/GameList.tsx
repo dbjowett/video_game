@@ -1,12 +1,9 @@
 import { useFetchGames } from "~/hooks/useFetchGames";
-
 import { GameItem } from "./GameItem";
-import { TabItems } from "./Navbar";
+import { TabItems, type PageTypes } from "./Navbar";
 import { Spinner } from "./ui/Spinner";
 import Text from "./ui/Text";
 import { SkeletonGroup } from "./ui/skeletonGroup";
-
-export type PageTypes = keyof typeof TabItems;
 
 function GameList({ type }: { type: PageTypes }) {
   const { data, isLoading, isError } = useFetchGames(type);
