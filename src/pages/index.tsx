@@ -1,7 +1,7 @@
 import axios from "axios";
 import Head from "next/head";
 import { useState, type FormEvent } from "react";
-import GameList from "~/components/GameList";
+import Carousel from "~/components/ui/Carousel";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { type Game } from "./api/utils/types";
@@ -49,11 +49,11 @@ export default function Home() {
             ))}
           </>
         ) : (
-          <>
-            <GameList small type="popular" />
-            <GameList small type="toprated" />
-            <GameList small type="upcoming" />
-          </>
+          <div className="flex flex-col gap-12 p-10 ">
+            <Carousel type="popular" />
+            <Carousel type="toprated" />
+            <Carousel type="upcoming" />
+          </div>
         )}
       </main>
     </>

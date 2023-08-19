@@ -10,7 +10,7 @@ export const TabItems = {
   upcoming: { param: "/upcoming", title: "Upcoming" },
   toprated: { param: "/toprated", title: "Top Rated" },
   popular: { param: "/popular", title: "Popular" },
-};
+} as const;
 
 const MenuButton = ({
   toggleOpen,
@@ -64,8 +64,6 @@ export const NavBar = () => {
       </li>
     );
   };
-
-  console.log(session);
 
   return (
     <nav className="dark-mode:bg-gray-900 mb-3 bg-slate-100 py-2 antialiased">
