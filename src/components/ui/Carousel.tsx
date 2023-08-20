@@ -99,13 +99,13 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
           </>
           <div>
             <button
-              className="absolute top-1/2 z-20 rounded-full bg-slate-50 p-1"
+              className="absolute top-1/2 z-20 rounded-full"
               onClick={() => swiperRef.current?.slidePrev()}
             >
               <TbChevronLeft />
             </button>
             <button
-              className="absolute right-0 top-1/2 z-20 rounded-full bg-slate-50 p-1"
+              className="absolute right-0 top-1/2 z-20 rounded-full"
               onClick={() => swiperRef.current?.slideNext()}
             >
               <TbChevronRight />
