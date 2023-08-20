@@ -26,13 +26,6 @@ export const NavBar = () => {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search games.."
-            className="input input-bordered h-10 "
-          />
-        </div>
         <div className="dropdown-end dropdown">
           <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
             {session.data?.user ? (
