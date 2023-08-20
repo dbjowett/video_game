@@ -14,7 +14,6 @@ function GameList({ type }: { type: PageTypes }) {
   if (isError) {
     return <div>Something went wrong!</div>;
   }
-  console.log(data);
 
   return (
     <div className="px-8 py-4">

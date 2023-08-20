@@ -30,7 +30,7 @@ export const NavBar = () => {
           <input
             type="text"
             placeholder="Search games.."
-            className="input input-bordered h-10 w-20 md:w-auto"
+            className="input input-bordered h-10 "
           />
         </div>
         <div className="dropdown-end dropdown">

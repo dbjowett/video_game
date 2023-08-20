@@ -53,7 +53,7 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
   const swiperRef = useRef<SwiperType>();
 
   useEffect(() => {
-    let numSlides = breakPoints.xxl.slide_count; // default;
+    let numSlides = breakPoints.xxl.slide_count; // default
     for (const key of Object.keys(breakPoints)) {
       if (width < breakPoints[key as bpKey].max_width) {
         numSlides = breakPoints[key as bpKey].slide_count;
@@ -102,13 +102,13 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
               className="absolute top-1/2 z-20 rounded-full"
               onClick={() => swiperRef.current?.slidePrev()}
             >
-              <TbChevronLeft />
+              <TbChevronLeft size={16} />
             </button>
             <button
               className="absolute right-0 top-1/2 z-20 rounded-full"
               onClick={() => swiperRef.current?.slideNext()}
             >
-              <TbChevronRight />
+              <TbChevronRight size={16} />
             </button>
           </div>
         </Swiper>
