@@ -1,21 +1,20 @@
-import { z } from "zod";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { Spinner } from "~/components/ui/Spinner";
 import { useFetchGame } from "~/hooks/useFetchGames";
-import { useTypedRouter } from "~/hooks/useTypedRouter";
 
-const routerSchema = z.object({
-  id: z.array(z.string()).length(2),
-});
 export default function Page() {
-  const {
-    query: { id },
-  } = useTypedRouter(routerSchema);
-  const source = id[0] ?? "";
-  const gameId = id[2] ?? "";
+  const [query, setQuery] = useState<[string, string]>(["", ""]);
+  const router = useRouter();
 
-  const { data, isLoading, isError } = useFetchGame(gameId, source);
+  useEffect(() => {
+    if (!router.isReady) return;
+    void setQuery(router.query.id as [string, string]);
+  }, [router.query, router.isReady]);
+  const { data: game, isLoading, isError } = useFetchGame(...query);
 
-  // if (isLoading) return <Spinner />;
-  // if (isError) return <div>Error...</div>;
+  if (isLoading || game?.length === 0) return <Spinner />;
+  if (isError) return <div>Error...</div>;
 
-  return <p>Game:</p>;
+  return <p>Game: {game ? game[0].name : ""}</p>;
 }

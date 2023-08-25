@@ -47,7 +47,7 @@ export const GameItem = ({
           )}
         </div>
         <div className="flex flex-wrap justify-end gap-1 pb-2 pt-4">
-          {game.genres.slice(0, 2).map((genre) => (
+          {game.genres?.slice(0, 2).map((genre) => (
             <span key={genre.id} className="badge badge-ghost text-xs">
               {GenreMap[genre.id as GmKey].hashtag}
             </span>

@@ -16,15 +16,14 @@ export const useFetchGames = (type: PageTypes) => {
   });
 };
 
-export const useFetchGame = (id: string, cacheKey: string) => {
+export const useFetchGame = (cacheKey: string, id: string) => {
   // const queryClient = useQueryClient();
-  const apiOptions = getApiSettings("game", id);
-  console.log("API ", apiOptions);
+  const apiOptions = useMemo(() => getApiSettings("game", id), [id]);
   return useQuery({
     queryKey: ["game", id],
     queryFn: async () => {
       const res = await fetch("/api/games/single_game", apiOptions);
-      return (await res.json()) as Game;
+      return (await res.json()) as Game[];
     },
     // initialData: () =>
     //   queryClient.getQueriesData([cacheKey])?.find((d) => d[0] === id),
