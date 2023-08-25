@@ -14,6 +14,7 @@ const sizes = [
 ] as const;
 
 export const imageLoader = ({ src, quality }: ImageLoaderProps) => {
+  console.log(src);
   const qualityObj = sizes.find((size) => size.quality === (quality ?? 6) / 10);
   return src.replace(/(t_)\w+/, `$1${qualityObj?.name}`);
 };

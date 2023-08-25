@@ -46,8 +46,9 @@ export const getApiSettings = (type: GetGameProps, id?: string) => {
   const single_game_options = {
     method: "POST",
     data: `
-    fields *; where id = ${id};
-    limit 1;
+    fields name, rating, rating_count, release_dates.*, summary, screenshots.image_id, cover.*, rating, genres.name, platforms.*;
+    where id=${id};
+    limit ${limit};
     `,
     url: "/games/",
   };

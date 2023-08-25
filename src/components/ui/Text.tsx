@@ -4,6 +4,7 @@ const sizes = {
   sm: "font-medium text-sm leading-normal",
   base: "font-medium text-base leading-normal",
   lg: "font-semibold text-lg md:text-2xl leading-relaxed",
+  xl: "font-semibold text-xl md:text-3xl leading-relaxed",
 };
 
 const variants = {

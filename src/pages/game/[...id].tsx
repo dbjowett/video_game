@@ -1,7 +1,11 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { TbCalendar, TbDeviceGamepad2, TbUserStar } from "react-icons/tb";
 import { Spinner } from "~/components/ui/Spinner";
+import Text from "~/components/ui/Text";
 import { useFetchGame } from "~/hooks/useFetchGames";
+import { imageLoader } from "~/utils/game";
 
 export default function Page() {
   const [query, setQuery] = useState<string>("");
@@ -15,8 +19,74 @@ export default function Page() {
 
   const { data: game, isLoading, isError } = useFetchGame(query);
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || !game) return <Spinner />;
   if (isError) return <div>Error...</div>;
+  console.log(game);
 
-  return <p>Game: {game ? game.name : ""}</p>;
+  return (
+    <main
+      style={{ margin: "auto" }}
+      className="m-auto mx-10 flex min-h-screen max-w-6xl flex-col"
+    >
+      <div className="mt-8 flex gap-6">
+        <Image
+          priority={false}
+          quality={100}
+          width={1000}
+          height={1000}
+          className="mb-0 w-fit rounded-lg"
+          src={game.cover.url.toString()}
+          loader={imageLoader}
+          alt={game.name.toString()}
+        />
+        <div className="mx-2 rounded-lg bg-white">
+          <Text as="h1" size="xl" className="px-6  pt-4">
+            {game.name}
+          </Text>
+          <div className="divider"></div>
+          <Text as="h1" size="sm" className="px-6 pt-4">
+            {game.summary}
+          </Text>
+        </div>
+      </div>
+      <div className="stats mt-7 shadow">
+        <div className="stat">
+          <div className="stat-figure text-primary">
+            <TbUserStar size={40} />
+          </div>
+          <div className="stat-title">Rating</div>
+          <div className="stat-value text-primary">
+            {Math.round(game.rating)}%
+          </div>
+          <div className="stat-desc">Out of {game.rating_count} reviewers</div>
+        </div>
+
+        <div className="stat">
+          <div className="stat-figure text-primary">
+            <TbCalendar size={40} />
+          </div>
+          <div className="stat-title">Release Date</div>
+          <div className="stat-value text-primary">
+            {game.release_dates[0]?.human}
+          </div>
+        </div>
+
+        <div className="stat">
+          <div className="stat-figure text-primary">
+            <TbDeviceGamepad2 size={40} />
+          </div>
+          <div className="stat-title">Released on</div>
+          <div className="stat-value">{game.platforms[0]?.abbreviation}</div>
+          <div className="flex gap-1">
+            {game.platforms.length > 1 &&
+              game.platforms.slice(1).map((pl) => (
+                <div key={pl.id} className="stat-desc text-gray-500">
+                  {pl.abbreviation}
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 }
