@@ -16,5 +16,5 @@ export default function Page() {
   if (isLoading || game?.length === 0) return <Spinner />;
   if (isError) return <div>Error...</div>;
 
-  return <p>Game: {game ? game[0].name : ""}</p>;
+  return <p>Game: {game[0] ? game[0].name : ""}</p>;
 }
