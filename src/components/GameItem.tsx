@@ -5,6 +5,7 @@ import { GenreMap, type GmKey } from "~/pages/api/utils/constants";
 import { type Game } from "~/pages/api/utils/types";
 import { imageLoader } from "~/utils/game";
 import { Spinner } from "./ui/Spinner";
+import Text from "./ui/Text";
 
 export const GameItem = ({ game }: { game: Game }) => {
   if (!game) return <Spinner />;
@@ -28,7 +29,7 @@ export const GameItem = ({ game }: { game: Game }) => {
 
       <div className="flex h-auto flex-1 flex-col justify-between px-4 py-2">
         <div className="">
-          <div className="mb-2 line-clamp-1 font-bold">{game.name}</div>
+          <Text className="mb-2 line-clamp-1 font-bold ">{game.name}</Text>
           {game.rating ? (
             <p className="text-base-400 badge gap-1 text-xs">
               <TbStarFilled color="gold" /> {Math.round(game.rating)}

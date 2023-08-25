@@ -24,27 +24,24 @@ export default function Page() {
   console.log(game);
 
   return (
-    <main
-      style={{ margin: "auto" }}
-      className="m-auto mx-10 flex min-h-screen max-w-6xl flex-col"
-    >
-      <div className="mt-8 flex gap-6">
+    <main className="m-auto mx-10 flex min-h-screen max-w-6xl flex-col">
+      <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:align-super">
         <Image
           priority={false}
           quality={100}
           width={1000}
           height={1000}
-          className="mb-0 w-fit rounded-lg"
+          className="mb-0 w-fit self-center rounded-lg"
           src={game.cover.url.toString()}
           loader={imageLoader}
           alt={game.name.toString()}
         />
-        <div className="mx-2 rounded-lg bg-white">
+        <div className="mx-2 h-auto rounded-lg bg-white">
           <Text as="h1" size="xl" className="px-6  pt-4">
             {game.name}
           </Text>
           <div className="divider"></div>
-          <Text as="h1" size="sm" className="px-6 pt-4">
+          <Text as="h1" size="sm" className="p-4 px-6">
             {game.summary}
           </Text>
         </div>
