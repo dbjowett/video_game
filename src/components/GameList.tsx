@@ -15,7 +15,6 @@ function GameList({ type }: { type: PageTypes }) {
   if (isError) {
     return <div>Something went wrong!</div>;
   }
-  console.log(data);
 
   return (
     <div className="px-8 py-4">
@@ -31,7 +30,7 @@ function GameList({ type }: { type: PageTypes }) {
 
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
             {data.map((game) => (
-              <GameItem key={game.id} source={type} game={game} />
+              <GameItem key={game.id} game={game} />
             ))}
           </div>
         </>

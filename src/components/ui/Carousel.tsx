@@ -93,7 +93,7 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
           <>
             {games.map((game) => (
               <SwiperSlide key={game.id} className="h-auto">
-                <GameItem source={type} game={game} />
+                <GameItem game={game} />
               </SwiperSlide>
             ))}
           </>

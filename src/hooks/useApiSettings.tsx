@@ -3,7 +3,9 @@ import { Platforms } from "~/pages/api/utils/constants";
 
 const { PS5, XBOX_SERIES, PS4, SWITCH, STEAM_OS, PC } = Platforms;
 
-export const getApiSettings = (type: PageTypes | "game", id?: string) => {
+export type GetGameProps = PageTypes | "game";
+
+export const getApiSettings = (type: GetGameProps, id?: string) => {
   const limit = "20";
   const upcoming_options = {
     method: "POST",
@@ -45,7 +47,7 @@ export const getApiSettings = (type: PageTypes | "game", id?: string) => {
     method: "POST",
     data: `
     fields *; where id = ${id};
-    limit ${limit};
+    limit 1;
     `,
     url: "/games/",
   };

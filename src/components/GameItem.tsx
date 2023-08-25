@@ -4,21 +4,14 @@ import { TbStarFilled } from "react-icons/tb";
 import { GenreMap, type GmKey } from "~/pages/api/utils/constants";
 import { type Game } from "~/pages/api/utils/types";
 import { imageLoader } from "~/utils/game";
-import { type PageTypes } from "./Navbar";
 import { Spinner } from "./ui/Spinner";
 
-export const GameItem = ({
-  game,
-  source,
-}: {
-  game: Game;
-  source: PageTypes;
-}) => {
+export const GameItem = ({ game }: { game: Game }) => {
   if (!game) return <Spinner />;
   return (
     <Link
       className="flex max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded bg-base-100 shadow-lg"
-      href={`/game/${source}/${game.id}/`}
+      href={`/game/${game.id}/`}
     >
       <div className="p-3 pb-0">
         <Image
