@@ -49,31 +49,33 @@ export default function Page() {
       <div className="stats  stats-vertical mt-7 shadow md:stats-horizontal">
         <div className="stat">
           <div className="stat-figure text-primary">
-            <TbUserStar size={40} />
+            <TbUserStar size={36} />
           </div>
           <div className="stat-title">Rating</div>
-          <div className="stat-value text-primary">
+          <Text size="xl" className="stat-value">
             {Math.round(game.rating)}%
-          </div>
+          </Text>
           <div className="stat-desc">Out of {game.rating_count} reviewers</div>
         </div>
 
         <div className="stat">
           <div className="stat-figure text-primary">
-            <TbCalendar size={40} />
+            <TbCalendar size={36} />
           </div>
           <div className="stat-title">Release Date</div>
-          <div className="stat-value text-primary">
+          <Text size="xl" className="stat-value">
             {game.release_dates[0]?.human}
-          </div>
+          </Text>
         </div>
 
         <div className="stat">
           <div className="stat-figure text-primary">
-            <TbDeviceGamepad2 size={40} />
+            <TbDeviceGamepad2 size={36} />
           </div>
           <div className="stat-title">Released on</div>
-          <div className="stat-value">{game.platforms[0]?.abbreviation}</div>
+          <Text size="xl" className="stat-value">
+            {game.platforms[0]?.abbreviation}
+          </Text>
           <div className="flex gap-1">
             {game.platforms.length > 1 &&
               game.platforms.slice(1).map((pl) => (
