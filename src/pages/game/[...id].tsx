@@ -41,7 +41,7 @@ export default function Page() {
             {game.name}
           </Text>
           <div className="divider m-0"></div>
-          <Text as="p" size="sm" className="px-6">
+          <Text as="p" size="sm" className="px-6 pb-4">
             {game.summary}
           </Text>
         </div>
