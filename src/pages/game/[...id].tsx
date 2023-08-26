@@ -25,9 +25,9 @@ export default function Page() {
 
   return (
     <main className="m-auto mx-10 flex min-h-screen max-w-6xl flex-col">
-      <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:align-super">
+      <div className="mt-8 flex flex-col gap-6 md:flex-row md:align-super">
         <Image
-          priority={false}
+          priority
           quality={100}
           width={1000}
           height={1000}
@@ -36,17 +36,18 @@ export default function Page() {
           loader={imageLoader}
           alt={game.name.toString()}
         />
-        <div className="mx-2 h-auto rounded-lg bg-white">
+
+        <div className="h-auto rounded-lg bg-white">
           <Text as="h1" size="xl" className="px-6  pt-4">
             {game.name}
           </Text>
-          <div className="divider"></div>
+          <div className="divider m-0"></div>
           <Text as="h1" size="sm" className="p-4 px-6">
             {game.summary}
           </Text>
         </div>
       </div>
-      <div className="stats mt-7 shadow">
+      <div className="stats  stats-vertical mt-7 shadow md:stats-horizontal">
         <div className="stat">
           <div className="stat-figure text-primary">
             <TbUserStar size={40} />
