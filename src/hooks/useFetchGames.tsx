@@ -7,6 +7,7 @@ import { getApiSettings } from "./useApiSettings";
 
 export const useFetchGames = (type: PageTypes) => {
   const apiOptions = useMemo(() => getApiSettings(type), [type]);
+
   return useQuery({
     queryKey: [type],
     queryFn: async () => {

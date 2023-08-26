@@ -23,3 +23,7 @@ export const getId = (id: string | string[]): string => {
   const gameId = Array.isArray(id) ? id.find((item) => item !== "games") : id;
   return gameId ?? "";
 };
+
+export const capitalize = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+};

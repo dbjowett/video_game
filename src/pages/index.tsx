@@ -1,22 +1,31 @@
 import axios from "axios";
 import Head from "next/head";
 import { useState, type FormEvent } from "react";
+import { GameGrid } from "~/components/GameList";
 import { Carousel } from "~/components/ui/Carousel";
-import { type Game } from "./api/utils/types";
+import { Spinner } from "~/components/ui/Spinner";
+import Text from "~/components/ui/Text";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { capitalize } from "~/utils/game";
+import { type Game } from "./api/utils/types";
+
+const initialData = { input: "", data: [] };
 
 export default function Home() {
   const [input, setInput] = useState<string>("");
-  const [searchedData, setSearchedData] = useState<Game[]>([]);
+  const [searchedData, setSearchedData] = useState<{
+    input: string;
+    data: Game[];
+  }>(initialData);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    setSearchedData(initialData);
     e.preventDefault();
     const tInput = input.trim();
     void axios
       .get(`/api/games/search/?input=${tInput} `)
-      .then(({ data }) => setSearchedData(data as Game[]));
-    setInput("");
+      .then(({ data }) => setSearchedData({ input, data: data as Game[] }));
   };
 
   return (
@@ -42,12 +51,16 @@ export default function Home() {
             Search
           </Button>
         </form>
-        {searchedData.length > 0 ? (
-          <>
-            {searchedData.map((game) => (
-              <div key={game.id}>{game.name}</div>
-            ))}
-          </>
+        {input && !searchedData && <Spinner />}
+        {searchedData.data.length > 0 ? (
+          <div className="m-10">
+            <Text
+              className="ml-8"
+              as="h1"
+              size="lg"
+            >{`Search result for: ${capitalize(searchedData.input)}`}</Text>
+            <GameGrid games={searchedData.data} />
+          </div>
         ) : (
           <div className="mt-12 flex flex-col gap-12">
             <Carousel type="popular" />

@@ -1,13 +1,34 @@
 import { useFetchGames } from "~/hooks/useFetchGames";
+import { type Game } from "~/pages/api/utils/types";
 import { GameItem } from "./GameItem";
 import { TabItems, type PageTypes } from "./Navbar";
 import { Spinner } from "./ui/Spinner";
 import Text from "./ui/Text";
-import { SkeletonGroup } from "./ui/skeletonGroup";
+
+export const GameGrid = ({ games }: { games: Game[] }) => {
+  return (
+    <div className="px-8 py-4">
+      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+        {games.map((game) => (
+          <GameItem key={game.id} game={game} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const GameGridHeader = ({ title }: { title: PageTypes }) => {
+  return (
+    <div className="mb-3 flex justify-between px-8 py-4">
+      <Text as="h1" className="mb-4" size="lg">
+        {TabItems[title].title}
+      </Text>
+    </div>
+  );
+};
 
 function GameList({ type }: { type: PageTypes }) {
   const { data, isLoading, isError } = useFetchGames(type);
-  console.log(data, isLoading, isError);
 
   if (isLoading) {
     return <Spinner />;
@@ -17,24 +38,9 @@ function GameList({ type }: { type: PageTypes }) {
   }
 
   return (
-    <div className="px-8 py-4">
-      {isLoading && !data ? (
-        <SkeletonGroup numberOfCards={9} title={TabItems[type].title} />
-      ) : (
-        <>
-          <div className=" mb-3 flex justify-between">
-            <Text as="h1" className="mb-4" size="lg">
-              {TabItems[type].title}
-            </Text>
-          </div>
-
-          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-            {data.map((game) => (
-              <GameItem key={game.id} game={game} />
-            ))}
-          </div>
-        </>
-      )}
+    <div>
+      {type ? <GameGridHeader title={type} /> : null}
+      <GameGrid games={data} />
     </div>
   );
 }
