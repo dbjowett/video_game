@@ -19,8 +19,8 @@ export const GameGrid = ({ games }: { games: Game[] }) => {
 
 const GameGridHeader = ({ title }: { title: PageTypes }) => {
   return (
-    <div className="mb-3 flex justify-between px-8 py-4">
-      <Text as="h1" className="mb-4" size="lg">
+    <div className="flex justify-between px-8 pt-4">
+      <Text as="h1" size="lg">
         {TabItems[title].title}
       </Text>
     </div>

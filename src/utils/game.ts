@@ -14,7 +14,6 @@ const sizes = [
 ] as const;
 
 export const imageLoader = ({ src, quality }: ImageLoaderProps) => {
-  console.log(src);
   const qualityObj = sizes.find((size) => size.quality === (quality ?? 6) / 10);
   return src.replace(/(t_)\w+/, `$1${qualityObj?.name}`);
 };
@@ -24,6 +23,5 @@ export const getId = (id: string | string[]): string => {
   return gameId ?? "";
 };
 
-export const capitalize = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-};
+export const capitalize = (string: string) =>
+  string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();

@@ -21,7 +21,6 @@ export default function Page() {
 
   if (isLoading || !game) return <Spinner />;
   if (isError) return <div>Error...</div>;
-  console.log(game);
 
   return (
     <main className="m-auto mx-10 flex min-h-screen max-w-6xl flex-col">
@@ -37,12 +36,12 @@ export default function Page() {
           alt={game.name.toString()}
         />
 
-        <div className="h-auto rounded-lg bg-white">
+        <div className="flex h-auto flex-col rounded-lg bg-white">
           <Text as="h1" size="xl" className="px-6  pt-4">
             {game.name}
           </Text>
           <div className="divider m-0"></div>
-          <Text as="h1" size="sm" className="p-4 px-6">
+          <Text as="p" size="sm" className="px-6">
             {game.summary}
           </Text>
         </div>
