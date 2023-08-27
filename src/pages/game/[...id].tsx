@@ -1,10 +1,19 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { TbCalendar, TbDeviceGamepad2, TbUserStar } from "react-icons/tb";
+import {
+  TbAffiliate,
+  TbCalendar,
+  TbDeviceGamepad2,
+  TbUserStar,
+} from "react-icons/tb";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import Link from "next/link";
+import { Pagination } from "swiper/modules";
 import { Spinner } from "~/components/ui/Spinner";
 import Text from "~/components/ui/Text";
-import { useFetchGame } from "~/hooks/useFetchGames";
+import { useFetchGame, useFetchSimilar } from "~/hooks/useFetchGames";
 import { imageLoader } from "~/utils/game";
 
 export default function Page() {
@@ -15,9 +24,9 @@ export default function Page() {
     if (!router.isReady) return;
     void setQuery(router.query.id as string);
   }, [router.query, router.isReady]);
-  console.log(query);
 
   const { data: game, isLoading, isError } = useFetchGame(query);
+  const { data: similarGames } = useFetchSimilar(game?.similar_games ?? [""]);
 
   if (isLoading || !game) return <Spinner />;
   if (isError) return <div>Error...</div>;
@@ -85,6 +94,39 @@ export default function Page() {
               ))}
           </div>
         </div>
+      </div>
+      <div className="mt-10 flex flex-col gap-2 rounded-xl bg-white p-6">
+        <div className="flex gap-2">
+          <Text size="xl">Similar Games</Text>
+          <TbAffiliate size={36} />
+        </div>
+        <Swiper
+          slidesPerView={5}
+          spaceBetween={30}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
+          {similarGames?.length &&
+            similarGames?.map((game) => (
+              <SwiperSlide key={game.id} className="h-auto">
+                <Link className=" text-gray-500" href={`/game/${game.id}/`}>
+                  <Image
+                    loader={imageLoader}
+                    className="mb-0 w-fit self-center rounded-lg"
+                    src={game.cover.url}
+                    quality={40}
+                    alt={game.name}
+                    width={10}
+                    height={10}
+                  />
+                  <p>{game.name}</p>
+                </Link>
+              </SwiperSlide>
+            ))}
+        </Swiper>
       </div>
     </main>
   );

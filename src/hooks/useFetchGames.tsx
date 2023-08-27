@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { type PageTypes } from "~/components/Navbar";
 
-import { type Game } from "~/pages/api/utils/types";
+import { type Game, type SimilarGame } from "~/pages/api/utils/types";
 import { getApiSettings } from "./useApiSettings";
 
 export const useFetchGames = (type: PageTypes) => {
@@ -26,5 +26,19 @@ export const useFetchGame = (id: string) => {
       const game = (await res.json()) as [Game];
       return game[0];
     },
+  });
+};
+
+export const useFetchSimilar = (ids: string[]) => {
+  const id = ids.join(",");
+  const apiOptions = useMemo(() => getApiSettings("similar_games", id), [id]);
+  return useQuery<SimilarGame[]>({
+    queryKey: ["similar_games", ids.join()],
+    queryFn: async () => {
+      const res = await fetch("/api/games/similar_games", apiOptions);
+      const games = (await res.json()) as SimilarGame[];
+      return games;
+    },
+    enabled: ids[0] !== "",
   });
 };

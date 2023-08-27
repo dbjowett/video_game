@@ -31,6 +31,7 @@ export interface Game {
   rating_count: number;
   release_dates: ReleaseDate[];
   screenshots: Screenshot[];
+  similar_games: string[];
   summary: string;
 }
 
@@ -88,4 +89,13 @@ export interface ReleaseDate {
 export interface Screenshot {
   id: number;
   image_id: string;
+}
+
+export interface SimilarGame {
+  id: number;
+  name: string;
+  cover: {
+    id: number;
+    url: string;
+  };
 }
