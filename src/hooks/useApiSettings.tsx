@@ -50,7 +50,7 @@ export const getApiSettings = (type: GetGameProps, id?: string) => {
     data: `
     fields name, rating, rating_count, release_dates.*, summary,similar_games, screenshots.image_id, cover.*, rating, genres.name, platforms.*;
     where id=${id};
-    limit ${limit};
+    limit 1;
     `,
     url: "/games/",
   };
@@ -60,6 +60,7 @@ export const getApiSettings = (type: GetGameProps, id?: string) => {
     data: `
     fields name, cover.url;
     where id=(${id});
+    sort rating desc;
     limit ${limit};
     `,
     url: "/games/",

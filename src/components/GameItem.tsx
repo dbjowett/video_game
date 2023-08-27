@@ -11,7 +11,7 @@ export const GameItem = ({ game }: { game: Game }) => {
   if (!game) return <Spinner />;
   return (
     <Link
-      className="flex h-auto max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded bg-base-100 shadow"
+      className="flex h-auto max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded-xl bg-base-100 shadow"
       href={`/game/${game.id}/`}
     >
       <div className="p-3 pb-0">
