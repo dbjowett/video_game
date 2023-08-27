@@ -36,6 +36,10 @@ export default function Home() {
           name="description"
           content="Find your next favourite video game."
         />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center">
