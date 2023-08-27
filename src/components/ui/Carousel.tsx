@@ -5,7 +5,7 @@ import "swiper/css/scrollbar";
 
 import { useRef } from "react";
 import { type Swiper as SwiperType } from "swiper";
-import { Navigation, Scrollbar } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useFetchGames } from "~/hooks/useFetchGames";
 import { GameItem } from "../GameItem";
@@ -84,8 +84,7 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
           slidesPerView={numSlides}
           spaceBetween={32}
           className="relative h-full px-4"
-          modules={[Scrollbar, Navigation]}
-          scrollbar={{ hide: true }}
+          modules={[Navigation]}
           onBeforeInit={(swiper) => {
             swiperRef.current = swiper;
           }}

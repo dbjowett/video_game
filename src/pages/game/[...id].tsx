@@ -7,14 +7,33 @@ import {
   TbDeviceGamepad2,
   TbUserStar,
 } from "react-icons/tb";
+
+import "swiper/css";
+import "swiper/css/navigation";
+
+import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Link from "next/link";
-import { Pagination } from "swiper/modules";
 import { Spinner } from "~/components/ui/Spinner";
 import Text from "~/components/ui/Text";
 import { useFetchGame, useFetchSimilar } from "~/hooks/useFetchGames";
 import { imageLoader } from "~/utils/game";
+
+const carousel_breakpoints = {
+  640: {
+    slidesPerView: 3,
+    spaceBetween: 20,
+  },
+  768: {
+    slidesPerView: 4,
+    spaceBetween: 40,
+  },
+  1024: {
+    slidesPerView: 5,
+    spaceBetween: 50,
+  },
+};
 
 export default function Page() {
   const [query, setQuery] = useState<string>("");
@@ -32,20 +51,20 @@ export default function Page() {
   if (isError) return <div>Error...</div>;
 
   return (
-    <main className="m-auto mx-10 flex min-h-screen max-w-6xl flex-col">
+    <main className="m-auto flex min-h-screen max-w-6xl flex-col">
       <div className="mt-8 flex flex-col gap-6 md:flex-row md:align-super">
         <Image
           priority
           quality={100}
           width={1000}
           height={1000}
-          className="mb-0 w-fit self-center rounded-lg"
+          className="mb-0 w-fit self-center rounded-lg shadow"
           src={game.cover.url.toString()}
           loader={imageLoader}
           alt={game.name.toString()}
         />
 
-        <div className="flex h-auto flex-col rounded-lg bg-white">
+        <div className="flex h-auto flex-col rounded-lg bg-white shadow">
           <Text as="h1" size="xl" className="px-6  pt-4">
             {game.name}
           </Text>
@@ -95,24 +114,28 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <div className="mt-10 flex flex-col gap-2 rounded-xl bg-white p-6">
-        <div className="flex gap-2">
+      <div className="mt-10 flex flex-col gap-5 rounded-xl bg-white p-6 shadow">
+        <div className="flex align-middle ">
           <Text size="xl">Similar Games</Text>
-          <TbAffiliate size={36} />
+          <TbAffiliate size={26} />
         </div>
         <Swiper
-          slidesPerView={5}
-          spaceBetween={30}
+          slidesPerView={2}
+          spaceBetween={10}
           pagination={{
             clickable: true,
           }}
-          modules={[Pagination]}
-          className="mySwiper"
+          breakpoints={carousel_breakpoints}
+          modules={[Navigation]}
+          className="relative h-full px-4"
         >
           {similarGames?.length &&
             similarGames?.map((game) => (
-              <SwiperSlide key={game.id} className="h-auto">
-                <Link className=" text-gray-500" href={`/game/${game.id}/`}>
+              <SwiperSlide key={game.id} className="m-0 mr-5 h-auto">
+                <Link
+                  className="flex h-full flex-col justify-center rounded-xl bg-slate-100 p-2 align-middle text-gray-500 hover:bg-slate-200"
+                  href={`/game/${game.id}/`}
+                >
                   <Image
                     loader={imageLoader}
                     className="mb-0 w-fit self-center rounded-lg"
@@ -122,7 +145,9 @@ export default function Page() {
                     width={10}
                     height={10}
                   />
-                  <p>{game.name}</p>
+                  <Text size="sm" className="mx-1 line-clamp-1 text-center">
+                    {game.name}
+                  </Text>
                 </Link>
               </SwiperSlide>
             ))}
