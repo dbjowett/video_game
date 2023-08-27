@@ -1,10 +1,12 @@
 import axios from "axios";
 import Head from "next/head";
 import { useState, type FormEvent } from "react";
+import { TbX } from "react-icons/tb";
 import { GameGrid } from "~/components/GameList";
 import { Carousel } from "~/components/ui/Carousel";
 import { Spinner } from "~/components/ui/Spinner";
 import Text from "~/components/ui/Text";
+import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { capitalize } from "~/utils/game";
@@ -57,12 +59,21 @@ export default function Home() {
         </form>
         {input && !searchedData && <Spinner />}
         {searchedData.data.length > 0 ? (
-          <div className="m-10">
-            <Text
-              className="ml-8"
-              as="h1"
-              size="lg"
-            >{`Search result for: ${capitalize(searchedData.input)}`}</Text>
+          <div className="m-10 align-middle">
+            <div className="mx-8 flex justify-between align-middle">
+              <Text as="h1" size="lg">{`Search result for: ${capitalize(
+                searchedData.input
+              )}`}</Text>
+              <Badge
+                onClick={() => {
+                  setInput("");
+                  setSearchedData(initialData);
+                }}
+                className="h-7 cursor-pointer gap-2 align-middle "
+              >
+                Clear <TbX size={16} />
+              </Badge>
+            </div>
             <GameGrid games={searchedData.data} />
           </div>
         ) : (

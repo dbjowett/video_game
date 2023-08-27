@@ -14,54 +14,34 @@ import { Spinner } from "./Spinner";
 import Text from "./Text";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import {
   TbArrowNarrowRight,
   TbChevronLeft,
   TbChevronRight,
 } from "react-icons/tb";
-import { useWindowSize } from "~/hooks/useWindowSize";
 
-const breakPoints = {
-  sm: {
-    max_width: 640,
-    slide_count: 1,
+const break_points = {
+  640: {
+    slidesPerView: 2,
+    spaceBetween: 20,
   },
-  md: {
-    max_width: 768,
-    slide_count: 2,
+  768: {
+    slidesPerView: 3,
+    spaceBetween: 30,
   },
-  lg: {
-    max_width: 1024,
-    slide_count: 3,
+  1024: {
+    slidesPerView: 4,
+    spaceBetween: 40,
   },
-  xl: {
-    max_width: 1280,
-    slide_count: 4,
-  },
-  xxl: {
-    max_width: 1900,
-    slide_count: 5,
+  1280: {
+    slidesPerView: 5,
+    spaceBetween: 50,
   },
 };
-type bpKey = keyof typeof breakPoints;
 
 export const Carousel = ({ type }: { type: PageTypes }) => {
   const { data: games, isLoading, isError } = useFetchGames(type);
-  const [numSlides, setNumSlides] = useState(breakPoints.lg.slide_count);
-  const { width } = useWindowSize(400);
   const swiperRef = useRef<SwiperType>();
-
-  useEffect(() => {
-    let numSlides = breakPoints.xxl.slide_count; // default
-    for (const key of Object.keys(breakPoints)) {
-      if (width < breakPoints[key as bpKey].max_width) {
-        numSlides = breakPoints[key as bpKey].slide_count;
-        break;
-      }
-    }
-    setNumSlides(numSlides);
-  }, [width]);
 
   if (isLoading) return <Spinner />;
   if (isError) return <div>Something went wrong...</div>;
@@ -81,8 +61,8 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
         </div>
 
         <Swiper
-          slidesPerView={numSlides}
-          spaceBetween={32}
+          slidesPerView={1}
+          breakpoints={break_points}
           className="relative h-full px-4"
           modules={[Navigation]}
           onBeforeInit={(swiper) => {
