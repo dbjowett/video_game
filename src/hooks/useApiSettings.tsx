@@ -5,7 +5,7 @@ const { PS5, XBOX_SERIES, PS4, SWITCH, STEAM_OS, PC } = Platforms;
 
 // If it is type game, it is not for a page, it is searching for single game
 
-export type GetGameProps = PageTypes | "game" | "similar_games";
+export type GetGameProps = PageTypes | "single_game" | "similar_games";
 
 export const getApiSettings = (type: GetGameProps, id?: string) => {
   const limit = "20";
@@ -70,7 +70,7 @@ export const getApiSettings = (type: GetGameProps, id?: string) => {
     popular: popular_options,
     toprated: toprated_options,
     upcoming: upcoming_options,
-    game: single_game_options,
+    single_game: single_game_options,
     similar_games: similar_games_options,
   } as const;
 

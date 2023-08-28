@@ -21,17 +21,21 @@ import { useFetchGame, useFetchSimilar } from "~/hooks/useFetchGames";
 import { imageLoader } from "~/utils/game";
 
 const carousel_breakpoints = {
-  640: {
+  420: {
     slidesPerView: 3,
-    spaceBetween: 20,
+    spaceBetween: 30,
   },
-  768: {
+  580: {
     slidesPerView: 4,
     spaceBetween: 40,
   },
-  1024: {
+  680: {
     slidesPerView: 5,
     spaceBetween: 50,
+  },
+  1024: {
+    slidesPerView: 6,
+    spaceBetween: 60,
   },
 };
 
@@ -115,13 +119,13 @@ export default function Page() {
         </div>
       </div>
       <div className="mt-10 flex flex-col gap-5 rounded-xl bg-white p-6 shadow">
-        <div className="flex align-middle ">
+        <div className="flex gap-2 align-middle">
           <Text size="xl">Similar Games</Text>
-          <TbAffiliate size={26} />
+          <TbAffiliate className="self-center" size={26} />
         </div>
         <Swiper
           slidesPerView={2}
-          spaceBetween={10}
+          spaceBetween={20}
           pagination={{
             clickable: true,
           }}
@@ -133,21 +137,19 @@ export default function Page() {
             similarGames?.map((game) => (
               <SwiperSlide key={game.id} className="m-0 mr-5 h-auto">
                 <Link
-                  className="flex h-full flex-col justify-center rounded-xl bg-slate-100 p-2 align-middle text-gray-500 hover:bg-slate-200"
+                  className="flex h-full flex-col justify-center rounded-xl bg-slate-100 p-2 align-middle text-gray-500 shadow hover:bg-slate-200"
                   href={`/game/${game.id}/`}
                 >
                   <Image
                     loader={imageLoader}
                     className="mb-0 w-fit self-center rounded-lg"
                     src={game.cover.url}
-                    quality={40}
+                    quality={60}
                     alt={game.name}
                     width={10}
                     height={10}
                   />
-                  <Text size="sm" className="mx-1 line-clamp-1 text-center">
-                    {game.name}
-                  </Text>
+                  <Text className="line-clamp-1 text-xs">{game.name}</Text>
                 </Link>
               </SwiperSlide>
             ))}

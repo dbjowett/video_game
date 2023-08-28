@@ -81,6 +81,10 @@
   margin: 0 !important;
 }
 
+.swiper-wrapper {
+  padding: 2px;
+}
+
 .swiper-slide {
   height: auto !important;
 }
