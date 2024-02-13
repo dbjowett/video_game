@@ -26,7 +26,7 @@ export const NavBar = () => {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <div className="dropdown-end dropdown">
+        <div className="dropdown dropdown-end">
           <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
             {session.data?.user ? (
               <div className="w-10 rounded-full">
@@ -41,7 +41,7 @@ export const NavBar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
+            className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 border-solid border-gray-600 bg-base-100 p-2 shadow"
           >
             <li onClick={() => (hasAuth ? void signOut() : void signIn())}>
               <a>{hasAuth ? "Logout" : "Login"}</a>
