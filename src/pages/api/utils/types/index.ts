@@ -3,6 +3,7 @@ export interface TwitchParams {
   client_id: string;
   client_secret: string;
   grant_type: string;
+  [key: string]: string;
 }
 
 export interface TwitchResponse {

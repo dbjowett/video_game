@@ -5,12 +5,18 @@ import { TabItems, type PageTypes } from "./Navbar";
 import { Spinner } from "./ui/Spinner";
 import Text from "./ui/Text";
 
-export const GameGrid = ({ games }: { games: Game[] }) => {
+export const GameGrid = ({
+  games,
+  refetch,
+}: {
+  games: Game[];
+  refetch: () => void;
+}) => {
   return (
     <div className="px-8 py-4">
       <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
         {games.map((game) => (
-          <GameItem key={game.id} game={game} />
+          <GameItem key={game.id} game={game} refetch={refetch} />
         ))}
       </div>
     </div>
@@ -28,7 +34,7 @@ const GameGridHeader = ({ title }: { title: PageTypes }) => {
 };
 
 function GameList({ type }: { type: PageTypes }) {
-  const { data, isLoading, isError } = useFetchGames(type);
+  const { data, isLoading, isError, refetch } = useFetchGames(type);
 
   if (isLoading) {
     return <Spinner />;
@@ -40,7 +46,7 @@ function GameList({ type }: { type: PageTypes }) {
   return (
     <div>
       {type ? <GameGridHeader title={type} /> : null}
-      <GameGrid games={data} />
+      <GameGrid games={data} refetch={refetch} />
     </div>
   );
 }

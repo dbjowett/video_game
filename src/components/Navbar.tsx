@@ -1,7 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { TbDeviceGamepad2 } from "react-icons/tb";
+import { TbDeviceGamepad2, TbUser } from "react-icons/tb";
 
 export const TabItems = {
   upcoming: { param: "/upcoming", title: "Upcoming" },
@@ -26,7 +26,7 @@ export const NavBar = () => {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <div className="dropdown dropdown-end">
+        <div className="dropdown-end dropdown">
           <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
             {session.data?.user ? (
               <div className="w-10 rounded-full">
@@ -37,7 +37,11 @@ export const NavBar = () => {
                   src={session.data?.user.image ?? ""}
                 />
               </div>
-            ) : null}
+            ) : (
+              <div>
+                <TbUser size={18} />
+              </div>
+            )}
           </label>
           <ul
             tabIndex={0}

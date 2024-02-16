@@ -1,14 +1,34 @@
 import Image from "next/image";
 import Link from "next/link";
-import { TbStarFilled } from "react-icons/tb";
+import { TbHeart, TbStarFilled } from "react-icons/tb";
 import { GenreMap, type GmKey } from "~/pages/api/utils/constants";
 import { type Game } from "~/pages/api/utils/types";
+import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
 import { Spinner } from "./ui/Spinner";
 import Text from "./ui/Text";
 
-export const GameItem = ({ game }: { game: Game }) => {
+export const GameItem = ({
+  game,
+  refetch,
+}: {
+  game: Game;
+  refetch: () => void;
+}) => {
   if (!game) return <Spinner />;
+
+  const favouriteItem = api.games.favouriteGame.useMutation({
+    onSuccess: () => refetch(),
+  });
+
+  const handleFavouriteClick = () => {
+    favouriteItem.mutate({
+      id: game.id.toString(),
+      title: game.name,
+      imageUrl: game.cover.url,
+    });
+  };
+
   return (
     <Link
       className="flex h-auto max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded-xl bg-base-100 shadow"
@@ -46,6 +66,9 @@ export const GameItem = ({ game }: { game: Game }) => {
               {GenreMap[genre.id as GmKey].hashtag}
             </span>
           ))}
+        </div>
+        <div onClick={handleFavouriteClick}>
+          <TbHeart />
         </div>
       </div>
     </Link>

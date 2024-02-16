@@ -1,36 +1,23 @@
 import { z } from "zod";
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const gamesRouter = createTRPCRouter({
-  // ** Search **
-  search: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      // get from external api
-
-      return {
-        greeting: `Hello ${input.text}`,
-      };
+  favouriteGame: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        title: z.string(),
+        imageUrl: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.likedGame.create({
+        data: {
+          id: input.id,
+          title: input.title,
+          imageUrl: input.imageUrl,
+          userId: ctx.session.user.id,
+        },
+      });
     }),
-
-  // ** Popular **
-
-  // ** Upcoming **
-
-  // ** Latest Releases **
-
-  // ** Comments **
-
-  // ** Favourited Games **
-  getLikedGames: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.likedGame.findMany({
-      where: {
-        userId: ctx.session.user.id,
-      },
-    });
-  }),
 });
