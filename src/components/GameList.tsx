@@ -1,3 +1,8 @@
+import {
+  type QueryObserverResult,
+  type RefetchOptions,
+  type RefetchQueryFilters,
+} from "@tanstack/react-query";
 import { useFetchGames } from "~/hooks/useFetchGames";
 import { type Game } from "~/pages/api/utils/types";
 import { GameItem } from "./GameItem";
@@ -10,13 +15,15 @@ export const GameGrid = ({
   refetch,
 }: {
   games: Game[];
-  refetch: () => void;
+  refetch?: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<Game[], unknown>>;
 }) => {
   return (
     <div className="px-8 py-4">
       <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
         {games.map((game) => (
-          <GameItem key={game.id} game={game} refetch={refetch} />
+          <GameItem key={game.id} game={game} refetch={() => refetch()} />
         ))}
       </div>
     </div>
@@ -34,7 +41,7 @@ const GameGridHeader = ({ title }: { title: PageTypes }) => {
 };
 
 function GameList({ type }: { type: PageTypes }) {
-  const { data, isLoading, isError, refetch } = useFetchGames(type);
+  const { data: games, isLoading, isError, refetch } = useFetchGames(type);
 
   if (isLoading) {
     return <Spinner />;
@@ -46,7 +53,7 @@ function GameList({ type }: { type: PageTypes }) {
   return (
     <div>
       {type ? <GameGridHeader title={type} /> : null}
-      <GameGrid games={data} refetch={refetch} />
+      <GameGrid games={games} refetch={refetch} />
     </div>
   );
 }

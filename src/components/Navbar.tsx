@@ -26,9 +26,10 @@ export const NavBar = () => {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <div className="dropdown-end dropdown">
-          <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
-            {session.data?.user ? (
+        {hasAuth && <Link href={`/favourites/`}>Favourites</Link>}
+        {hasAuth ? (
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
               <div className="w-10 rounded-full">
                 <Image
                   alt={session.data.user.name ?? "User Profile Image"}
@@ -37,21 +38,22 @@ export const NavBar = () => {
                   src={session.data?.user.image ?? ""}
                 />
               </div>
-            ) : (
-              <div>
-                <TbUser size={18} />
-              </div>
-            )}
-          </label>
-          <ul
-            tabIndex={0}
-            className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 border-solid border-gray-600 bg-base-100 p-2 shadow"
-          >
-            <li onClick={() => (hasAuth ? void signOut() : void signIn())}>
-              <a>{hasAuth ? "Logout" : "Login"}</a>
-            </li>
-          </ul>
-        </div>
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 border-solid border-gray-600 bg-base-100 p-2 shadow"
+            >
+              <li onClick={() => void signOut()}>
+                <a>Logout</a>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <button className="btn" onClick={() => void signIn()}>
+            Login
+            <TbUser size={18} />
+          </button>
+        )}
       </div>
     </div>
   );

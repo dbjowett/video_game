@@ -20,4 +20,12 @@ export const gamesRouter = createTRPCRouter({
         },
       });
     }),
+
+  getFavourites: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.likedGame.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+  }),
 });

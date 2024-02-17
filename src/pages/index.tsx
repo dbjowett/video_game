@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState, type FormEvent } from "react";
 import { TbX } from "react-icons/tb";
@@ -9,6 +10,7 @@ import Text from "~/components/ui/Text";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { api } from "~/utils/api";
 import { capitalize } from "~/utils/game";
 import { type Game } from "./api/utils/types";
 
@@ -29,6 +31,12 @@ export default function Home() {
       .get(`/api/games/search/?input=${tInput} `)
       .then(({ data }) => setSearchedData({ input, data: data as Game[] }));
   };
+
+  const { data: sessionData } = useSession();
+
+  const { data: allFavourites } = api.games.getFavourites.useQuery(undefined, {
+    enabled: !!sessionData,
+  });
 
   return (
     <>
