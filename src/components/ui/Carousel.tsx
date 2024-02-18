@@ -40,7 +40,7 @@ const break_points = {
 };
 
 export const Carousel = ({ type }: { type: PageTypes }) => {
-  const { data: games, isLoading, isError, refetch } = useFetchGames(type);
+  const { data: games, isLoading, isError } = useFetchGames(type);
   const swiperRef = useRef<SwiperType>();
 
   if (isLoading) return <Spinner />;
@@ -72,7 +72,7 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
           <>
             {games.map((game) => (
               <SwiperSlide key={game.id} className="h-auto">
-                <GameItem refetch={refetch} game={game} />
+                <GameItem game={game} />
               </SwiperSlide>
             ))}
           </>

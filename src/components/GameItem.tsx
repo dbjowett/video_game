@@ -1,9 +1,10 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { type MouseEvent } from "react";
+import { useState, type MouseEvent, useEffect } from "react";
 import { TbHeart, TbStarFilled } from "react-icons/tb";
 import { GenreMap, type GmKey } from "~/pages/api/utils/constants";
+import { useToast } from "~/components/ui/use-toast";
 import { type Game } from "~/pages/api/utils/types";
 import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
@@ -11,17 +12,29 @@ import { Spinner } from "./ui/Spinner";
 import Text from "./ui/Text";
 
 export const GameItem = ({ game }: { game: Game }) => {
+  const { toast } = useToast();
   const { data } = useSession();
-  if (!game) return <Spinner />;
 
-  const { data: allFavourites, refetch: refetchFavourites } =
+  const [isFave, setIsFave] = useState(false);
+
+  const { data: faveGames, refetch: refetchFavourites } =
     api.games.getFavourites.useQuery(undefined, {
       enabled: !!data?.user,
     });
 
-  const isGameFavourited = allFavourites?.some(
-    (favGame) => favGame.id === game.id.toString()
-  );
+  useEffect(() => {
+    if (faveGames) {
+      const isFavourite = faveGames?.some((g) => g.id === game.id.toString());
+      setIsFave(isFavourite);
+    } else {
+      setIsFave(false);
+    }
+  }, [faveGames, game.id]);
+
+  const deleteFavourite = api.games.deleteFavouriteGame.useMutation({
+    onSuccess: () => refetchFavourites(),
+    onError: () => console.log("Something went wrong!"),
+  });
 
   const favouriteItem = api.games.favouriteGame.useMutation({
     onSuccess: () => refetchFavourites(),
@@ -29,9 +42,21 @@ export const GameItem = ({ game }: { game: Game }) => {
   });
 
   const handleFavouriteClick = (e: MouseEvent) => {
-    if (isGameFavourited) return;
-    e.stopPropagation();
     e.preventDefault();
+    e.stopPropagation();
+    if (isFave) {
+      toast({
+        title: "Removed from favourites!",
+        description: `${game.name} has been removed from your favourites.`,
+      });
+      deleteFavourite.mutate({ id: game.id.toString() });
+      return;
+    }
+
+    toast({
+      title: "Added to favourites!",
+      description: `${game.name} has been added. Navigate to Favourites tab to view all your favourite games.`,
+    });
     favouriteItem.mutate({
       id: game.id.toString(),
       title: game.name,
@@ -39,9 +64,11 @@ export const GameItem = ({ game }: { game: Game }) => {
     });
   };
 
+  if (!game) return <Spinner />;
+
   return (
     <Link
-      className="flex h-auto max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded-xl bg-base-100 shadow"
+      className="bg-base-100 flex h-auto max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded-xl shadow"
       href={`/game/${game.id}/`}
     >
       <div className="p-3 pb-0">
@@ -81,7 +108,7 @@ export const GameItem = ({ game }: { game: Game }) => {
           className="z-10 flex h-6 w-6 items-center justify-center rounded-full hover:bg-slate-100"
           onClick={handleFavouriteClick}
         >
-          <TbHeart color={isGameFavourited ? "red" : ""} />
+          <TbHeart color={isFave ? "red" : "gray-400"} className={`fill-red`} />
         </div>
       </div>
     </Link>

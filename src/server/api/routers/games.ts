@@ -21,6 +21,16 @@ export const gamesRouter = createTRPCRouter({
       });
     }),
 
+  deleteFavouriteGame: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.likedGame.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
+
   getFavourites: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.likedGame.findMany({
       where: {

@@ -1,60 +1,100 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import Image from "next/image";
+import { getInitials } from "@/lib/utils";
 import Link from "next/link";
-import { TbDeviceGamepad2, TbUser } from "react-icons/tb";
+import { TbDeviceGamepad2 } from "react-icons/tb";
+import { Button } from "./ui/button";
+import { usePathname } from "next/navigation";
+import { FC } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "./ui/navigation-menu";
 
 export const TabItems = {
   upcoming: { param: "/upcoming", title: "Upcoming" },
   toprated: { param: "/toprated", title: "Top Rated" },
   popular: { param: "/popular", title: "Popular" },
+  favourites: { param: "/favourites", title: "Favourites" },
 } as const;
+
 export type PageTypes = keyof typeof TabItems;
+
+interface TabBarProps {
+  activeTab: PageTypes;
+  hasAuth: boolean;
+}
+
+export const TabBar: FC<TabBarProps> = ({ activeTab, hasAuth }) => (
+  <>
+    {Object.entries(TabItems).map(([key, value]) => (
+      <NavigationMenuItem key={key}>
+        <Link
+          legacyBehavior
+          passHref
+          href={value.param}
+          className={`text-md rounded-lg px-2 py-1 ${
+            activeTab === key
+              ? "bg-gray-900 text-gray-100"
+              : "text-gray-900 hover:bg-gray-100"
+          }`}
+        >
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            {value.title}
+          </NavigationMenuLink>
+        </Link>
+      </NavigationMenuItem>
+    ))}
+    <NavigationMenuItem>
+      <Button
+        variant="outline"
+        onClick={() => (hasAuth ? void signOut() : void signIn())}
+      >
+        {hasAuth ? "Sign Out" : "Sign In"}
+      </Button>
+    </NavigationMenuItem>
+  </>
+);
 
 export const NavBar = () => {
   const session = useSession();
   const hasAuth = session.status === "authenticated";
+  const pathname = usePathname();
+
+  const activeTab = Object.entries(TabItems).find(
+    ([_, value]) => value.param === pathname
+  )?.[0] as PageTypes;
 
   return (
-    <div className="navbar bg-base-100">
-      <div className="flex-1">
+    <nav className="bg-base-100 flex h-20 items-center justify-between px-10">
+      <div>
         <Link
           href="/"
-          className=" normal-casedark-mode:text-white focus:shadow-outline btn btn-ghost flex gap-1 self-end rounded-lg  text-lg font-semibold uppercase tracking-widest text-gray-900 focus:outline-none"
+          className="flex items-center gap-1 self-end rounded-lg px-3 py-1.5 text-lg font-semibold uppercase tracking-widest text-gray-900 hover:bg-gray-100 "
         >
           <TbDeviceGamepad2 />
           Video Games
         </Link>
       </div>
-      <div className="flex-none gap-2">
-        {hasAuth && <Link href={`/favourites/`}>Favourites</Link>}
-        {hasAuth ? (
-          <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
-              <div className="w-10 rounded-full">
-                <Image
-                  alt={session.data.user.name ?? "User Profile Image"}
-                  width={50}
-                  height={50}
-                  src={session.data?.user.image ?? ""}
-                />
-              </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 border-solid border-gray-600 bg-base-100 p-2 shadow"
-            >
-              <li onClick={() => void signOut()}>
-                <a>Logout</a>
-              </li>
-            </ul>
-          </div>
-        ) : (
-          <button className="btn" onClick={() => void signIn()}>
-            Login
-            <TbUser size={18} />
-          </button>
+      <div className="flex gap-2">
+        <NavigationMenu>
+          <NavigationMenuList>
+            <TabBar activeTab={activeTab} hasAuth={hasAuth} />
+          </NavigationMenuList>
+        </NavigationMenu>
+        {hasAuth && (
+          <Avatar>
+            <AvatarImage src={session.data?.user.image ?? ""} />
+            <AvatarFallback>
+              {getInitials(session.data?.user.name ?? "")}
+            </AvatarFallback>
+          </Avatar>
         )}
       </div>
-    </div>
+    </nav>
   );
 };

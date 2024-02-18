@@ -72,8 +72,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("daisyui")],
-  daisyui: {
-    themes: ["emerald"],
-  },
+  plugins: [require("tailwindcss-animate")],
 };

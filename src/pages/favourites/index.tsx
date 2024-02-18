@@ -11,8 +11,6 @@ export default function Home() {
     enabled: !!sessionData,
   });
 
-  console.log(favourites);
-
   if (favourites?.length === 0 || !favourites) {
     return <div>You have not favourited any games!</div>;
   }

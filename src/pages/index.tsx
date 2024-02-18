@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState, type FormEvent } from "react";
 import { TbX } from "react-icons/tb";
@@ -10,8 +9,7 @@ import Text from "~/components/ui/Text";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { api } from "~/utils/api";
-import { capitalize } from "~/utils/game";
+import { capitalize } from "@/lib/utils";
 import { type Game } from "./api/utils/types";
 
 const initialData = { input: "", data: [] };
@@ -27,16 +25,13 @@ export default function Home() {
     setSearchedData(initialData);
     e.preventDefault();
     const tInput = input.trim();
-    void axios
+    axios
       .get(`/api/games/search/?input=${tInput} `)
-      .then(({ data }) => setSearchedData({ input, data: data as Game[] }));
+      .then(({ data }) => setSearchedData({ input, data: data as Game[] }))
+      .catch((err) => {
+        console.error(err);
+      });
   };
-
-  const { data: sessionData } = useSession();
-
-  const { data: allFavourites } = api.games.getFavourites.useQuery(undefined, {
-    enabled: !!sessionData,
-  });
 
   return (
     <>
@@ -86,9 +81,9 @@ export default function Home() {
           </div>
         ) : (
           <div className="mt-12 flex flex-col gap-12">
+            <Carousel type="upcoming" />
             <Carousel type="popular" />
             <Carousel type="toprated" />
-            <Carousel type="upcoming" />
           </div>
         )}
       </main>
