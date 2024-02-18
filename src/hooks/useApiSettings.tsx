@@ -79,7 +79,7 @@ export const getApiSettings = (type: GetGameProps, id?: string) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: optionMap[type as keyof typeof optionMap].data,
+    body: JSON.stringify(optionMap[type as keyof typeof optionMap]),
   };
 
   return options;

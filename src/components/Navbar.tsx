@@ -81,11 +81,14 @@ export const NavBar = () => {
         </Link>
       </div>
       <div className="flex gap-2">
-        <NavigationMenu>
-          <NavigationMenuList>
-            <TabBar activeTab={activeTab} hasAuth={hasAuth} />
-          </NavigationMenuList>
-        </NavigationMenu>
+        <div className="hidden gap-2 lg:flex">
+          <NavigationMenu>
+            <NavigationMenuList>
+              <TabBar activeTab={activeTab} hasAuth={hasAuth} />
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+
         {hasAuth && (
           <Avatar>
             <AvatarImage src={session.data?.user.image ?? ""} />
@@ -94,6 +97,7 @@ export const NavBar = () => {
             </AvatarFallback>
           </Avatar>
         )}
+        <div className="flex gap-2 lg:hidden">{/* mobile */}</div>
       </div>
     </nav>
   );

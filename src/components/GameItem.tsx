@@ -68,7 +68,7 @@ export const GameItem = ({ game }: { game: Game }) => {
 
   return (
     <Link
-      className="bg-base-100 flex h-auto max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded-xl shadow"
+      className="flex h-auto max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded-xl bg-white shadow"
       href={`/game/${game.id}/`}
     >
       <div className="p-3 pb-0">
