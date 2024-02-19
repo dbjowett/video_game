@@ -1,17 +1,20 @@
-import { signIn, signOut, useSession } from "next-auth/react";
 import { getInitials } from "@/lib/utils";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { TbDeviceGamepad2 } from "react-icons/tb";
-import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
-import { FC } from "react";
+import { type FC } from "react";
+import { TbDeviceGamepad2 } from "react-icons/tb";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Button } from "./ui/button";
 
+import { List } from "@phosphor-icons/react";
 import {
   NavigationMenu,
+  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
 
@@ -29,15 +32,16 @@ interface TabBarProps {
   hasAuth: boolean;
 }
 
-export const TabBar: FC<TabBarProps> = ({ activeTab, hasAuth }) => (
+const TabBar: FC<TabBarProps> = ({ activeTab, hasAuth }) => (
   <>
     {Object.entries(TabItems).map(([key, value]) => (
       <NavigationMenuItem key={key}>
         <Link
+          key={key}
           legacyBehavior
           passHref
           href={value.param}
-          className={`text-md rounded-lg px-2 py-1 ${
+          className={`text-md mx-2 my-4 rounded-lg px-2 py-1  ${
             activeTab === key
               ? "bg-gray-900 text-gray-100"
               : "text-gray-900 hover:bg-gray-100"
@@ -60,6 +64,37 @@ export const TabBar: FC<TabBarProps> = ({ activeTab, hasAuth }) => (
   </>
 );
 
+interface MobileTabBarProps {
+  hasAuth: boolean;
+}
+
+const MobileTabBar: FC<MobileTabBarProps> = ({ hasAuth }) => (
+  <NavigationMenuItem>
+    <NavigationMenuTrigger>
+      <List size={22} />
+    </NavigationMenuTrigger>
+
+    <NavigationMenuContent>
+      {Object.entries(TabItems).map(([key, value]) => (
+        <Link key={key} legacyBehavior passHref href={value.param}>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            {value.title}
+          </NavigationMenuLink>
+        </Link>
+      ))}
+
+      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+        <div
+          className="cursor-pointer"
+          onClick={() => (hasAuth ? void signOut() : void signIn())}
+        >
+          {hasAuth ? "Sign Out" : "Sign In"}
+        </div>
+      </NavigationMenuLink>
+    </NavigationMenuContent>
+  </NavigationMenuItem>
+);
+
 export const NavBar = () => {
   const session = useSession();
   const hasAuth = session.status === "authenticated";
@@ -70,7 +105,7 @@ export const NavBar = () => {
   )?.[0] as PageTypes;
 
   return (
-    <nav className="bg-base-100 flex h-20 items-center justify-between px-10">
+    <nav className="bg-base-100 flex h-20 items-center justify-between px-2">
       <div>
         <Link
           href="/"
@@ -89,9 +124,17 @@ export const NavBar = () => {
           </NavigationMenu>
         </div>
 
+        <div className="gap-2 lg:hidden">
+          <NavigationMenu>
+            <NavigationMenuList>
+              <MobileTabBar hasAuth={hasAuth} />
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
         {hasAuth && (
           <Avatar>
             <AvatarImage src={session.data?.user.image ?? ""} />
+
             <AvatarFallback>
               {getInitials(session.data?.user.name ?? "")}
             </AvatarFallback>

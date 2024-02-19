@@ -1,4 +1,6 @@
+import { capitalize } from "@/lib/utils";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState, type FormEvent } from "react";
 import { TbX } from "react-icons/tb";
@@ -9,7 +11,7 @@ import Text from "~/components/ui/Text";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { capitalize } from "@/lib/utils";
+import { api } from "~/utils/api";
 import { type Game } from "./api/utils/types";
 
 const initialData = { input: "", data: [] };
@@ -32,6 +34,12 @@ export default function Home() {
         console.error(err);
       });
   };
+
+  const { data } = useSession();
+  const { data: faveGames, refetch: refetchFavourites } =
+    api.games.getFavourites.useQuery(undefined, {
+      enabled: !!data?.user,
+    });
 
   return (
     <>
@@ -77,13 +85,29 @@ export default function Home() {
                 Clear <TbX size={16} />
               </Badge>
             </div>
-            <GameGrid games={searchedData.data} />
+            <GameGrid
+              faveGames={faveGames}
+              refetchFavourites={refetchFavourites}
+              games={searchedData.data}
+            />
           </div>
         ) : (
           <div className="mt-12 flex flex-col gap-12">
-            <Carousel type="upcoming" />
-            <Carousel type="popular" />
-            <Carousel type="toprated" />
+            <Carousel
+              faveGames={faveGames}
+              refetchFavourites={() => void refetchFavourites()}
+              type="upcoming"
+            />
+            <Carousel
+              faveGames={faveGames}
+              refetchFavourites={() => void refetchFavourites()}
+              type="popular"
+            />
+            <Carousel
+              faveGames={faveGames}
+              refetchFavourites={() => void refetchFavourites()}
+              type="toprated"
+            />
           </div>
         )}
       </main>

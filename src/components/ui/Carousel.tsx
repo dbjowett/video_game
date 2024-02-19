@@ -19,6 +19,8 @@ import {
   TbChevronLeft,
   TbChevronRight,
 } from "react-icons/tb";
+import { type FavouriteGame } from "~/pages/api/utils/types";
+import { Badge } from "./badge";
 
 const break_points = {
   640: {
@@ -39,7 +41,17 @@ const break_points = {
   },
 };
 
-export const Carousel = ({ type }: { type: PageTypes }) => {
+interface CarouselProps {
+  type: PageTypes;
+  faveGames: FavouriteGame[] | undefined;
+  refetchFavourites: () => void;
+}
+
+export const Carousel = ({
+  type,
+  faveGames,
+  refetchFavourites,
+}: CarouselProps) => {
   const { data: games, isLoading, isError } = useFetchGames(type);
   const swiperRef = useRef<SwiperType>();
 
@@ -50,13 +62,13 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
     <div className="w-screen">
       <div className="m-auto w-11/12">
         <div className="mb-4 flex justify-between align-middle">
-          <Text as="h1" className="" size="lg">
+          <Text as="h1" className="text-slate-700" size="xl">
             {TabItems[type].title}
           </Text>
           <Link className="self-end" href={TabItems[type].param}>
-            <span className="hover:border-b-1 flex items-center gap-1 rounded-md bg-gray-200 px-2 py-1 text-xs text-gray-500 hover:bg-gray-300 hover:text-gray-600">
+            <Badge>
               See More <TbArrowNarrowRight />
-            </span>
+            </Badge>
           </Link>
         </div>
 
@@ -72,22 +84,28 @@ export const Carousel = ({ type }: { type: PageTypes }) => {
           <>
             {games.map((game) => (
               <SwiperSlide key={game.id} className="h-auto">
-                <GameItem game={game} />
+                <GameItem
+                  refetchFavourites={refetchFavourites}
+                  isFavourite={
+                    faveGames?.some((g) => g.id === game.id.toString()) ?? false
+                  }
+                  game={game}
+                />
               </SwiperSlide>
             ))}
           </>
           <div>
             <button
-              className="absolute top-1/2 z-20 rounded-full bg-white p-2 opacity-80"
+              className="absolute top-1/2 z-20 h-[40px] w-[40px] rounded-full border border-gray-400 bg-white p-2 opacity-90"
               onClick={() => swiperRef.current?.slidePrev()}
             >
-              <TbChevronLeft size={16} />
+              <TbChevronLeft size={20} />
             </button>
             <button
-              className="absolute right-0 top-1/2 z-20 rounded-full bg-white p-2 opacity-80"
+              className="absolute right-0 top-1/2 z-20 h-[40px] w-[40px] rounded-full border border-gray-400 bg-white p-2 opacity-90"
               onClick={() => swiperRef.current?.slideNext()}
             >
-              <TbChevronRight size={16} />
+              <TbChevronRight size={20} className="ml-[2px]" />
             </button>
           </div>
         </Swiper>

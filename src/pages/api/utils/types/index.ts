@@ -100,3 +100,11 @@ export interface SimilarGame {
     url: string;
   };
 }
+
+export interface FavouriteGame {
+  id: string;
+  title: string;
+  imageUrl: string;
+  createdAt: Date;
+  userId: string;
+}
