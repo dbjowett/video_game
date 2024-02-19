@@ -87,7 +87,7 @@ export default function Home() {
             </div>
             <GameGrid
               faveGames={faveGames}
-              refetchFavourites={refetchFavourites}
+              refetchFavourites={() => void refetchFavourites()}
               games={searchedData.data}
             />
           </div>
