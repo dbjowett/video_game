@@ -3,11 +3,11 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type FC } from "react";
-import { TbDeviceGamepad2 } from "react-icons/tb";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "./ui/button";
 
-import { List } from "@phosphor-icons/react";
+import { GameController, List, Moon, Sun } from "@phosphor-icons/react";
+import { useTheme } from "next-themes";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -41,7 +41,7 @@ const TabBar: FC<TabBarProps> = ({ activeTab, hasAuth }) => (
           legacyBehavior
           passHref
           href={value.param}
-          className={`text-md mx-2 my-4 rounded-lg px-2 py-1  ${
+          className={`text-md mx-2 my-4 w-full rounded-lg px-2 py-1  ${
             activeTab === key
               ? "bg-gray-900 text-gray-100"
               : "text-gray-900 hover:bg-gray-100"
@@ -97,6 +97,8 @@ const MobileTabBar: FC<MobileTabBarProps> = ({ hasAuth }) => (
 
 export const NavBar = () => {
   const session = useSession();
+  const { setTheme, theme } = useTheme();
+
   const hasAuth = session.status === "authenticated";
   const pathname = usePathname();
 
@@ -109,9 +111,9 @@ export const NavBar = () => {
       <div>
         <Link
           href="/"
-          className="flex items-center gap-1 self-end rounded-lg px-3 py-1.5 text-lg font-semibold uppercase tracking-widest text-gray-900 hover:bg-gray-100 "
+          className="flex items-center gap-1 self-end rounded-lg px-3 py-1.5 text-lg font-semibold uppercase tracking-widest"
         >
-          <TbDeviceGamepad2 />
+          <GameController size={24} weight="fill" />
           Video Games
         </Link>
       </div>
@@ -123,6 +125,16 @@ export const NavBar = () => {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
+
+        <Button
+          size="icon"
+          variant="outline"
+          onClick={() => {
+            theme === "dark" ? setTheme("light") : setTheme("dark");
+          }}
+        >
+          {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+        </Button>
 
         <div className="gap-2 lg:hidden">
           <NavigationMenu>

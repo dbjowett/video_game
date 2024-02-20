@@ -19,7 +19,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <QueryClientProvider client={queryClient}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem
           themes={["light", "dark"]}
         >

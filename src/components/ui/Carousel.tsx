@@ -62,7 +62,7 @@ export const Carousel = ({
     <div className="w-screen">
       <div className="m-auto w-11/12">
         <div className="mb-4 flex justify-between align-middle">
-          <Text as="h1" className="text-slate-700" size="xl">
+          <Text as="h1" size="xl">
             {TabItems[type].title}
           </Text>
           <Link className="self-end" href={TabItems[type].param}>
@@ -96,13 +96,13 @@ export const Carousel = ({
           </>
           <div>
             <button
-              className="absolute top-1/2 z-20 h-[40px] w-[40px] rounded-full border border-gray-400 bg-white p-2 opacity-90"
+              className="absolute top-1/2 z-20 h-[40px] w-[40px] rounded-full border border-accent-foreground bg-accent p-2 opacity-90"
               onClick={() => swiperRef.current?.slidePrev()}
             >
               <TbChevronLeft size={20} />
             </button>
             <button
-              className="absolute right-0 top-1/2 z-20 h-[40px] w-[40px] rounded-full border border-gray-400 bg-white p-2 opacity-90"
+              className="absolute right-0 top-1/2 z-20 h-[40px] w-[40px] rounded-full border  border-accent-foreground bg-accent  p-2 opacity-90"
               onClick={() => swiperRef.current?.slideNext()}
             >
               <TbChevronRight size={20} className="ml-[2px]" />
