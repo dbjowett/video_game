@@ -106,6 +106,9 @@ export const NavBar = () => {
     ([_, value]) => value.param === pathname
   )?.[0] as PageTypes;
 
+  const Icon = () =>
+    theme === "dark" ? <Sun size={20} /> : <Moon size={20} />;
+
   return (
     <nav className="bg-base-100 flex h-20 items-center justify-between px-2">
       <div>
@@ -133,7 +136,7 @@ export const NavBar = () => {
             theme === "dark" ? setTheme("light") : setTheme("dark");
           }}
         >
-          {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+          <Icon />
         </Button>
 
         <div className="gap-2 lg:hidden">
