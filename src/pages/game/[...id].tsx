@@ -68,8 +68,8 @@ export default function Page() {
           alt={game.name.toString()}
         />
 
-        <div className="flex h-auto flex-col rounded-lg bg-white shadow">
-          <Text as="h1" size="xl" className="px-6  pt-4">
+        <div className="flex h-auto flex-col rounded-lg bg-accent shadow">
+          <Text as="h1" size="xl" className="px-6 pt-4">
             {game.name}
           </Text>
           <div className="divider m-0"></div>
@@ -78,8 +78,8 @@ export default function Page() {
           </Text>
         </div>
       </div>
-      <div className="stats  stats-vertical mt-7 shadow md:stats-horizontal">
-        <div className="stat">
+      <div className="mt-7 flex justify-between">
+        <div className="rounded-xl border border-border p-3 shadow">
           <div className="stat-figure text-primary">
             <TbUserStar size={36} />
           </div>
@@ -90,7 +90,7 @@ export default function Page() {
           <div className="stat-desc">Out of {game.rating_count} reviewers</div>
         </div>
 
-        <div className="stat">
+        <div className="rounded-xl border border-border p-3 shadow">
           <div className="stat-figure text-primary">
             <TbCalendar size={36} />
           </div>
@@ -100,8 +100,8 @@ export default function Page() {
           </Text>
         </div>
 
-        <div className="stat">
-          <div className="stat-figure text-primary">
+        <div className="rounded-xl border border-border p-3 shadow">
+          <div className="text-primary">
             <TbDeviceGamepad2 size={36} />
           </div>
           <div className="stat-title">Released on</div>
@@ -111,14 +111,14 @@ export default function Page() {
           <div className="flex gap-1">
             {game.platforms.length > 1 &&
               game.platforms.slice(1).map((pl) => (
-                <div key={pl.id} className="stat-desc text-gray-500">
+                <div key={pl.id} className="stat-desc ">
                   {pl.abbreviation}
                 </div>
               ))}
           </div>
         </div>
       </div>
-      <div className="mt-10 flex flex-col gap-5 rounded-xl bg-white p-6 shadow">
+      <div className="mt-10 flex flex-col gap-5 rounded-xl bg-accent p-6 shadow">
         <div className="flex gap-2 align-middle">
           <Text size="xl">Similar Games</Text>
           <TbAffiliate className="self-center" size={26} />

@@ -1,4 +1,5 @@
-import { FolderSimpleStar, Star } from "@phosphor-icons/react";
+import { Star } from "@phosphor-icons/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { type MouseEvent } from "react";
@@ -10,7 +11,6 @@ import { imageLoader } from "~/utils/game";
 import { Spinner } from "./ui/Spinner";
 import Text from "./ui/Text";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 
 interface GameItemProps {
   game: Game;
@@ -24,6 +24,9 @@ export const GameItem = ({
   refetchFavourites,
 }: GameItemProps) => {
   const { toast } = useToast();
+  const { status: sessionStatus } = useSession();
+
+  const hasAuth = sessionStatus === "authenticated";
 
   const deleteFavourite = api.games.deleteFavouriteGame.useMutation({
     onSuccess: () => refetchFavourites(),
@@ -38,6 +41,7 @@ export const GameItem = ({
   const handleFavouriteClick = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!hasAuth) return;
     if (isFavourite) {
       toast({
         title: "Removed from favourites!",
@@ -111,12 +115,15 @@ export const GameItem = ({
           ))}
         </div>
 
-        <Button variant="ghost" size="icon" onClick={handleFavouriteClick}>
-          <FolderSimpleStar
-            size={20}
-            weight={isFavourite ? "fill" : "regular"}
-          />
-        </Button>
+        {hasAuth && (
+          <Badge
+            variant={isFavourite ? "default" : "outline"}
+            className="flex h-[32px] w-[32px] justify-center rounded-full p-1"
+            onClick={handleFavouriteClick}
+          >
+            <Star size={16} weight={isFavourite ? "fill" : "regular"} />
+          </Badge>
+        )}
       </div>
     </Link>
   );
