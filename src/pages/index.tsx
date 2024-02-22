@@ -56,12 +56,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center">
-        <form onSubmit={onSubmit} className="mt-10 flex items-center space-x-2">
+        <form
+          onSubmit={onSubmit}
+          className="mt-10 flex w-full items-center justify-center space-x-2"
+        >
           <Input
             onChange={(e) => setInput(e.target.value)}
             value={input}
             type="text"
-            className="w-80 px-3 py-5"
+            className="w-full max-w-80 px-3 py-5"
             placeholder="Search games..."
           />
           <Button className="px-3" type="submit">

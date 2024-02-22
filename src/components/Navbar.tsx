@@ -74,7 +74,7 @@ const MobileTabBar: FC<MobileTabBarProps> = ({ hasAuth }) => (
       <List size={22} />
     </NavigationMenuTrigger>
 
-    <NavigationMenuContent>
+    <NavigationMenuContent className="left-auto right-0">
       {Object.entries(TabItems).map(([key, value]) => (
         <Link key={key} legacyBehavior passHref href={value.param}>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>

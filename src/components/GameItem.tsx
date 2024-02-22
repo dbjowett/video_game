@@ -44,16 +44,15 @@ export const GameItem = ({
     if (!hasAuth) return;
     if (isFavourite) {
       toast({
-        title: "Removed from favourites!",
-        description: `${game.name} has been removed from your favourites.`,
+        title: `${game.name} removed from favourites!`,
       });
       deleteFavourite.mutate({ id: game.id.toString() });
       return;
     }
 
     toast({
-      title: "Added to favourites!",
-      description: `${game.name} has been added. Navigate to Favourites tab to view all your favourite games.`,
+      title: `${game.name} has been added!`,
+      description: `Visit favourites tab to view all your favourite games.`,
     });
     favouriteItem.mutate({
       id: game.id.toString(),
@@ -85,45 +84,48 @@ export const GameItem = ({
         />
       </div>
 
-      <div className="flex h-auto flex-1 flex-col justify-between px-4 py-2">
+      <div className="flex h-auto flex-1 flex-col justify-between gap-3 px-3 py-2">
+        {/* Title */}
         <div>
           <Text className="mb-2 line-clamp-1 font-bold ">{game.name}</Text>
 
-          <Badge
-            variant="outline"
-            className="text-base-400 badge gap flex w-fit gap-1 px-2 py-1 text-xs"
-          >
-            <>
-              {game.rating ? (
-                <>
-                  <Star size={14} weight="fill" color="gold" />
-                  {Math.round(game.rating)}
-                </>
-              ) : (
-                <p className="badge line-clamp-6 text-xs">
-                  {game.release_dates[0]?.human}
-                </p>
-              )}
-            </>
-          </Badge>
-        </div>
-        <div className="flex flex-wrap justify-end gap-1 pb-2 pt-4">
-          {game.genres?.slice(0, 2).map((genre) => (
-            <Badge variant="outline" key={genre.id}>
-              {GenreMap[genre.id as GmKey].hashtag}
+          {/* ** Badges **  */}
+          <div className="flex flex-wrap justify-between gap-2">
+            <Badge variant="outline">
+              <>
+                {game.rating ? (
+                  <>
+                    <Star size={14} weight="fill" color="gold" />
+                    {Math.round(game.rating)}
+                  </>
+                ) : (
+                  <p className="badge line-clamp-6 text-xs">
+                    {game.release_dates[0]?.human}
+                  </p>
+                )}
+              </>
             </Badge>
-          ))}
+            <div className="flex gap-1">
+              {game.genres?.slice(0, 2).map((genre) => (
+                <Badge variant="secondary" key={genre.id}>
+                  {GenreMap[genre.id as GmKey].hashtag}
+                </Badge>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {hasAuth && (
-          <Badge
-            variant={isFavourite ? "default" : "outline"}
-            className="flex h-[32px] w-[32px] justify-center rounded-full p-1"
-            onClick={handleFavouriteClick}
-          >
-            <Star size={16} weight={isFavourite ? "fill" : "regular"} />
-          </Badge>
-        )}
+        <div className="flex w-full justify-end">
+          {hasAuth && (
+            <Badge
+              variant={isFavourite ? "default" : "outline"}
+              className="flex h-[28px] w-[28px] justify-center rounded-full p-1"
+              onClick={handleFavouriteClick}
+            >
+              <Star size={14} weight={isFavourite ? "fill" : "regular"} />
+            </Badge>
+          )}
+        </div>
       </div>
     </Link>
   );
