@@ -25,10 +25,10 @@ model Account {
     scope             String?
     id_token          String? @db.Text
     session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
-    @@index([userId])
 }
 
 model Session {
@@ -37,8 +37,6 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@index([userId])
 }
 
 model VerificationToken {
@@ -58,7 +56,6 @@ model User {
     accounts      Account[]
     sessions      Session[]
     likedGame     LikedGame[]
-    comments      Review[]
 }
 
 model LikedGame {
@@ -68,16 +65,6 @@ model LikedGame {
     createdAt DateTime @default(now())
     userId    String
     user      User     @relation(fields: [userId], references: [id])
-
-    @@index([userId])
-}
-
-model Review {
-    id     String @id @default(cuid())
-    title  String
-    body   String
-    userId String
-    user   User   @relation(fields: [userId], references: [id])
 
     @@index([userId])
 }
