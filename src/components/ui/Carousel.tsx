@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useFetchGames } from "~/hooks/useFetchGames";
 import { GameItem } from "../GameItem";
 import { TabItems, type PageTypes } from "../Navbar";
-import { Spinner } from "./Spinner";
+
 import Text from "./Text";
 
 import Link from "next/link";
@@ -21,6 +21,7 @@ import {
 } from "react-icons/tb";
 import { type FavouriteGame } from "~/pages/api/utils/types";
 import { Badge } from "./badge";
+import { SkeletonLoader } from "./skeleton-loader";
 
 const break_points = {
   640: {
@@ -55,11 +56,10 @@ export const Carousel = ({
   const { data: games, isLoading, isError } = useFetchGames(type);
   const swiperRef = useRef<SwiperType>();
 
-  if (isLoading) return <Spinner />;
   if (isError) return <div>Something went wrong...</div>;
 
   return (
-    <div className="w-screen">
+    <div className="w-screen ">
       <div className="m-auto w-11/12">
         <div className="mb-4 flex justify-between align-middle">
           <Text as="h1" size="xl">
@@ -72,43 +72,48 @@ export const Carousel = ({
           </Link>
         </div>
 
-        <Swiper
-          slidesPerView={1}
-          breakpoints={break_points}
-          className="relative h-full px-4"
-          modules={[Navigation]}
-          onBeforeInit={(swiper) => {
-            swiperRef.current = swiper;
-          }}
-        >
-          <>
-            {games.map((game) => (
-              <SwiperSlide key={game.id} className="h-auto">
-                <GameItem
-                  refetchFavourites={refetchFavourites}
-                  isFavourite={
-                    faveGames?.some((g) => g.id === game.id.toString()) ?? false
-                  }
-                  game={game}
-                />
-              </SwiperSlide>
-            ))}
-          </>
-          <div>
-            <button
-              className="absolute top-1/2 z-20 h-[40px] w-[40px] rounded-full border border-accent-foreground bg-accent p-2 opacity-90"
-              onClick={() => swiperRef.current?.slidePrev()}
-            >
-              <TbChevronLeft size={20} />
-            </button>
-            <button
-              className="absolute right-0 top-1/2 z-20 h-[40px] w-[40px] rounded-full border  border-accent-foreground bg-accent  p-2 opacity-90"
-              onClick={() => swiperRef.current?.slideNext()}
-            >
-              <TbChevronRight size={20} className="ml-[2px]" />
-            </button>
-          </div>
-        </Swiper>
+        {isLoading ? (
+          <SkeletonLoader />
+        ) : (
+          <Swiper
+            slidesPerView={1}
+            breakpoints={break_points}
+            className="relative h-full px-4"
+            modules={[Navigation]}
+            onBeforeInit={(swiper) => {
+              swiperRef.current = swiper;
+            }}
+          >
+            <>
+              {games.map((game) => (
+                <SwiperSlide key={game.id} className="h-auto">
+                  <GameItem
+                    refetchFavourites={refetchFavourites}
+                    isFavourite={
+                      faveGames?.some((g) => g.id === game.id.toString()) ??
+                      false
+                    }
+                    game={game}
+                  />
+                </SwiperSlide>
+              ))}
+            </>
+            <div>
+              <button
+                className="absolute top-1/2 z-20 h-[40px] w-[40px] rounded-full border border-accent-foreground bg-accent p-2 opacity-90"
+                onClick={() => swiperRef.current?.slidePrev()}
+              >
+                <TbChevronLeft size={20} />
+              </button>
+              <button
+                className="absolute right-0 top-1/2 z-20 h-[40px] w-[40px] rounded-full border  border-accent-foreground bg-accent  p-2 opacity-90"
+                onClick={() => swiperRef.current?.slideNext()}
+              >
+                <TbChevronRight size={20} className="ml-[2px]" />
+              </button>
+            </div>
+          </Swiper>
+        )}
       </div>
     </div>
   );

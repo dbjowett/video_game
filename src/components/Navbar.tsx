@@ -23,7 +23,7 @@ export const TabItems = {
   toprated: { param: "/toprated", title: "Top Rated" },
   popular: { param: "/popular", title: "Popular" },
   favourites: { param: "/favourites", title: "Favourites" },
-} as const;
+};
 
 export type PageTypes = keyof typeof TabItems;
 
