@@ -3,7 +3,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { type Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -55,6 +55,19 @@ export const Carousel = ({
 }: CarouselProps) => {
   const { data: games, isLoading, isError } = useFetchGames(type);
   const swiperRef = useRef<SwiperType>();
+  const [isStart, setIsStart] = useState<boolean | null>(true);
+  const [isEnd, setIsEnd] = useState<boolean | null>(false);
+
+  const updateButtons = () => {
+    const newIsStart = !!swiperRef.current?.isBeginning;
+    const newIsEnd = !!swiperRef.current?.isEnd;
+    if (newIsStart !== isStart) {
+      setIsStart(newIsStart);
+    }
+    if (newIsEnd !== isEnd) {
+      setIsEnd(newIsEnd);
+    }
+  };
 
   if (isError) return <div>Something went wrong...</div>;
 
@@ -83,6 +96,7 @@ export const Carousel = ({
             onBeforeInit={(swiper) => {
               swiperRef.current = swiper;
             }}
+            onSlideChange={updateButtons}
           >
             <>
               {games.map((game) => (
@@ -99,18 +113,23 @@ export const Carousel = ({
               ))}
             </>
             <div>
-              <button
-                className="absolute top-1/2 z-20 h-[40px] w-[40px] rounded-full border border-accent-foreground bg-accent p-2 opacity-90"
-                onClick={() => swiperRef.current?.slidePrev()}
-              >
-                <TbChevronLeft size={20} />
-              </button>
-              <button
-                className="absolute right-0 top-1/2 z-20 h-[40px] w-[40px] rounded-full border  border-accent-foreground bg-accent  p-2 opacity-90"
-                onClick={() => swiperRef.current?.slideNext()}
-              >
-                <TbChevronRight size={20} className="ml-[2px]" />
-              </button>
+              {!isStart && (
+                <button
+                  className="absolute top-1/2 z-20 h-[40px] w-[40px] rounded-full border border-accent-foreground bg-accent p-2 opacity-90"
+                  onClick={() => swiperRef.current?.slidePrev()}
+                >
+                  <TbChevronLeft size={20} />
+                </button>
+              )}
+
+              {!isEnd && (
+                <button
+                  className="absolute right-0 top-1/2 z-20 h-[40px] w-[40px] rounded-full border  border-accent-foreground bg-accent  p-2 opacity-90"
+                  onClick={() => swiperRef.current?.slideNext()}
+                >
+                  <TbChevronRight size={20} className="ml-[2px]" />
+                </button>
+              )}
             </div>
           </Swiper>
         )}

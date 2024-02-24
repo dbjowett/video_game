@@ -68,4 +68,13 @@
 
 .swiper-slide {
   height: auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 640px) {
+    /* Single Carousel item, justify center  */
+    display: flex !important;
+    justify-content: center !important;
+  }
 }

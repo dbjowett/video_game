@@ -6,7 +6,9 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div>
       <main className="overflow-hidden">
-        <NavBar />
+        <div className="mb-16">
+          <NavBar />
+        </div>
         <div className="min-h-screen bg-background px-3 pb-10">{children}</div>
       </main>
       <Toaster />

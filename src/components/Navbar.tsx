@@ -110,7 +110,7 @@ export const NavBar = () => {
     theme === "dark" ? <Sun size={20} /> : <Moon size={20} />;
 
   return (
-    <nav className="bg-base-100 flex h-20 items-center justify-between px-2">
+    <nav className="fixed left-0 top-0 z-10 flex h-16 w-full items-center justify-between bg-background px-2 shadow shadow-sm">
       <div>
         <Link
           href="/"
