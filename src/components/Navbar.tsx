@@ -106,11 +106,12 @@ export const NavBar = () => {
     ([_, value]) => value.param === pathname
   )?.[0] as PageTypes;
 
-  const Icon = () =>
-    theme === "dark" ? <Sun size={20} /> : <Moon size={20} />;
+  const Icon = () => {
+    return theme === "dark" ? <Sun size={20} /> : <Moon size={20} />;
+  };
 
   return (
-    <nav className="fixed left-0 top-0 z-10 flex h-16 w-full items-center justify-between bg-background px-2 shadow shadow-sm">
+    <nav className="fixed left-0 top-0 z-10 flex h-16 w-full items-center justify-between bg-background px-2 shadow-sm">
       <div>
         <Link
           href="/"

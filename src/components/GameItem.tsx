@@ -70,7 +70,7 @@ export const GameItem = ({
       <div className="p-3 pb-0">
         <Image
           priority={false}
-          quality={60}
+          quality={90}
           width={200}
           height={200}
           style={{
@@ -79,7 +79,7 @@ export const GameItem = ({
           }}
           className="mb-0 h-fit w-fit rounded-lg"
           src={game.cover.url.toString()}
-          loader={imageLoader}
+          loader={(props) => imageLoader({ ...props, maxSize: false })}
           alt={game.name.toString()}
         />
       </div>
