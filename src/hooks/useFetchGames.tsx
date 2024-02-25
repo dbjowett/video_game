@@ -17,20 +17,7 @@ export const useFetchGames = (type: PageTypes) => {
   });
 };
 
-export const useFetchGame = (id: string) => {
-  const apiOptions = useMemo(() => getApiSettings("single_game", id), [id]);
-
-  return useQuery<Game>({
-    queryKey: ["single_game", id],
-    queryFn: async () => {
-      const res = await fetch("/api/games/single_game", apiOptions);
-      const game = (await res.json()) as [Game];
-      return game[0];
-    },
-  });
-};
-
-export const useFetchSimilar = (ids: string[]) => {
+export const useFetchSimilar = (ids: number[] | string[]) => {
   const gameIds = ids.join(",");
   const apiOptions = useMemo(
     () => getApiSettings("similar_games", gameIds),

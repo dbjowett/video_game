@@ -17,7 +17,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import { Spinner } from "~/components/ui/Spinner";
 import Text from "~/components/ui/Text";
-import { useFetchGame, useFetchSimilar } from "~/hooks/useFetchGames";
+import { useFetchSimilar } from "~/hooks/useFetchGames";
+import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
 
 const carousel_breakpoints = {
@@ -45,10 +46,21 @@ export default function Page() {
 
   useEffect(() => {
     if (!router.isReady) return;
-    void setQuery(router.query.id as string);
+    void setQuery((router.query.id as string)?.toString());
   }, [router.query, router.isReady]);
 
-  const { data: game, isLoading, isError } = useFetchGame(query);
+  const {
+    data: game,
+    isLoading,
+    isError,
+  } = api.igdb.getGameById.useQuery(
+    {
+      id: query,
+    },
+    {
+      enabled: !!query,
+    }
+  );
   const { data: similarGames } = useFetchSimilar(game?.similar_games ?? [""]);
 
   if (isLoading || !game) return <Spinner />;
@@ -60,12 +72,12 @@ export default function Page() {
         <Image
           priority
           quality={100}
-          width={1000}
-          height={1000}
+          width={200}
+          height={200}
           className="mb-0 w-fit self-center rounded-lg shadow"
-          src={game.cover.url.toString()}
+          src={game.cover.url}
           loader={imageLoader}
-          alt={game.name.toString()}
+          alt={game.name}
         />
 
         <div className="flex h-auto flex-col rounded-lg bg-accent shadow">
@@ -85,7 +97,7 @@ export default function Page() {
           </div>
           <div className="stat-title">Rating</div>
           <Text size="xl" className="stat-value">
-            {Math.round(game.rating)}%
+            {!!game.rating && Math.round(game.rating)}%
           </Text>
           <div className="stat-desc">Out of {game.rating_count} reviewers</div>
         </div>
@@ -96,7 +108,7 @@ export default function Page() {
           </div>
           <div className="stat-title">Release Date</div>
           <Text size="xl" className="stat-value">
-            {game.release_dates[0]?.human}
+            {game.release_dates?.[0]?.human}
           </Text>
         </div>
 
@@ -106,10 +118,11 @@ export default function Page() {
           </div>
           <div className="stat-title">Released on</div>
           <Text size="xl" className="stat-value">
-            {game.platforms[0]?.abbreviation}
+            {game.platforms?.[0]?.abbreviation}
           </Text>
           <div className="flex gap-1">
-            {game.platforms.length > 1 &&
+            {game.platforms &&
+              game.platforms.length > 1 &&
               game.platforms.slice(1).map((pl) => (
                 <div key={pl.id} className="stat-desc ">
                   {pl.abbreviation}
