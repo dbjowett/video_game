@@ -3,7 +3,10 @@ import { z } from "zod";
 import igdb from "~/pages/api/utils/igdb";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { constructQuery } from "~/utils/query_constructor";
+import {
+  constructQuery,
+  type IGDBQueryOptions,
+} from "~/utils/query_constructor";
 import { GameValidator, type Game } from "../schemas/games";
 
 export const igdbRouter = createTRPCRouter({
@@ -15,7 +18,7 @@ export const igdbRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      const query_data = constructQuery({
+      const query_data: IGDBQueryOptions = {
         fields: [
           "name",
           "rating",
@@ -31,11 +34,11 @@ export const igdbRouter = createTRPCRouter({
         ],
         where: `id=${input.id}`,
         limit: 1,
-      });
+      };
 
       const reqOptions = {
         method: "POST",
-        data: query_data,
+        data: constructQuery(query_data),
         url: "/games/",
       };
 
