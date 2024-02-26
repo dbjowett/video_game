@@ -17,7 +17,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import { Spinner } from "~/components/ui/Spinner";
 import Text from "~/components/ui/Text";
-import { useFetchSimilar } from "~/hooks/useFetchGames";
 import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
 
@@ -61,11 +60,18 @@ export default function Page() {
       enabled: !!query,
     }
   );
-  const { data: similarGames } = useFetchSimilar(game?.similar_games ?? [""]);
+  const similarGameIds = game?.similar_games ?? [0];
+  const { data: similarGames } = api.igdb.getSimilarGames.useQuery(
+    {
+      ids: similarGameIds,
+    },
+    {
+      enabled: !!game,
+    }
+  );
 
   if (isLoading || !game) return <Spinner />;
   if (isError) return <div>Error...</div>;
-
   return (
     <main className="m-auto flex min-h-screen max-w-6xl flex-col">
       <div className="mt-8 flex flex-col gap-6 md:flex-row md:align-super">

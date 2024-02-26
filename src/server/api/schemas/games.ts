@@ -67,4 +67,13 @@ export const GameValidator = z.object({
   summary: z.string(),
 });
 
+export const SimilarGameValidator = z.object({
+  id: z.number(),
+  name: z.string(),
+  cover: z.object({
+    id: z.number(),
+    url: z.string(),
+  }),
+});
+
 export type Game = z.infer<typeof GameValidator>;

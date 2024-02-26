@@ -3,11 +3,16 @@ import { z } from "zod";
 import igdb from "~/pages/api/utils/igdb";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
+import { type SimilarGame } from "~/pages/api/utils/types";
 import {
   constructQuery,
   type IGDBQueryOptions,
 } from "~/utils/query_constructor";
-import { GameValidator, type Game } from "../schemas/games";
+import {
+  GameValidator,
+  SimilarGameValidator,
+  type Game,
+} from "../schemas/games";
 
 export const igdbRouter = createTRPCRouter({
   // ** Get game by id. Returns a single game **
@@ -36,13 +41,10 @@ export const igdbRouter = createTRPCRouter({
         limit: 1,
       };
 
-      const reqOptions = {
-        method: "POST",
-        data: constructQuery(query_data),
-        url: "/games/",
-      };
-
-      const { data }: { data: Game[] } = await igdb(reqOptions);
+      const { data }: { data: Game[] } = await igdb.post(
+        "/games",
+        constructQuery(query_data)
+      );
 
       if (!data) {
         throw new TRPCError({
@@ -60,5 +62,42 @@ export const igdbRouter = createTRPCRouter({
       return valid.data;
     }),
 
-  // ** Get Upcoming Games. Returns an array of games
+  // ** Get Upcoming Games. Returns an array of similar games
+
+  getSimilarGames: publicProcedure
+    .input(
+      z.object({
+        ids: z.number().array(),
+      })
+    )
+    .query(async ({ input }) => {
+      const gameIds = input.ids.join(",");
+      const query_data: IGDBQueryOptions = {
+        fields: ["name", "cover.url"],
+        where: `id=(${gameIds})`,
+        sort: "rating desc",
+        limit: 20,
+      };
+
+      const { data }: { data: SimilarGame[] } = await igdb.post(
+        "/games",
+        constructQuery(query_data)
+      );
+      if (!data) {
+        throw new TRPCError({
+          message: "No Game Data",
+          code: "NOT_FOUND",
+        });
+      }
+      // !!! This is causing errors
+      console.log("This is the data:", data);
+      const valid = SimilarGameValidator.array().safeParse(data);
+
+      if (!valid.success) {
+        console.error(valid.error);
+        return null;
+      }
+
+      return valid.data;
+    }),
 });

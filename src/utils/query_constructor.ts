@@ -66,6 +66,7 @@ export interface IGDBQueryOptions {
   fields: CompleteGameField[]; // List of fields to fetch
   where?: string; // Advanced filtering using the `where` syntax
   limit?: number; // How many records to return
+  sort?: string;
   search?: string; // A search query
 }
 
@@ -96,6 +97,12 @@ export const constructQuery = (options: IGDBQueryOptions): string => {
   if (options.limit) {
     const limitPart = `limit ${options.limit};`;
     queryParts.push(limitPart);
+  }
+
+  // Sort part
+  if (options.sort) {
+    const sortPart = `sort ${options.sort};`;
+    queryParts.push(sortPart);
   }
 
   // Search part, if applicable
