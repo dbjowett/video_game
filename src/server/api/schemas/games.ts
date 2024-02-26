@@ -76,4 +76,5 @@ export const SimilarGameValidator = z.object({
   }),
 });
 
+export type SimilarGame = z.infer<typeof SimilarGameValidator>;
 export type Game = z.infer<typeof GameValidator>;

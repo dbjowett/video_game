@@ -3,7 +3,6 @@ import { z } from "zod";
 import igdb from "~/pages/api/utils/igdb";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { type SimilarGame } from "~/pages/api/utils/types";
 import {
   constructQuery,
   type IGDBQueryOptions,
@@ -12,7 +11,10 @@ import {
   GameValidator,
   SimilarGameValidator,
   type Game,
+  type SimilarGame,
 } from "../schemas/games";
+
+// const { PS5, XBOX_SERIES, PS4, SWITCH, STEAM_OS, PC } = Platforms;
 
 export const igdbRouter = createTRPCRouter({
   // ** Get game by id. Returns a single game **
@@ -89,8 +91,7 @@ export const igdbRouter = createTRPCRouter({
           code: "NOT_FOUND",
         });
       }
-      // !!! This is causing errors
-      console.log("This is the data:", data);
+
       const valid = SimilarGameValidator.array().safeParse(data);
 
       if (!valid.success) {
@@ -100,4 +101,48 @@ export const igdbRouter = createTRPCRouter({
 
       return valid.data;
     }),
+
+  // TODO: Add validator
+  // getUpcoming: publicProcedure.query(async () => {
+  //   const query_data: IGDBQueryOptions = {
+  //     fields: [
+  //       "name",
+  //       "rating",
+  //       "rating_count",
+  //       "release_dates.*",
+  //       "summary",
+  //       "similar_games",
+  //       "screenshots.image_id",
+  //       "cover.*",
+  //       "rating",
+  //       "genres.name",
+  //       "platforms.*",
+  //     ],
+  //     where: `platforms= (${PS5},${XBOX_SERIES},${PS4},${PC},${SWITCH},${STEAM_OS}) & cover != null & category = 0  & first_release_date != n & first_release_date >${Math.floor(
+  //       Date.now() / 1000
+  //     )};`,
+  //     sort: "first_release_date asc;",
+  //     limit: 20,
+  //   };
+
+  //   const { data }: { data: Game[] } = await igdb.post(
+  //     "/games",
+  //     constructQuery(query_data)
+  //   );
+
+  //   if (!data) {
+  //     throw new TRPCError({
+  //       message: "No Game Data",
+  //       code: "NOT_FOUND",
+  //     });
+  //   }
+
+  //   const valid = GameValidator.safeParse(data[0]);
+
+  //   if (!valid.success) {
+  //     console.error(valid.error);
+  //     return null;
+  //   }
+  //   return valid.data;
+  // }),
 });

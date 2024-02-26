@@ -92,15 +92,6 @@ export interface Screenshot {
   image_id: string;
 }
 
-export interface SimilarGame {
-  id: number;
-  name: string;
-  cover: {
-    id: number;
-    url: string;
-  };
-}
-
 export interface FavouriteGame {
   id: string;
   title: string;

@@ -3,11 +3,9 @@ import { Platforms } from "~/pages/api/utils/constants";
 
 const { PS5, XBOX_SERIES, PS4, SWITCH, STEAM_OS, PC } = Platforms;
 
-// If it is type game, it is not for a page, it is searching for single game
+export type GetGameProps = PageTypes;
 
-export type GetGameProps = PageTypes | "single_game" | "similar_games";
-
-export const getApiSettings = (type: GetGameProps, id?: string) => {
+export const getApiSettings = (type: GetGameProps) => {
   const limit = "20";
   const upcoming_options = {
     method: "POST",
@@ -45,33 +43,10 @@ export const getApiSettings = (type: GetGameProps, id?: string) => {
     url: "/games/",
   };
 
-  const single_game_options = {
-    method: "POST",
-    data: `
-    fields name, rating, rating_count, release_dates.*, summary,similar_games, screenshots.image_id, cover.*, rating, genres.name, platforms.*;
-    where id=${id};
-    limit 1;
-    `,
-    url: "/games/",
-  };
-
-  const similar_games_options = {
-    method: "POST",
-    data: `
-    fields name, cover.url;
-    where id=(${id});
-    sort rating desc;
-    limit ${limit};
-    `,
-    url: "/games/",
-  };
-
   const optionMap = {
     popular: popular_options,
     toprated: toprated_options,
     upcoming: upcoming_options,
-    single_game: single_game_options,
-    similar_games: similar_games_options,
   } as const;
 
   const options = {
