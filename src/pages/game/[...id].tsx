@@ -78,6 +78,16 @@ export default function Page() {
     );
   }
 
+  const getReleasedOnString = (): string | undefined => {
+    if (!game.platforms) return;
+    let gameString = "";
+    game.platforms.forEach(
+      (platform) =>
+        (gameString = gameString.concat(` ${platform.abbreviation} `))
+    );
+    return gameString;
+  };
+
   if (isError) return <div>Error...</div>;
   return (
     <main className="m-auto flex min-h-screen max-w-6xl flex-col">
@@ -113,10 +123,10 @@ export default function Page() {
 
             <div>
               <div className="underline">Rating</div>
-              <Text size="sm">{!!game.rating && Math.round(game.rating)}%</Text>
-              <div className="stat-desc">
-                Out of {game.rating_count} reviewers
-              </div>
+              <Text size="base">
+                {!!game.rating && Math.round(game.rating)}%
+              </Text>
+              <Text size="sm">Out of {game.rating_count} reviewers</Text>
             </div>
           </div>
         )}
@@ -136,16 +146,7 @@ export default function Page() {
 
           <div>
             <div className="underline">Released on</div>
-            <Text>{game.platforms?.[0]?.abbreviation}</Text>
-            <div className="ml-auto mt-3 flex max-w-[80%] flex-wrap justify-end gap-1 p-2">
-              {game.platforms &&
-                game.platforms.length > 1 &&
-                game.platforms.slice(1, 3).map((pl) => (
-                  <Text size="sm" key={pl.id}>
-                    {pl.abbreviation}
-                  </Text>
-                ))}
-            </div>
+            <Text size="sm">{getReleasedOnString()}</Text>
           </div>
         </div>
       </div>
