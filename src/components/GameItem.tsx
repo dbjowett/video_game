@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { type MouseEvent } from "react";
+import { Spinner } from "~/components/ui/spinner";
 import { useToast } from "~/components/ui/use-toast";
 import { GenreMap, type GmKey } from "~/pages/api/utils/constants";
 import { type Game } from "~/pages/api/utils/types";
@@ -10,7 +11,6 @@ import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
 import Text from "./ui/Text";
 import { Badge } from "./ui/badge";
-import { Spinner } from "./ui/spinner";
 
 interface GameItemProps {
   game: Game;

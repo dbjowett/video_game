@@ -1,11 +1,11 @@
 import { useSession } from "next-auth/react";
+import { Spinner } from "~/components/ui/spinner";
 import { useFetchGames } from "~/hooks/useFetchGames";
 import { type FavouriteGame, type Game } from "~/pages/api/utils/types";
 import { api } from "~/utils/api";
 import { GameItem } from "./GameItem";
 import { TabItems, type PageTypes } from "./Navbar";
 import Text from "./ui/Text";
-import { Spinner } from "./ui/spinner";
 
 interface GameGridProps {
   faveGames: FavouriteGame[] | undefined;
