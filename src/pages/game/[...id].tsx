@@ -74,7 +74,7 @@ export default function Page() {
   if (isError) return <div>Error...</div>;
   return (
     <main className="m-auto flex min-h-screen max-w-6xl flex-col">
-      <div className="mt-8 flex flex-col gap-6 md:flex-row md:align-super">
+      <div className="mt-8 flex flex-col gap-6 md:flex-col md:align-super">
         <Image
           priority
           quality={100}
@@ -96,47 +96,57 @@ export default function Page() {
           </Text>
         </div>
       </div>
-      <div className="mt-7 flex justify-between">
-        <div className="rounded-xl border border-border p-3 shadow">
-          <div className="stat-figure text-primary">
-            <TbUserStar size={36} />
+
+      {/* INFO CONTAINER */}
+      <div className="mt-7 flex w-full justify-between gap-4 py-4">
+        {/* ******** RATING  ********* */}
+        {!!game.rating && (
+          <div className="flex w-full gap-2 rounded-xl border border-border p-3 shadow">
+            <TbUserStar size={26} />
+
+            <div>
+              <div className="underline">Rating</div>
+              <Text size="sm">{!!game.rating && Math.round(game.rating)}%</Text>
+              <div className="stat-desc">
+                Out of {game.rating_count} reviewers
+              </div>
+            </div>
           </div>
-          <div className="stat-title">Rating</div>
-          <Text size="xl" className="stat-value">
-            {!!game.rating && Math.round(game.rating)}%
-          </Text>
-          <div className="stat-desc">Out of {game.rating_count} reviewers</div>
+        )}
+
+        {/* ******** RELEASE DATE  ********* */}
+        <div className="flex w-full gap-2 rounded-xl border border-border p-3 shadow">
+          <TbCalendar size={26} />
+          <div>
+            <div className="underline">Release Date</div>
+            <Text size="sm">{game.release_dates?.[0]?.human}</Text>
+          </div>
         </div>
 
-        <div className="rounded-xl border border-border p-3 shadow">
-          <div className="stat-figure text-primary">
-            <TbCalendar size={36} />
-          </div>
-          <div className="stat-title">Release Date</div>
-          <Text size="xl" className="stat-value">
-            {game.release_dates?.[0]?.human}
-          </Text>
-        </div>
+        {/* ******** RELEASE CONSOLES  ********* */}
+        <div className="flex w-full gap-2 rounded-xl border border-border p-3 shadow">
+          <TbDeviceGamepad2 size={26} />
 
-        <div className="rounded-xl border border-border p-3 shadow">
-          <div className="text-primary">
-            <TbDeviceGamepad2 size={36} />
-          </div>
-          <div className="stat-title">Released on</div>
-          <Text size="xl" className="stat-value">
-            {game.platforms?.[0]?.abbreviation}
-          </Text>
-          <div className="flex gap-1">
-            {game.platforms &&
-              game.platforms.length > 1 &&
-              game.platforms.slice(1).map((pl) => (
-                <div key={pl.id} className="stat-desc ">
-                  {pl.abbreviation}
-                </div>
-              ))}
+          <div>
+            <div className="underline">Released on</div>
+            <Text>{game.platforms?.[0]?.abbreviation}</Text>
+            <div className="ml-auto mt-3 flex max-w-[70%] flex-wrap justify-end gap-1 p-2">
+              {game.platforms && game.platforms.length > 1 && (
+                <Text className="block underline">Also On:</Text>
+              )}
+              {game.platforms &&
+                game.platforms.length > 1 &&
+                game.platforms.slice(1).map((pl) => (
+                  <Text size="sm" key={pl.id}>
+                    {pl.abbreviation}
+                  </Text>
+                ))}
+            </div>
           </div>
         </div>
       </div>
+
+      {/*  ****** SIMILAR GAMES ********* */}
       <div className="mt-10 flex flex-col gap-5 rounded-xl bg-accent p-6 shadow">
         <div className="flex gap-2 align-middle">
           <Text size="xl">Similar Games</Text>
