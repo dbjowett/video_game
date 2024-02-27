@@ -8,9 +8,9 @@ import { GenreMap, type GmKey } from "~/pages/api/utils/constants";
 import { type Game } from "~/pages/api/utils/types";
 import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
-import { Spinner } from "./ui/Spinner";
 import Text from "./ui/Text";
 import { Badge } from "./ui/badge";
+import { Spinner } from "./ui/spinner";
 
 interface GameItemProps {
   game: Game;

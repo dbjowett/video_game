@@ -6,11 +6,11 @@ import { useState, type FormEvent } from "react";
 import { TbX } from "react-icons/tb";
 import { GameGrid } from "~/components/GameList";
 import { Carousel } from "~/components/ui/Carousel";
-import { Spinner } from "~/components/ui/Spinner";
 import Text from "~/components/ui/Text";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { Spinner } from "~/components/ui/spinner";
 import { api } from "~/utils/api";
 import { type Game } from "./api/utils/types";
 

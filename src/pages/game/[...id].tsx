@@ -70,7 +70,14 @@ export default function Page() {
     }
   );
 
-  if (isLoading || !game) return <Spinner />;
+  if (isLoading || !game) {
+    return (
+      <div className="flex h-full w-full items-center justify-center pt-[60px]">
+        <Spinner />
+      </div>
+    );
+  }
+
   if (isError) return <div>Error...</div>;
   return (
     <main className="m-auto flex min-h-screen max-w-6xl flex-col">
@@ -98,11 +105,11 @@ export default function Page() {
       </div>
 
       {/* INFO CONTAINER */}
-      <div className="mt-7 flex w-full justify-between gap-4 py-4">
+      <div className="mt-7 flex  w-full justify-between gap-4 py-4">
         {/* ******** RATING  ********* */}
         {!!game.rating && (
-          <div className="flex w-full gap-2 rounded-xl border border-border p-3 shadow">
-            <TbUserStar size={26} />
+          <div className="flex w-full flex-col gap-2 rounded-xl border border-border p-3 shadow">
+            <TbUserStar size={26} className="mx-auto" />
 
             <div>
               <div className="underline">Rating</div>
@@ -115,8 +122,8 @@ export default function Page() {
         )}
 
         {/* ******** RELEASE DATE  ********* */}
-        <div className="flex w-full gap-2 rounded-xl border border-border p-3 shadow">
-          <TbCalendar size={26} />
+        <div className="flex w-full flex-col  gap-2 rounded-xl border border-border p-3 shadow">
+          <TbCalendar size={26} className="mx-auto" />
           <div>
             <div className="underline">Release Date</div>
             <Text size="sm">{game.release_dates?.[0]?.human}</Text>
@@ -124,19 +131,16 @@ export default function Page() {
         </div>
 
         {/* ******** RELEASE CONSOLES  ********* */}
-        <div className="flex w-full gap-2 rounded-xl border border-border p-3 shadow">
-          <TbDeviceGamepad2 size={26} />
+        <div className="flex w-full flex-col gap-2 rounded-xl border border-border p-3 shadow">
+          <TbDeviceGamepad2 size={26} className="mx-auto" />
 
           <div>
             <div className="underline">Released on</div>
             <Text>{game.platforms?.[0]?.abbreviation}</Text>
-            <div className="ml-auto mt-3 flex max-w-[70%] flex-wrap justify-end gap-1 p-2">
-              {game.platforms && game.platforms.length > 1 && (
-                <Text className="block underline">Also On:</Text>
-              )}
+            <div className="ml-auto mt-3 flex max-w-[80%] flex-wrap justify-end gap-1 p-2">
               {game.platforms &&
                 game.platforms.length > 1 &&
-                game.platforms.slice(1).map((pl) => (
+                game.platforms.slice(1, 3).map((pl) => (
                   <Text size="sm" key={pl.id}>
                     {pl.abbreviation}
                   </Text>
