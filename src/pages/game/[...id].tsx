@@ -15,7 +15,7 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Link from "next/link";
-import { Spinner } from "~/components/ui/Spinner";
+import { Spinner } from "~/components/ui/spinner";
 import Text from "~/components/ui/Text";
 import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
