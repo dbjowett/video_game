@@ -28,7 +28,7 @@ const getSkeleton = (width: number): SkeletonConfig => {
 };
 
 export const SkeletonLoader = () => {
-  const [skeleton, setSkeleton] = useState<SkeletonConfig>(configurations[4]!);
+  const [skeleton, setSkeleton] = useState<SkeletonConfig | null>(null);
 
   useEffect(() => {
     setSkeleton(getSkeleton(window.innerWidth));
@@ -40,14 +40,17 @@ export const SkeletonLoader = () => {
     return () => window.removeEventListener("resize", windowSizeHandler);
   }, []);
 
+  if (!skeleton) return null;
+
   return (
-    <div className="flex h-full w-[90vw] justify-around gap-4 overflow-hidden rounded-xl px-4">
+    <div className="flex h-full w-full justify-around gap-4 overflow-hidden rounded-xl px-4">
       {Array.from({ length: skeleton?.count }).map((_, idx) => (
-        <div key={idx} className="flex flex-col space-y-3">
+        <div key={idx} className="flex w-full flex-col space-y-3">
           <Skeleton className="h-[420px] w-[100%] rounded-xl" />
           <div className="space-y-2">
-            <Skeleton className="h-4 w-[250px]" />
-            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-[80%]" />
+            <Skeleton className="h-4 w-[80%]" />
           </div>
         </div>
       ))}
