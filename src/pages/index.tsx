@@ -10,7 +10,6 @@ import Text from "~/components/ui/Text";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { Spinner } from "~/components/ui/spinner";
 import { api } from "~/utils/api";
 import { type Game } from "./api/utils/types";
 
@@ -71,7 +70,7 @@ export default function Home() {
             Search
           </Button>
         </form>
-        {input && !searchedData && <Spinner />}
+        {input && !searchedData && <Text>Loading</Text>}
         {searchedData.data.length > 0 ? (
           <div className="m-10 align-middle">
             <div className="mx-8 flex justify-between align-middle">

@@ -15,7 +15,6 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Link from "next/link";
-import { Spinner } from "~/components/ui/spinner";
 import Text from "~/components/ui/Text";
 import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
@@ -73,7 +72,7 @@ export default function Page() {
   if (isLoading || !game) {
     return (
       <div className="flex h-full w-full items-center justify-center pt-[60px]">
-        <Spinner />
+        <Text>Loading...</Text>
       </div>
     );
   }

@@ -1,5 +1,4 @@
 import { useSession } from "next-auth/react";
-import { Spinner } from "~/components/ui/spinner";
 import { useFetchGames } from "~/hooks/useFetchGames";
 import { type FavouriteGame, type Game } from "~/pages/api/utils/types";
 import { api } from "~/utils/api";
@@ -56,7 +55,7 @@ function GameList({ type }: { type: PageTypes }) {
     });
 
   if (isLoading) {
-    return <Spinner />;
+    return <div>Loading...</div>;
   }
   if (isError) {
     return <div>Something went wrong!</div>;
