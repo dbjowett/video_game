@@ -3,7 +3,6 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { type MouseEvent } from "react";
-import { Spinner } from "~/components/ui/spinner";
 import { useToast } from "~/components/ui/use-toast";
 import { GenreMap, type GmKey } from "~/pages/api/utils/constants";
 import { type Game } from "~/pages/api/utils/types";
@@ -61,7 +60,6 @@ export const GameItem = ({
     });
   };
 
-  if (!game) return <Spinner />;
   return (
     <Link
       className="flex h-full max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-card  text-card-foreground  shadow hover:bg-accent "
