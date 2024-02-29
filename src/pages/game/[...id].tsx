@@ -16,6 +16,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import Link from "next/link";
 import Text from "~/components/ui/Text";
+import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
 
@@ -71,8 +72,8 @@ export default function Page() {
 
   if (isLoading || !game) {
     return (
-      <div className="flex h-full w-full items-center justify-center pt-[60px]">
-        <Text>Loading...</Text>
+      <div className="m-auto flex h-full max-w-6xl flex-col">
+        <Skeleton className="h-full w-full flex-1" />
       </div>
     );
   }

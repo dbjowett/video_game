@@ -115,7 +115,7 @@ export const Carousel = ({
             <div>
               {!isStart && (
                 <button
-                  className="absolute top-1/2 z-20 h-[40px] w-[40px] rounded-full border border-accent-foreground bg-accent p-2 opacity-90"
+                  className="absolute top-1/2 z-20 h-[40px] w-[40px] rounded-full bg-accent p-2 opacity-80"
                   onClick={() => swiperRef.current?.slidePrev()}
                 >
                   <TbChevronLeft size={20} />
@@ -124,7 +124,7 @@ export const Carousel = ({
 
               {!isEnd && (
                 <button
-                  className="absolute right-0 top-1/2 z-20 h-[40px] w-[40px] rounded-full border  border-accent-foreground bg-accent  p-2 opacity-90"
+                  className="absolute right-0 top-1/2 z-20 h-[40px] w-[40px] rounded-full bg-accent  p-2 opacity-80"
                   onClick={() => swiperRef.current?.slideNext()}
                 >
                   <TbChevronRight size={20} className="ml-[2px]" />

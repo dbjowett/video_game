@@ -62,10 +62,10 @@ export const GameItem = ({
 
   return (
     <Link
-      className="flex h-full max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-card  text-card-foreground  shadow hover:bg-accent "
+      className="flex h-full max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground  shadow  hover:bg-accent sm:mx-[4px] "
       href={`/game/${game.id}/`}
     >
-      <div className="p-3 pb-0">
+      <div className="pb-2">
         <Image
           priority={false}
           quality={90}
@@ -75,7 +75,7 @@ export const GameItem = ({
             width: "100%",
             height: "auto",
           }}
-          className="mb-0 h-fit w-fit rounded-lg"
+          className="mb-0 h-fit w-fit"
           src={game.cover.url.toString()}
           loader={(props) => imageLoader({ ...props, maxSize: false })}
           alt={game.name.toString()}

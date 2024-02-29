@@ -19,7 +19,7 @@ export default function Home() {
     <div>
       <div className="flex flex-col justify-center gap-6 pt-20  align-middle">
         {favourites.map((game) => (
-          <div className="max-w-100 flex gap-3 " key={game.id}>
+          <div className="max-w-100 flex gap-3" key={game.id}>
             <Image
               priority={false}
               quality={40}

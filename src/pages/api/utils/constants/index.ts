@@ -256,3 +256,29 @@ export const GenreMap = Object.freeze({
     hashtag: "#MOBA",
   },
 });
+
+const categoryMap: Record<number, string> = {
+  1: "Official",
+  2: "Wikia",
+  3: "Wikipedia",
+  4: "Facebook",
+  5: "Twitter",
+  6: "Twitch",
+  8: "Instagram",
+  9: "YouTube",
+  10: "iPhone",
+  11: "iPad",
+  12: "Android",
+  13: "Steam",
+  14: "Reddit",
+  15: "Discord",
+  16: "Google Plus",
+  17: "Tumblr",
+  18: "LinkedIn",
+  19: "Pinterest",
+  20: "SoundCloud",
+};
+
+const getObjectCategoryName = (categoryId: number): string | undefined => {
+  return categoryMap[categoryId];
+};
