@@ -3,6 +3,11 @@ import { type ReactNode } from "react";
 import { Toaster } from "../components/ui/toaster";
 import { NavBar } from "./Navbar";
 
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
 export const AppLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div>
