@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { ScreenshotCarousel } from "~/components/ScreenshotCarousel";
 import { SimilarGamesCarousel } from "~/components/SimilarGamesCarousel";
+import { VideoCarousel } from "~/components/VideoCarousel";
 import Text from "~/components/ui/Text";
 
 import { Skeleton } from "~/components/ui/skeleton";
@@ -98,59 +99,63 @@ export default function Page() {
       </div>
 
       {/* Section */}
-
-      <div className="mt-[8vh] flex flex-col gap-6 md:flex-row">
-        {/* LEFT SIDE */}
-        <div className="flex w-[100%] flex-col gap-12 px-12 md:w-[50%]">
-          {/* ** Description ** */}
-          <div className="flex flex-col gap-6">
-            <Text as="h1" size="xl">
-              Description
-            </Text>
-            <Text as="h1" size="sm" className="rounded bg-accent p-4">
-              {game.summary}
-            </Text>
-          </div>
-          {!!game.storyline && (
+      <div className="flex flex-col gap-6 p-14">
+        <div className=" flex flex-col gap-12 md:flex-row">
+          {/* LEFT SIDE */}
+          <div className="flex w-[100%] flex-col gap-12 md:w-[50%]">
+            {/* ** Description ** */}
             <div className="flex flex-col gap-6">
               <Text as="h1" size="xl">
-                Summary
+                Description
               </Text>
               <Text as="h1" size="sm" className="rounded bg-accent p-4">
-                {game.storyline}
+                {game.summary}
               </Text>
             </div>
-          )}
-        </div>
-        {/* RIGHT SIDE */}
-        <div className="flex w-[100%] flex-col gap-12 px-12 md:w-[50%] ">
-          <div className="flex flex-col gap-6">
-            <Text as="h1" size="xl">
-              Screenshots
-            </Text>
-            <div className="">
-              <ScreenshotCarousel game={game} />
+            {!!game.storyline && (
+              <div className="flex flex-col gap-6">
+                <Text as="h1" size="xl">
+                  Summary
+                </Text>
+                <Text
+                  as="h1"
+                  size="sm"
+                  className="line-clamp-7 rounded bg-accent p-4"
+                >
+                  {game.storyline}
+                </Text>
+              </div>
+            )}
+          </div>
+          {/* RIGHT SIDE */}
+          <div className="flex w-[100%] flex-col gap-12 md:w-[50%] ">
+            <div className="flex flex-col gap-6">
+              <Text as="h1" size="xl">
+                Screenshots
+              </Text>
+              <div className="">
+                <ScreenshotCarousel screenshots={game.screenshots} />
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-6">
-            <Text as="h1" size="xl">
-              Similar Games
-            </Text>
+            {game.videos.length > 0 && (
+              <div className="flex flex-col gap-6">
+                <Text as="h1" size="xl">
+                  Videos
+                </Text>
 
-            <SimilarGamesCarousel game={game} />
+                <VideoCarousel videos={game.videos} />
+              </div>
+            )}
           </div>
+        </div>
+        <div className="flex flex-col gap-6">
+          <Text as="h1" size="xl">
+            Similar Games
+          </Text>
+
+          <SimilarGamesCarousel game={game} />
         </div>
       </div>
-
-      {/*  ****** SIMILAR GAMES ********* */}
-      {/* <div className="mt-10 flex flex-col gap-5 rounded-xl bg-accent p-6 shadow">
-        <div className="flex gap-2 align-middle">
-          <Text size="xl">Similar Games</Text>
-          <TbAffiliate className="self-center" size={26} />
-        </div>
-
-        <SimilarGamesCarousel game={game} />
-      </div> */}
     </main>
   );
 }

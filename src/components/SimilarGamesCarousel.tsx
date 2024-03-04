@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Navigation } from "swiper/modules";
+import { useRef } from "react";
+import { type Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Text from "~/components/ui/Text";
 import { type Game } from "~/server/api/schemas/games";
 import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
+import { NavigationArrows } from "./NavigationArrows";
 
 const carousel_breakpoints = {
   420: {
@@ -13,21 +15,23 @@ const carousel_breakpoints = {
     spaceBetween: 20,
   },
   580: {
-    slidesPerView: 2,
-    spaceBetween: 20,
+    slidesPerView: 3,
+    spaceBetween: 30,
   },
   680: {
-    slidesPerView: 2,
-    spaceBetween: 20,
+    slidesPerView: 4,
+    spaceBetween: 40,
   },
   1024: {
-    slidesPerView: 3,
-    spaceBetween: 0,
+    slidesPerView: 5,
+    spaceBetween: 50,
   },
 };
 
 export const SimilarGamesCarousel = ({ game }: { game: Game }) => {
   const similarGameIds = game?.similar_games ?? [0];
+  const swiperRef = useRef<SwiperType>();
+
   const { data: similarGames } = api.igdb.getSimilarGames.useQuery(
     {
       ids: similarGameIds,
@@ -41,16 +45,17 @@ export const SimilarGamesCarousel = ({ game }: { game: Game }) => {
     <Swiper
       slidesPerView={2}
       spaceBetween={20}
+      onBeforeInit={(swiper) => (swiperRef.current = swiper)}
       pagination={{
         clickable: true,
       }}
       breakpoints={carousel_breakpoints}
-      modules={[Navigation]}
+      className="relative"
     >
       {similarGames?.length &&
         similarGames?.map((game) => (
           <SwiperSlide key={game.id} className="m-0 mr-5 h-auto">
-            <Link className="rounded " href={`/game/${game.id}/`}>
+            <Link className="relative rounded" href={`/game/${game.id}/`}>
               <Image
                 loader={imageLoader}
                 className="mb-0 w-fit self-center rounded-lg"
@@ -60,10 +65,13 @@ export const SimilarGamesCarousel = ({ game }: { game: Game }) => {
                 width={10}
                 height={10}
               />
-              <Text className="line-clamp-1 text-center">{game.name}</Text>
+              <div className="absolute bottom-0 w-full rounded-b bg-background opacity-70">
+                <Text className="line-clamp-2 text-center">{game.name}</Text>
+              </div>
             </Link>
           </SwiperSlide>
         ))}
+      <NavigationArrows size="sm" swiperRef={swiperRef} />
     </Swiper>
   );
 };

@@ -38,7 +38,7 @@ export const Modal = () => {
         {modalContent}
         <button
           onClick={closeModal}
-          className="absolute right-6 top-6 text-white"
+          className="absolute right-6 top-6 z-50 text-white"
         >
           <X size={32} />
         </button>

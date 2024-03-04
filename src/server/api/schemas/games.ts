@@ -53,6 +53,14 @@ const ScreenshotSchema = z.object({
   image_id: z.string(),
 });
 
+const VideoSchema = z.object({
+  id: z.number(),
+  game: z.number(),
+  name: z.string(),
+  video_id: z.string(),
+  checksum: z.string(),
+});
+
 export const GameValidator = z.object({
   id: z.number(),
   cover: CoverSchema,
@@ -66,6 +74,7 @@ export const GameValidator = z.object({
   similar_games: z.array(z.number()),
   summary: z.string(),
   storyline: z.string().optional(),
+  videos: z.array(VideoSchema),
 });
 
 export const SimilarGameValidator = z.object({
@@ -79,3 +88,6 @@ export const SimilarGameValidator = z.object({
 
 export type SimilarGame = z.infer<typeof SimilarGameValidator>;
 export type Game = z.infer<typeof GameValidator>;
+
+export type Videos = z.infer<typeof VideoSchema>;
+export type Screenshot = z.infer<typeof ScreenshotSchema>;
