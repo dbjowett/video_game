@@ -117,11 +117,7 @@ export default function Page() {
                 <Text as="h1" size="xl">
                   Summary
                 </Text>
-                <Text
-                  as="h1"
-                  size="sm"
-                  className="line-clamp-7 rounded bg-accent p-4"
-                >
+                <Text as="h1" size="sm" className="rounded bg-accent p-4">
                   {game.storyline}
                 </Text>
               </div>

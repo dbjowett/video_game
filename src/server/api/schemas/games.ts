@@ -89,5 +89,5 @@ export const SimilarGameValidator = z.object({
 export type SimilarGame = z.infer<typeof SimilarGameValidator>;
 export type Game = z.infer<typeof GameValidator>;
 
-export type Videos = z.infer<typeof VideoSchema>;
+export type Video = z.infer<typeof VideoSchema>;
 export type Screenshot = z.infer<typeof ScreenshotSchema>;
