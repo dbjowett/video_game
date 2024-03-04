@@ -65,6 +65,7 @@ export const GameValidator = z.object({
   screenshots: z.array(ScreenshotSchema),
   similar_games: z.array(z.number()),
   summary: z.string(),
+  storyline: z.string().optional(),
 });
 
 export const SimilarGameValidator = z.object({

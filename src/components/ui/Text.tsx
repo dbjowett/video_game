@@ -5,6 +5,7 @@ const sizes = {
   base: "font-medium text-base leading-normal",
   lg: "font-semibold text-lg md:text-2xl leading-relaxed",
   xl: "font-semibold text-xl md:text-3xl leading-relaxed",
+  "2xl": "font-semibold text-2xl md:text-4xl leading-relaxed",
 };
 
 type asKey = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";

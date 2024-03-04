@@ -1,5 +1,6 @@
 import { type ImageLoaderProps } from "next/image";
 
+// ** To use, add "t_" to each, "thumb" -> "t_thumb"
 const sizes = [
   { quality: 1, name: "micro", size: "35 x 35" }, // Fit
   { quality: 2, name: "thumb", size: "90 x 90" }, // Lfill, Center gravity
@@ -17,11 +18,33 @@ interface LoaderProps extends ImageLoaderProps {
   maxSize?: boolean; // ** Max size makes chosen image double size
 }
 
+interface ScreenshotLoaderProps extends ImageLoaderProps {
+  quality: 5 | 7 | 8;
+  maxSize?: boolean;
+}
+
+export const screenshotLoader = ({
+  src,
+  quality,
+  maxSize,
+}: ScreenshotLoaderProps) => {
+  const qualityConfig = sizes
+    .find((size) => size.quality === quality)
+    ?.name.concat(maxSize ? "_2x" : "");
+  return `//images.igdb.com/igdb/image/upload/t_${qualityConfig}/${src}.jpg`;
+};
+
 export const imageLoader = ({ src, quality, maxSize }: LoaderProps) => {
   const finalSize = quality ? quality / 10 : 6;
   const qualityObj = sizes.find((size) => size.quality === finalSize);
   const name = qualityObj?.name.concat(maxSize ? "_2x" : "");
   return src.replace(/(t_)\w+/, `$1${name}`);
+};
+
+export const heroImageLoader = (src: string) => {
+  const size = "1080p";
+  const quality = `${size}_2x`;
+  return src.replace(/(t_)\w+/, `$1${quality}`);
 };
 
 export const getId = (id: string | string[]): string => {

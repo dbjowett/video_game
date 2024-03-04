@@ -3,7 +3,7 @@ import { z } from "zod";
 import igdb from "~/pages/api/utils/igdb";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { Platforms } from '~/pages/api/utils/constants';
+import { Platforms } from "~/pages/api/utils/constants";
 import {
   constructQuery,
   type IGDBQueryOptions,
@@ -33,6 +33,7 @@ export const igdbRouter = createTRPCRouter({
           "rating_count",
           "release_dates.*",
           "summary",
+          "storyline",
           "similar_games",
           "screenshots.image_id",
           "cover.*",
