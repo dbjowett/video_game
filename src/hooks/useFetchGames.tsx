@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { type PageTypes } from "~/components/Navbar";
 
-import { type Game } from "~/pages/api/utils/types";
+import { type Game } from "~/server/api/schemas/games";
 import { getApiSettings } from "./useApiSettings";
 
 export const useFetchGames = (type: PageTypes) => {

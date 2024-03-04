@@ -10,8 +10,8 @@ import Text from "~/components/ui/Text";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { type Game } from "~/server/api/schemas/games";
 import { api } from "~/utils/api";
-import { type Game } from "./api/utils/types";
 
 const initialData = { input: "", data: [] };
 

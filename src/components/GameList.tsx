@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useFetchGames } from "~/hooks/useFetchGames";
-import { type FavouriteGame, type Game } from "~/pages/api/utils/types";
+import { type FavouriteGame } from "~/pages/api/utils/types";
+import { type Game } from "~/server/api/schemas/games";
 import { api } from "~/utils/api";
 import { GameItem } from "./GameItem";
 import { TabItems, type PageTypes } from "./Navbar";

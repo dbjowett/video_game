@@ -1,6 +1,7 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
+import { type Game } from "~/server/api/schemas/games";
 import igdb from "../utils/igdb";
-import { type Game, type RequestOptions } from "../utils/types";
+import { type RequestOptions } from "../utils/types";
 
 export default async function handler(
   req: NextApiRequest,

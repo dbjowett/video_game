@@ -17,7 +17,6 @@ const IFrame = ({ video }: IFrameProps) => {
         title={video.name}
         allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
-        credentialless
         rel="noopener"
       />
     </div>

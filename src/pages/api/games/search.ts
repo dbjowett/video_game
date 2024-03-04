@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { type Game } from "~/server/api/schemas/games";
 import igdb from "../utils/igdb";
-import { type Game } from "../utils/types";
 
 const getConfig = (input: string) => {
   return {

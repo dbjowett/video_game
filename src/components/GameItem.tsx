@@ -5,7 +5,7 @@ import Link from "next/link";
 import { type MouseEvent } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import { GenreMap, type GmKey } from "~/pages/api/utils/constants";
-import { type Game } from "~/pages/api/utils/types";
+import { type Game } from "~/server/api/schemas/games";
 import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/game";
 import Text from "./ui/Text";
@@ -98,7 +98,7 @@ export const GameItem = ({
                   </>
                 ) : (
                   <p className="badge line-clamp-6 text-xs">
-                    {game.release_dates[0]?.human}
+                    {game.release_dates?.[0]?.human}
                   </p>
                 )}
               </>
