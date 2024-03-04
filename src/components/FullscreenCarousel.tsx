@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { type Swiper as SwiperType } from "swiper";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { type Screenshot } from "~/pages/api/utils/types";
+import { type Screenshot } from "~/server/api/schemas/games";
 import { screenshotLoader } from "~/utils/game";
 import { NavigationArrows } from "./NavigationArrows";
 
