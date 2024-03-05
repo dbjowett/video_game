@@ -61,6 +61,15 @@ const VideoSchema = z.object({
   checksum: z.string(),
 });
 
+const WebsiteSchema = z.object({
+  id: z.number(),
+  category: z.number(),
+  game: z.number(),
+  trusted: z.boolean(),
+  url: z.string().url(),
+  checksum: z.string(),
+});
+
 export const GameValidator = z.object({
   id: z.number(),
   cover: CoverSchema,
@@ -74,6 +83,7 @@ export const GameValidator = z.object({
   similar_games: z.array(z.number()),
   summary: z.string(),
   storyline: z.string().optional(),
+  websites: z.array(WebsiteSchema),
   videos: z.array(VideoSchema),
 });
 
@@ -91,3 +101,4 @@ export type Game = z.infer<typeof GameValidator>;
 
 export type Video = z.infer<typeof VideoSchema>;
 export type Screenshot = z.infer<typeof ScreenshotSchema>;
+export type Website = z.infer<typeof WebsiteSchema>;

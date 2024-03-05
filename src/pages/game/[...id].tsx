@@ -7,7 +7,11 @@ import Text from "~/components/ui/Text";
 
 import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/utils/api";
-import { heroImageLoader } from "~/utils/game";
+import {
+  getObjectCategoryName,
+  heroImageLoader,
+  openInNewTab,
+} from "~/utils/game";
 
 export default function Page() {
   const [query, setQuery] = useState<string>("");
@@ -81,19 +85,21 @@ export default function Page() {
         className="h-[40vh] w-full bg-cover bg-top"
       >
         <div className="flex h-full w-full bg-black bg-opacity-50 align-bottom text-white">
-          <div className="flex w-full justify-between px-12 py-8">
+          <div className="flex w-full justify-between p-4 md:p-14">
             <div className="flex flex-col justify-end">
               <Text as="h1" size="2xl" className="mb-2">
                 {game.name}
               </Text>
               <Text as="h3">Released {game?.release_dates?.[0]?.human}</Text>
             </div>
-            <div className="flex flex-col justify-end">
-              <Text size="sm">Score</Text>
-              <Text as="h3" size="lg" className="text-white">
-                {!!game.rating && Math.round(game.rating)}%
-              </Text>
-            </div>
+            {!!game.rating && (
+              <div className="flex flex-col justify-end">
+                <Text size="sm">Score</Text>
+                <Text as="h3" size="lg" className="text-white">
+                  {Math.round(game.rating)}%
+                </Text>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -120,6 +126,26 @@ export default function Page() {
                 <Text as="h1" size="sm" className="rounded bg-accent p-4">
                   {game.storyline}
                 </Text>
+              </div>
+            )}
+            {!!game.websites && (
+              <div className="flex flex-col gap-4 md:gap-6">
+                <Text as="h1" size="xl">
+                  Websites
+                </Text>
+                <div className="flex flex-wrap gap-4 rounded bg-accent p-4">
+                  <>
+                    {game.websites.map((site) => (
+                      <a
+                        key={site.id}
+                        onClick={() => openInNewTab(site.url)}
+                        className="cursor-pointer hover:underline "
+                      >
+                        {getObjectCategoryName(site.category)}
+                      </a>
+                    ))}
+                  </>
+                </div>
               </div>
             )}
           </div>

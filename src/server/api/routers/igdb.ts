@@ -39,6 +39,7 @@ export const igdbRouter = createTRPCRouter({
           "cover.*",
           "rating",
           "videos.*",
+          "websites.*",
           "genres.name",
           "platforms.*",
         ],

@@ -52,6 +52,11 @@ export const getId = (id: string | string[]): string => {
   return gameId ?? "";
 };
 
+export const openInNewTab = (url: string) => {
+  window.open(url);
+  window.focus();
+};
+
 const websiteCategoryMap: Record<number, string> = {
   1: "Official",
   2: "Wikia",
