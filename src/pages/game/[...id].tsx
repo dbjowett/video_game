@@ -99,12 +99,12 @@ export default function Page() {
       </div>
 
       {/* Section */}
-      <div className="flex flex-col gap-6 p-14">
-        <div className=" flex flex-col gap-12 md:flex-row">
+      <div className="flex flex-col gap-6 p-4 md:p-14">
+        <div className=" flex flex-col gap-4 md:flex-row md:gap-12">
           {/* LEFT SIDE */}
-          <div className="flex w-[100%] flex-col gap-12 md:w-[50%]">
+          <div className="flex w-[100%] flex-col  gap-4 md:w-[50%] md:gap-6">
             {/* ** Description ** */}
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4 md:gap-6">
               <Text as="h1" size="xl">
                 Description
               </Text>
@@ -113,7 +113,7 @@ export default function Page() {
               </Text>
             </div>
             {!!game.storyline && (
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-4 md:gap-6">
                 <Text as="h1" size="xl">
                   Summary
                 </Text>
@@ -124,7 +124,7 @@ export default function Page() {
             )}
           </div>
           {/* RIGHT SIDE */}
-          <div className="flex w-[100%] flex-col gap-12 md:w-[50%] ">
+          <div className="flex w-[100%] flex-col gap-4 md:w-[50%] md:gap-6 ">
             <div className="flex flex-col gap-6">
               <Text as="h1" size="xl">
                 Screenshots
@@ -134,7 +134,7 @@ export default function Page() {
               </div>
             </div>
             {game.videos.length > 0 && (
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col  gap-4 md:gap-6">
                 <Text as="h1" size="xl">
                   Videos
                 </Text>
@@ -144,7 +144,7 @@ export default function Page() {
             )}
           </div>
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4 md:gap-6">
           <Text as="h1" size="xl">
             Similar Games
           </Text>

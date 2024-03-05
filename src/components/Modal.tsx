@@ -22,6 +22,17 @@ export const Modal = () => {
     };
   }, [isModalOpen]);
 
+  useEffect(() => {
+    const handleKeypress = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isModalOpen) {
+        closeModal();
+      }
+    };
+    if (typeof window === "undefined") return;
+    window.addEventListener("keyup", handleKeypress);
+    return () => window.removeEventListener("keyup", handleKeypress);
+  }, [isModalOpen, closeModal]);
+
   const handleBgClick = (e: MouseEvent<HTMLDivElement>) => {
     const targetID = (e.target as HTMLDivElement)?.id;
     if (targetID !== "bg") return;
