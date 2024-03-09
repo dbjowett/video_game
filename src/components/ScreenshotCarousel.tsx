@@ -1,3 +1,4 @@
+import { MagnifyingGlass } from "@phosphor-icons/react";
 import Image from "next/image";
 import { useRef } from "react";
 import { type Swiper as SwiperType } from "swiper";
@@ -11,11 +12,11 @@ import { NavigationArrows } from "./NavigationArrows";
 const carousel_breakpoints = {
   420: {
     slidesPerView: 1,
-    spaceBetween: 2,
+    spaceBetween: 10,
   },
   580: {
     slidesPerView: 1,
-    spaceBetween: 2,
+    spaceBetween: 10,
   },
   680: {
     slidesPerView: 2,
@@ -39,6 +40,7 @@ export const ScreenshotCarousel = ({
 
   const setSelectedImage = (id: string) =>
     openModal(<FullscreenCarousel clickedId={id} screenshots={screenshots} />);
+
   return (
     <Swiper
       slidesPerView={2}
@@ -56,7 +58,7 @@ export const ScreenshotCarousel = ({
         screenshots?.map((screenshot) => (
           <SwiperSlide key={screenshot.id} className="m-0 mr-5 h-auto">
             <div
-              className="flex h-full flex-col justify-center rounded-xl bg-slate-100 align-middle text-gray-500 shadow hover:bg-slate-200"
+              className="relative flex h-full cursor-pointer flex-col justify-center rounded-xl bg-slate-100 align-middle text-gray-500 shadow hover:bg-slate-200"
               onClick={() => setSelectedImage(screenshot.image_id)}
             >
               <Image
@@ -69,6 +71,9 @@ export const ScreenshotCarousel = ({
                 width={10}
                 height={10}
               />
+              <div className="absolute bottom-2 right-2 flex h-7 w-7 items-center justify-center rounded-full bg-foreground opacity-30">
+                <MagnifyingGlass weight="bold" size={20} color="black" />
+              </div>
             </div>
           </SwiperSlide>
         ))}

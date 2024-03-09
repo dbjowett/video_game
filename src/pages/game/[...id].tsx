@@ -34,6 +34,7 @@ export default function Page() {
       enabled: !!query,
     }
   );
+
   useEffect(() => {
     if (typeof window === "undefined" || !game) return;
     const items = window.localStorage.getItem("game_ids");
@@ -62,16 +63,6 @@ export default function Page() {
     );
   }
 
-  // const getReleasedOnString = (): string | undefined => {
-  //   if (!game.platforms) return;
-  //   let gameString = "";
-  //   game.platforms.forEach(
-  //     (platform) =>
-  //       (gameString = gameString.concat(` ${platform.abbreviation} `))
-  //   );
-  //   return gameString;
-  // };
-
   if (isError) return <div>Error...</div>;
   const imageUrl = heroImageLoader(game.cover.url);
 
@@ -82,7 +73,7 @@ export default function Page() {
         style={{
           backgroundImage: `url(${imageUrl})`,
         }}
-        className="h-[40vh] w-full bg-cover bg-top"
+        className="relative h-[40vh] w-full bg-cover bg-top"
       >
         <div className="flex h-full w-full bg-black bg-opacity-50 align-bottom text-white">
           <div className="flex w-full justify-between p-4 md:p-14">
@@ -92,14 +83,19 @@ export default function Page() {
               </Text>
               <Text as="h3">Released {game?.release_dates?.[0]?.human}</Text>
             </div>
-            {!!game.rating && (
-              <div className="flex flex-col justify-end">
-                <Text size="sm">Score</Text>
-                <Text as="h3" size="lg" className="text-white">
-                  {Math.round(game.rating)}%
-                </Text>
-              </div>
-            )}
+            <div className="relative flex flex-col justify-end">
+              {!!game.rating && (
+                <div className="flex flex-col justify-end">
+                  <Text size="sm">Score</Text>
+                  <Text as="h3" size="lg" className="text-white">
+                    {Math.round(game.rating)}%
+                  </Text>
+                </div>
+              )}
+              {/* <div className="absolute flex h-9 w-9 items-center justify-center rounded-full bg-foreground opacity-55">
+                <Star color="black" />
+              </div> */}
+            </div>
           </div>
         </div>
       </div>
@@ -109,7 +105,6 @@ export default function Page() {
         <div className=" flex flex-col gap-4 md:flex-row md:gap-12">
           {/* LEFT SIDE */}
           <div className="flex w-[100%] flex-col  gap-4 md:w-[50%] md:gap-6">
-            {/* ** Description ** */}
             <div className="flex flex-col gap-4 md:gap-6">
               <Text as="h1" size="xl">
                 Description
@@ -148,6 +143,20 @@ export default function Page() {
                 </div>
               </div>
             )}
+            {!!game.platforms && (
+              <div className="flex flex-col gap-4 md:gap-6">
+                <Text as="h1" size="xl">
+                  Platforms
+                </Text>
+                <div className="flex flex-wrap gap-4 rounded bg-accent p-4">
+                  {game.platforms.map((plat) => (
+                    <Text key={plat.id} as="span">
+                      {plat.abbreviation}
+                    </Text>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           {/* RIGHT SIDE */}
           <div className="flex w-[100%] flex-col gap-4 md:w-[50%] md:gap-6 ">
@@ -159,7 +168,7 @@ export default function Page() {
                 <ScreenshotCarousel screenshots={game.screenshots} />
               </div>
             </div>
-            {game.videos.length > 0 && (
+            {game?.videos && game.videos.length > 0 && (
               <div className="flex flex-col  gap-4 md:gap-6">
                 <Text as="h1" size="xl">
                   Videos

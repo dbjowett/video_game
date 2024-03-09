@@ -36,14 +36,14 @@ const ReleaseDateSchema = z.object({
   id: z.number(),
   category: z.number(),
   created_at: z.number(),
-  date: z.number(),
+  date: z.number().optional(),
   game: z.number(),
   human: z.string(),
-  m: z.number(),
+  m: z.number().optional(),
   platform: z.number(),
   region: z.number(),
   updated_at: z.number(),
-  y: z.number(),
+  y: z.number().optional(),
   checksum: z.string(),
   status: z.number().optional(),
 });
@@ -84,7 +84,7 @@ export const GameValidator = z.object({
   summary: z.string(),
   storyline: z.string().optional(),
   websites: z.array(WebsiteSchema),
-  videos: z.array(VideoSchema),
+  videos: z.array(VideoSchema).optional(),
 });
 
 export const SimilarGameValidator = z.object({

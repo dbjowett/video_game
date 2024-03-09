@@ -8,6 +8,11 @@ const sizeObject = {
     width: 40,
     icon_size: 20,
   },
+  md: {
+    height: 50,
+    width: 50,
+    icon_size: 26,
+  },
   lg: {
     height: 70,
     width: 70,
@@ -17,7 +22,7 @@ const sizeObject = {
 
 interface NavigationArrowsProps {
   swiperRef: MutableRefObject<SwiperType | undefined>;
-  size: "sm" | "lg";
+  size: "sm" | "md" | "lg";
 }
 
 export const NavigationArrows = ({

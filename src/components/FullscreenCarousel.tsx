@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { type Swiper as SwiperType } from "swiper";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useWindowSize } from "~/hooks/useWindowSize";
 import { type Screenshot } from "~/server/api/schemas/games";
 import { screenshotLoader } from "~/utils/game";
 import { NavigationArrows } from "./NavigationArrows";
@@ -17,6 +18,7 @@ export const FullscreenCarousel = ({
   clickedId,
 }: FullscreenCarouselProps) => {
   const swiperRef = useRef<SwiperType>();
+  const { width } = useWindowSize();
 
   useEffect(() => {
     const clickedIndex = screenshots.findIndex(
@@ -51,7 +53,10 @@ export const FullscreenCarousel = ({
             />
           </SwiperSlide>
         ))}
-      <NavigationArrows size="lg" swiperRef={swiperRef} />
+      <NavigationArrows
+        size={width < 640 ? "md" : "lg"}
+        swiperRef={swiperRef}
+      />
     </Swiper>
   );
 };

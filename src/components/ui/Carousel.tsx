@@ -9,23 +9,20 @@ import { TabItems, type PageTypes } from "../Navbar";
 import Text from "./Text";
 
 import Link from "next/link";
-import {
-  TbArrowNarrowRight,
-  TbChevronLeft,
-  TbChevronRight,
-} from "react-icons/tb";
+import { TbArrowNarrowRight } from "react-icons/tb";
 import { type FavouriteGame } from "~/pages/api/utils/types";
+import { NavigationArrows } from "../NavigationArrows";
 import { Badge } from "./badge";
 import { SkeletonLoader } from "./skeleton-loader";
 
 const break_points = {
   640: {
     slidesPerView: 2,
-    spaceBetween: 20,
+    spaceBetween: 10,
   },
   768: {
     slidesPerView: 3,
-    spaceBetween: 30,
+    spaceBetween: 10,
   },
   1024: {
     slidesPerView: 4,
@@ -107,25 +104,7 @@ export const Carousel = ({
                 </SwiperSlide>
               ))}
             </>
-            <div>
-              {!isStart && (
-                <button
-                  className="absolute top-1/2 z-20 h-[40px] w-[40px] rounded-full bg-accent p-2 opacity-80"
-                  onClick={() => swiperRef.current?.slidePrev()}
-                >
-                  <TbChevronLeft size={20} />
-                </button>
-              )}
-
-              {!isEnd && (
-                <button
-                  className="absolute right-0 top-1/2 z-20 h-[40px] w-[40px] rounded-full bg-accent  p-2 opacity-80"
-                  onClick={() => swiperRef.current?.slideNext()}
-                >
-                  <TbChevronRight size={20} className="ml-[2px]" />
-                </button>
-              )}
-            </div>
+            <NavigationArrows size="md" swiperRef={swiperRef} />
           </Swiper>
         )}
       </div>
