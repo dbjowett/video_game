@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Text from "~/components/ui/Text";
 import { type Game } from "~/server/api/schemas/games";
 import { api } from "~/utils/api";
-import { imageLoader } from "~/utils/game";
+import { imageLoader } from "~/utils/gameUtils";
 import { NavigationArrows } from "./NavigationArrows";
 
 const carousel_breakpoints = {

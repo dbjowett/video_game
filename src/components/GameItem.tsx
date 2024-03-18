@@ -7,7 +7,7 @@ import { useToast } from "~/components/ui/use-toast";
 import { GenreMap, type GmKey } from "~/pages/api/utils/constants";
 import { type Game } from "~/server/api/schemas/games";
 import { api } from "~/utils/api";
-import { imageLoader } from "~/utils/game";
+import { imageLoader } from "~/utils/gameUtils";
 import Text from "./ui/Text";
 import { Badge } from "./ui/badge";
 

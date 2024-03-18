@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
-import { imageLoader } from "~/utils/game";
+import { imageLoader } from "~/utils/gameUtils";
 
 import Image from "next/image";
 

@@ -5,7 +5,7 @@ import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useWindowSize } from "~/hooks/useWindowSize";
 import { type Screenshot } from "~/server/api/schemas/games";
-import { screenshotLoader } from "~/utils/game";
+import { screenshotLoader } from "~/utils/gameUtils";
 import { NavigationArrows } from "./NavigationArrows";
 
 interface FullscreenCarouselProps {

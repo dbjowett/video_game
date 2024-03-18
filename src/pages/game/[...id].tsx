@@ -11,7 +11,7 @@ import {
   getObjectCategoryName,
   heroImageLoader,
   openInNewTab,
-} from "~/utils/game";
+} from "~/utils/gameUtils";
 
 export default function Page() {
   const [query, setQuery] = useState<string>("");

@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { type Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { type Screenshot } from "~/server/api/schemas/games";
-import { screenshotLoader } from "~/utils/game";
+import { screenshotLoader } from "~/utils/gameUtils";
 import { FullscreenCarousel } from "./FullscreenCarousel";
 import { useModal } from "./ModalProvider";
 import { NavigationArrows } from "./NavigationArrows";
