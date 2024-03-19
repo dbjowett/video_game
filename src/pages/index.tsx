@@ -25,9 +25,8 @@ export default function Home() {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     setSearchedData(initialData);
     e.preventDefault();
-    const tInput = input.trim();
     axios
-      .get(`/api/games/search/?input=${tInput} `)
+      .get(`/api/games/search/?input=${input.trim()} `)
       .then(({ data }) => setSearchedData({ input, data: data as Game[] }))
       .catch((err) => {
         console.error(err);

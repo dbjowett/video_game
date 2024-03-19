@@ -82,6 +82,7 @@ export const Carousel = ({
         ) : (
           <Swiper
             slidesPerView={1}
+            spaceBetween={10}
             breakpoints={break_points}
             className="relative h-full px-4"
             modules={[Navigation]}

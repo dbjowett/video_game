@@ -160,14 +160,17 @@ export default function Page() {
           </div>
           {/* RIGHT SIDE */}
           <div className="flex w-[100%] flex-col gap-4 md:w-[50%] md:gap-6 ">
-            <div className="flex flex-col gap-6">
-              <Text as="h1" size="xl">
-                Screenshots
-              </Text>
-              <div className="">
-                <ScreenshotCarousel screenshots={game.screenshots} />
+            {game?.screenshots && game.screenshots.length > 0 && (
+              <div className="flex flex-col gap-6">
+                <Text as="h1" size="xl">
+                  Screenshots
+                </Text>
+                <div>
+                  <ScreenshotCarousel screenshots={game.screenshots} />
+                </div>
               </div>
-            </div>
+            )}
+
             {game?.videos && game.videos.length > 0 && (
               <div className="flex flex-col  gap-4 md:gap-6">
                 <Text as="h1" size="xl">
@@ -179,13 +182,15 @@ export default function Page() {
             )}
           </div>
         </div>
-        <div className="flex flex-col gap-4 md:gap-6">
-          <Text as="h1" size="xl">
-            Similar Games
-          </Text>
+        {game?.similar_games && game?.similar_games.length > 0 && (
+          <div className="flex flex-col gap-4 md:gap-6">
+            <Text as="h1" size="xl">
+              Similar Games
+            </Text>
 
-          <SimilarGamesCarousel game={game} />
-        </div>
+            <SimilarGamesCarousel game={game} />
+          </div>
+        )}
       </div>
     </main>
   );

@@ -45,11 +45,13 @@ export const SkeletonLoader = () => {
   return (
     <div className="flex h-full w-full justify-around gap-4 overflow-hidden rounded-xl px-4">
       {Array.from({ length: skeleton?.count }).map((_, idx) => (
-        <div key={idx} className="flex w-full flex-col space-y-3">
-          <Skeleton className="h-[420px] w-[100%] rounded-xl" />
-          <div className="space-y-2">
+        <div
+          key={idx}
+          className="flex w-full flex-col space-y-3 rounded-xl border border-border"
+        >
+          <Skeleton className="h-[432px] w-[100%] rounded-xl" />
+          <div className="space-y-2 px-[12px] py-[16px]">
             <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-[80%]" />
             <Skeleton className="h-4 w-[80%]" />
           </div>
         </div>
