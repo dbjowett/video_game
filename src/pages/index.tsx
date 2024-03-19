@@ -56,7 +56,7 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center">
         <form
           onSubmit={onSubmit}
-          className="mt-10 flex w-full items-center justify-center space-x-2"
+          className="mt-10 flex w-full items-center justify-center space-x-2 px-4"
         >
           <Input
             onChange={(e) => setInput(e.target.value)}
