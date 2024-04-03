@@ -96,9 +96,9 @@ export const SimilarGameValidator = z.object({
   }),
 });
 
+// ** Types ** //
 export type SimilarGame = z.infer<typeof SimilarGameValidator>;
 export type Game = z.infer<typeof GameValidator>;
-
 export type Video = z.infer<typeof VideoSchema>;
 export type Screenshot = z.infer<typeof ScreenshotSchema>;
 export type Website = z.infer<typeof WebsiteSchema>;

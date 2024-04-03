@@ -13,6 +13,33 @@ import {
   openInNewTab,
 } from "~/utils/gameUtils";
 
+const ClampComponent = ({ text }: { text: string }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleExpansion = () => {
+    setExpanded(!expanded);
+  };
+
+  return (
+    <div>
+      <div className={`${expanded ? "line-clamp-none" : "line-clamp-4"}`}>
+        {text}
+      </div>
+      <div className="flex w-full justify-end">
+        {!expanded ? (
+          <button onClick={toggleExpansion} className="font-bold text-white">
+            Read more
+          </button>
+        ) : (
+          <button onClick={toggleExpansion} className="font-bold text-white">
+            Read less
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default function Page() {
   const [query, setQuery] = useState<string>("");
   const router = useRouter();
@@ -119,7 +146,7 @@ export default function Page() {
                   Summary
                 </Text>
                 <Text as="h1" size="sm" className="rounded bg-accent p-4">
-                  {game.storyline}
+                  <ClampComponent text={game.storyline} />
                 </Text>
               </div>
             )}
