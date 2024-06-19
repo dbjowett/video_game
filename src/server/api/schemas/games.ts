@@ -73,6 +73,7 @@ const WebsiteSchema = z.object({
 export const GameValidator = z.object({
   id: z.number(),
   cover: CoverSchema,
+  first_release_date: z.number().optional(),
   genres: z.array(GenreSchema).optional(),
   name: z.string(),
   platforms: z.array(PlatformSchema).optional(),
@@ -83,6 +84,7 @@ export const GameValidator = z.object({
   similar_games: z.array(z.number()).optional(),
   summary: z.string().optional(),
   storyline: z.string().optional(),
+  total_rating: z.number().optional(),
   websites: z.array(WebsiteSchema).optional(),
   videos: z.array(VideoSchema).optional(),
 });

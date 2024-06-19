@@ -105,6 +105,52 @@ export const igdbRouter = createTRPCRouter({
 
       return valid.data;
     }),
+  searchGame: publicProcedure
+    .input(
+      z.object({
+        searchQuery: z.string().min(2),
+      })
+    )
+    .query(async ({ input }) => {
+      const query_data: IGDBQueryOptions = {
+        fields: [
+          "name",
+          "first_release_date",
+          "release_dates.human",
+          "genres.name",
+          "platforms.abbreviation",
+          "total_rating",
+          "summary",
+          "screenshots.image_id",
+          "videos.*",
+          "cover.url",
+        ],
+        search: input.searchQuery,
+        where: "rating != null & category = 0",
+        limit: 20,
+      };
+
+      const { data }: { data: SimilarGame[] } = await igdb.post(
+        "/games",
+        constructQuery(query_data)
+      );
+      console.log(input.searchQuery);
+      if (!data) {
+        throw new TRPCError({
+          message: "No Game Data",
+          code: "NOT_FOUND",
+        });
+      }
+
+      // const valid = GameValidator.array().safeParse(data);
+
+      // if (!valid.success) {
+      //   console.error(valid.error);
+      //   return null;
+      // }
+
+      return data;
+    }),
 
   // TODO: Add validator
   getUpcoming: publicProcedure.query(async () => {
@@ -141,7 +187,7 @@ export const igdbRouter = createTRPCRouter({
       });
     }
 
-    const valid = GameValidator.safeParse(data[0]);
+    const valid = GameValidator.array().safeParse(data);
 
     if (!valid.success) {
       console.error(valid.error);

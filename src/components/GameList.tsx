@@ -46,21 +46,13 @@ const GameGridHeader = ({ title }: { title: PageTypes }) => {
   );
 };
 
-function GameList({ type }: { type: PageTypes }) {
-  const { data: games, isLoading, isError } = useFetchGames(type);
-
-  const { data } = useSession();
+function GameList({ games, type }: { games?: Game[]; type: PageTypes }) {
+  const { data } = useFetchGames(type);
+  const { data: userData } = useSession();
   const { data: faveGames, refetch: refetchFavourites } =
     api.games.getFavourites.useQuery(undefined, {
-      enabled: !!data?.user,
+      enabled: !!userData?.user,
     });
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>Something went wrong!</div>;
-  }
 
   return (
     <div>
@@ -68,7 +60,7 @@ function GameList({ type }: { type: PageTypes }) {
       <GameGrid
         faveGames={faveGames}
         refetchFavourites={() => void refetchFavourites()}
-        games={games}
+        games={games ?? data}
       />
     </div>
   );
