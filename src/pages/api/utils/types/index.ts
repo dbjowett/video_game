@@ -20,22 +20,6 @@ export interface RequestOptions {
   body: string;
 }
 
-/// GAME TYPES
-
-// export interface Game {
-//   id: number;
-//   cover: Cover;
-//   genres: Genre[];
-//   name: string;
-//   platforms: Platform[];
-//   rating: number;
-//   rating_count: number;
-//   release_dates: ReleaseDate[];
-//   screenshots: Screenshot[];
-//   similar_games: string[];
-//   summary: string;
-// }
-
 export interface Cover {
   id: number;
   alpha_channel: boolean;
@@ -85,12 +69,4 @@ export interface ReleaseDate {
   y: number;
   checksum: string;
   status: number;
-}
-
-export interface FavouriteGame {
-  id: string;
-  title: string;
-  imageUrl: string;
-  createdAt: Date;
-  userId: string;
 }

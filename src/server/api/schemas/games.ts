@@ -2,18 +2,18 @@ import { z } from "zod";
 
 const PlatformSchema = z.object({
   id: z.number(),
-  abbreviation: z.string(),
+  abbreviation: z.string().optional(),
   alternative_name: z.string().optional(),
-  category: z.number(),
-  created_at: z.number(),
-  name: z.string(),
-  platform_logo: z.number(),
-  slug: z.string(),
-  updated_at: z.number(),
-  url: z.string(),
+  category: z.number().optional(),
+  created_at: z.number().optional(),
+  name: z.string().optional(),
+  platform_logo: z.number().optional(),
+  slug: z.string().optional(),
+  updated_at: z.number().optional(),
+  url: z.string().optional(),
   versions: z.array(z.number()).optional(),
   websites: z.array(z.number()).optional(),
-  checksum: z.string(),
+  checksum: z.string().optional(),
 });
 
 const GenreSchema = z.object({
@@ -23,28 +23,28 @@ const GenreSchema = z.object({
 
 const CoverSchema = z.object({
   id: z.number(),
-  alpha_channel: z.boolean(),
-  animated: z.boolean(),
-  game: z.number(),
-  height: z.number(),
-  image_id: z.string(),
+  alpha_channel: z.boolean().optional(),
+  animated: z.boolean().optional(),
+  game: z.number().optional(),
+  height: z.number().optional(),
+  image_id: z.string().optional(),
   url: z.string(),
-  width: z.number(),
+  width: z.number().optional(),
 });
 
 const ReleaseDateSchema = z.object({
   id: z.number(),
-  category: z.number(),
-  created_at: z.number(),
+  category: z.number().optional(),
+  created_at: z.number().optional(),
   date: z.number().optional(),
-  game: z.number(),
-  human: z.string(),
+  game: z.number().optional(),
+  human: z.string().optional(),
   m: z.number().optional(),
-  platform: z.number(),
-  region: z.number(),
-  updated_at: z.number(),
+  platform: z.number().optional(),
+  region: z.number().optional(),
+  updated_at: z.number().optional(),
   y: z.number().optional(),
-  checksum: z.string(),
+  checksum: z.string().optional(),
   status: z.number().optional(),
 });
 
@@ -55,22 +55,23 @@ const ScreenshotSchema = z.object({
 
 const VideoSchema = z.object({
   id: z.number(),
-  game: z.number(),
-  name: z.string(),
-  video_id: z.string(),
-  checksum: z.string(),
+  game: z.number().optional(),
+  name: z.string().optional(),
+  video_id: z.string().optional(),
+  checksum: z.string().optional(),
 });
 
 const WebsiteSchema = z.object({
   id: z.number(),
-  category: z.number(),
-  game: z.number(),
-  trusted: z.boolean(),
-  url: z.string().url(),
-  checksum: z.string(),
+  category: z.number().optional(),
+  game: z.number().optional(),
+  trusted: z.boolean().optional(),
+  url: z.string().url().optional(),
+  checksum: z.string().optional(),
 });
 
-export const GameValidator = z.object({
+// Used in Single Game screen
+export const DetailedGameValidator = z.object({
   id: z.number(),
   cover: CoverSchema,
   first_release_date: z.number().optional(),
@@ -89,6 +90,16 @@ export const GameValidator = z.object({
   videos: z.array(VideoSchema).optional(),
 });
 
+// Used in Grid Item
+export const GameValidator = z.object({
+  id: z.number(),
+  name: z.string(),
+  cover: CoverSchema, // optional???
+  genres: z.array(GenreSchema).optional(),
+  total_rating: z.number().optional(),
+  first_release_date: z.number(), // optional??
+});
+
 export const SimilarGameValidator = z.object({
   id: z.number(),
   name: z.string(),
@@ -98,9 +109,21 @@ export const SimilarGameValidator = z.object({
   }),
 });
 
+export const FaveGameValidator = z.object({
+  id: z.number(),
+  title: z.string(),
+  imageUrl: z.string(),
+  createdAt: z.date(),
+  userId: z.string(),
+});
+
 // ** Types ** //
-export type SimilarGame = z.infer<typeof SimilarGameValidator>;
-export type Game = z.infer<typeof GameValidator>;
-export type Video = z.infer<typeof VideoSchema>;
 export type Screenshot = z.infer<typeof ScreenshotSchema>;
+export type Video = z.infer<typeof VideoSchema>;
 export type Website = z.infer<typeof WebsiteSchema>;
+
+export type SimilarGame = z.infer<typeof SimilarGameValidator>;
+export type DetailedGame = z.infer<typeof DetailedGameValidator>;
+
+export type Game = z.infer<typeof GameValidator>;
+export type FaveGame = z.infer<typeof FaveGameValidator>;

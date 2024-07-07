@@ -10,6 +10,7 @@ import {
 } from "~/utils/query_constructor";
 import {
   GameValidator,
+  DetailedGameValidator,
   SimilarGameValidator,
   type Game,
   type SimilarGame,
@@ -59,7 +60,7 @@ export const igdbRouter = createTRPCRouter({
         });
       }
 
-      const valid = GameValidator.safeParse(data[0]);
+      const valid = DetailedGameValidator.safeParse(data[0]);
 
       if (!valid.success) {
         console.error(valid.error);
@@ -100,7 +101,7 @@ export const igdbRouter = createTRPCRouter({
 
       if (!valid.success) {
         console.error(valid.error);
-        return null;
+        return [];
       }
 
       return valid.data;
@@ -115,15 +116,10 @@ export const igdbRouter = createTRPCRouter({
       const query_data: IGDBQueryOptions = {
         fields: [
           "name",
-          "first_release_date",
-          "release_dates.human",
-          "genres.name",
-          "platforms.abbreviation",
-          "total_rating",
-          "summary",
-          "screenshots.image_id",
-          "videos.*",
           "cover.url",
+          "genres.name",
+          "total_rating",
+          "first_release_date",
         ],
         search: input.searchQuery,
         where: "rating != null & category = 0",
@@ -134,7 +130,7 @@ export const igdbRouter = createTRPCRouter({
         "/games",
         constructQuery(query_data)
       );
-      console.log(input.searchQuery);
+
       if (!data) {
         throw new TRPCError({
           message: "No Game Data",
@@ -142,31 +138,28 @@ export const igdbRouter = createTRPCRouter({
         });
       }
 
-      // const valid = GameValidator.array().safeParse(data);
+      const {
+        success,
+        data: GameData,
+        error,
+      } = GameValidator.array().safeParse(data);
 
-      // if (!valid.success) {
-      //   console.error(valid.error);
-      //   return null;
-      // }
+      if (!success) {
+        console.error(error);
+        return null;
+      }
 
-      return data;
+      return GameData;
     }),
 
-  // TODO: Add validator
   getUpcoming: publicProcedure.query(async () => {
     const query_data: IGDBQueryOptions = {
       fields: [
         "name",
-        "rating",
-        "rating_count",
-        "release_dates.*",
-        "summary",
-        "similar_games",
-        "screenshots.image_id",
-        "cover.*",
-        "rating",
+        "cover.url",
         "genres.name",
-        "platforms.*",
+        "total_rating",
+        "first_release_date",
       ],
       where: `platforms= (${PS5},${XBOX_SERIES},${PS4},${PC},${SWITCH},${STEAM_OS}) & cover != null & category = 0  & first_release_date != n & first_release_date >${Math.floor(
         Date.now() / 1000

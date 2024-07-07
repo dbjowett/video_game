@@ -1,6 +1,6 @@
 import { capitalize } from "~/utils";
 import { useSession } from "next-auth/react";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import { TbX } from "react-icons/tb";
 import { GameGrid } from "~/components/GameList";
 import { Carousel } from "~/components/ui/Carousel";
@@ -22,7 +22,7 @@ const debounce = <T extends (...args: Parameters<T>) => ReturnType<T>>(
   };
 };
 
-export const HomePage = () => {
+const HomePage = () => {
   const [input, setInput] = useState("");
   const [debouncedInput, setDebouncedInput] = useState("");
 
@@ -111,3 +111,5 @@ export const HomePage = () => {
     </main>
   );
 };
+
+export default HomePage;

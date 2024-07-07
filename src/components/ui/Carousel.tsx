@@ -7,10 +7,10 @@ import { GameItem } from "../GameItem";
 import { TabItems, type PageTypes } from "../Navbar";
 
 import Text from "./Text";
+import { type FaveGame } from "~/server/api/schemas/games";
 
 import Link from "next/link";
 import { TbArrowNarrowRight } from "react-icons/tb";
-import { type FavouriteGame } from "~/pages/api/utils/types";
 import { NavigationArrows } from "../NavigationArrows";
 import { Badge } from "./badge";
 import { SkeletonLoader } from "./skeleton-loader";
@@ -36,7 +36,7 @@ const break_points = {
 
 interface CarouselProps {
   type: PageTypes;
-  faveGames: FavouriteGame[] | undefined;
+  faveGames: FaveGame[] | undefined;
   refetchFavourites: () => void;
 }
 
@@ -97,8 +97,7 @@ export const Carousel = ({
                   <GameItem
                     refetchFavourites={refetchFavourites}
                     isFavourite={
-                      faveGames?.some((g) => g.id === game.id.toString()) ??
-                      false
+                      faveGames?.some((g) => g.id === game.id) ?? false
                     }
                     game={game}
                   />

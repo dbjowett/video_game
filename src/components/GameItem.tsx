@@ -60,6 +60,15 @@ export const GameItem = ({
     });
   };
 
+  const getHumanDate = (time?: number): string | null => {
+    if (!time) return null;
+    const newDate = new Date();
+    newDate.setTime(time * 1000);
+    return newDate.toUTCString();
+  };
+
+  const releaseDate = getHumanDate(game.first_release_date);
+
   return (
     <Link
       className="flex h-full max-w-sm flex-1 cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground  shadow  hover:bg-accent sm:mx-[4px] "
@@ -91,15 +100,13 @@ export const GameItem = ({
           <div className="flex flex-wrap justify-between gap-2">
             <Badge variant="outline">
               <>
-                {game.rating ? (
+                {game.total_rating ? (
                   <>
                     <Star size={14} weight="fill" color="gold" />
-                    {Math.round(game.rating)}
+                    {Math.round(game.total_rating)}
                   </>
                 ) : (
-                  <p className="badge line-clamp-6 text-xs">
-                    {game.release_dates?.[0]?.human}
-                  </p>
+                  <p className="badge line-clamp-6 text-xs">{releaseDate}</p>
                 )}
               </>
             </Badge>

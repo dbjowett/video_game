@@ -160,10 +160,10 @@ export default function Page() {
                     {game.websites.map((site) => (
                       <a
                         key={site.id}
-                        onClick={() => openInNewTab(site.url)}
+                        onClick={() => openInNewTab(site?.url ?? "")}
                         className="cursor-pointer hover:underline "
                       >
-                        {getObjectCategoryName(site.category)}
+                        {getObjectCategoryName(Number(site.category))}
                       </a>
                     ))}
                   </>

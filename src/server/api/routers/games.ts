@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { FaveGameValidator } from "../schemas/games";
 
 export const gamesRouter = createTRPCRouter({
   favouriteGame: protectedProcedure
@@ -32,10 +33,16 @@ export const gamesRouter = createTRPCRouter({
     }),
 
   getFavourites: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.likedGame.findMany({
+    const faveGames = ctx.prisma.likedGame.findMany({
       where: {
         userId: ctx.session.user.id,
       },
     });
+
+    const { data: games, success } =
+      FaveGameValidator.array().safeParse(faveGames);
+
+    if (!success) return [];
+    return games;
   }),
 });

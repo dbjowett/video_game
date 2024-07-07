@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { type Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Text from "~/components/ui/Text";
-import { type Game } from "~/server/api/schemas/games";
+import { type DetailedGame } from "~/server/api/schemas/games";
 import { api } from "~/utils/api";
 import { imageLoader } from "~/utils/gameUtils";
 import { NavigationArrows } from "./NavigationArrows";
@@ -28,7 +28,7 @@ const carousel_breakpoints = {
   },
 };
 
-export const SimilarGamesCarousel = ({ game }: { game: Game }) => {
+export const SimilarGamesCarousel = ({ game }: { game: DetailedGame }) => {
   const similarGameIds = game?.similar_games ?? [0];
   const swiperRef = useRef<SwiperType>();
 
