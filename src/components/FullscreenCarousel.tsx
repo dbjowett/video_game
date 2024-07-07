@@ -31,12 +31,10 @@ export const FullscreenCarousel = ({
   return (
     <Swiper
       slidesPerView={1}
-      pagination={{
-        clickable: true,
-      }}
+      pagination={{ clickable: true }}
       onBeforeInit={(swiper) => (swiperRef.current = swiper)}
       modules={[Pagination]}
-      className="relative"
+      className="relative max-w-[100vw] overflow-hidden"
     >
       {screenshots?.length &&
         screenshots?.map((screenshot) => (
