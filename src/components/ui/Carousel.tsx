@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { type Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useFetchGames } from "~/hooks/useFetchGames";
+import { type Game } from "~/server/api/schemas/games";
 import { GameItem } from "../GameItem";
 import { TabItems, type PageTypes } from "../Navbar";
 
@@ -35,17 +35,20 @@ const break_points = {
 };
 
 interface CarouselProps {
+  isLoading: boolean;
+  games: Game[] | undefined;
   type: PageTypes;
   faveGames: FaveGame[] | undefined;
   refetchFavourites: () => void;
 }
 
 export const Carousel = ({
+  isLoading,
+  games,
   type,
   faveGames,
   refetchFavourites,
 }: CarouselProps) => {
-  const { data: games, isLoading, isError } = useFetchGames(type);
   const swiperRef = useRef<SwiperType>();
   const [isStart, setIsStart] = useState<boolean | null>(true);
   const [isEnd, setIsEnd] = useState<boolean | null>(false);
@@ -60,8 +63,6 @@ export const Carousel = ({
       setIsEnd(newIsEnd);
     }
   };
-
-  if (isError) return <div>Something went wrong...</div>;
 
   return (
     <div className="w-screen ">
@@ -92,7 +93,7 @@ export const Carousel = ({
             onSlideChange={updateButtons}
           >
             <>
-              {games.map((game) => (
+              {games?.map((game) => (
                 <SwiperSlide key={game.id} className="h-auto">
                   <GameItem
                     refetchFavourites={refetchFavourites}

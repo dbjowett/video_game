@@ -1,4 +1,4 @@
-import { capitalize } from "~/utils";
+import { capitalize, debounce } from "~/utils";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { TbX } from "react-icons/tb";
@@ -10,29 +10,18 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { api } from "~/utils/api";
 
-const debounce = <T extends (...args: Parameters<T>) => ReturnType<T>>(
-  func: T,
-  wait: number
-): ((...args: Parameters<T>) => void) => {
-  let timeout: ReturnType<typeof setTimeout>;
-
-  return (...args: Parameters<T>): void => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  };
-};
-
 const HomePage = () => {
-  const [input, setInput] = useState("");
-  const [debouncedInput, setDebouncedInput] = useState("");
+  const [debouncedInput, setDebouncedInput] = useState<string>("");
+  const [input, setInput] = useState<string>("");
 
-  const debouncedSetInput = debounce((value: string) => {
-    setDebouncedInput(value);
-  }, 300);
+  const { data: session } = useSession();
+  const { data: homepageGames, isFetching: isFetchingHomepage } =
+    api.igdb.getHomepageGames.useQuery();
 
-  useEffect(() => {
-    debouncedSetInput(input);
-  }, [input, debouncedSetInput]);
+  const { data: faveGames, refetch: refetchFavourites } =
+    api.games.getFavourites.useQuery(undefined, {
+      enabled: !!session?.user,
+    });
 
   const { data: searchedGames, isFetching } = api.igdb.searchGame.useQuery(
     {
@@ -43,11 +32,13 @@ const HomePage = () => {
     }
   );
 
-  const { data } = useSession();
-  const { data: faveGames, refetch: refetchFavourites } =
-    api.games.getFavourites.useQuery(undefined, {
-      enabled: !!data?.user,
-    });
+  const debouncedSetInput = debounce((value: string) => {
+    setDebouncedInput(value);
+  }, 300);
+
+  useEffect(() => {
+    debouncedSetInput(input);
+  }, [input, debouncedSetInput]);
 
   return (
     <main className="flex min-h-screen flex-col items-center">
@@ -67,7 +58,7 @@ const HomePage = () => {
           Search
         </Button>
       </form>
-      {isFetching && <Text className="mt-4">Loading</Text>}
+      {isFetching && <Text className="mt-4">Loading..</Text>}
       {searchedGames && searchedGames.length > 0 ? (
         <div className="m-10 align-middle">
           <div className="mx-8 flex justify-between align-middle">
@@ -75,9 +66,7 @@ const HomePage = () => {
               input
             )}`}</Text>
             <Badge
-              onClick={() => {
-                setInput("");
-              }}
+              onClick={() => setInput("")}
               className="h-7 cursor-pointer gap-2 align-middle "
             >
               Clear <TbX size={16} />
@@ -92,16 +81,22 @@ const HomePage = () => {
       ) : (
         <div className="mt-12 flex flex-col gap-12">
           <Carousel
+            isLoading={isFetchingHomepage}
+            games={homepageGames?.upcoming}
             faveGames={faveGames}
             refetchFavourites={() => void refetchFavourites()}
             type="upcoming"
           />
           <Carousel
+            isLoading={isFetchingHomepage}
+            games={homepageGames?.popular}
             faveGames={faveGames}
             refetchFavourites={() => void refetchFavourites()}
             type="popular"
           />
           <Carousel
+            isLoading={isFetchingHomepage}
+            games={homepageGames?.toprated}
             faveGames={faveGames}
             refetchFavourites={() => void refetchFavourites()}
             type="toprated"

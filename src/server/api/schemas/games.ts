@@ -117,6 +117,13 @@ export const FaveGameValidator = z.object({
   userId: z.string(),
 });
 
+export const HomepageResponseValidator = z.array(
+  z.object({
+    name: z.enum(["Upcoming", "Popular", "Top Rated"]),
+    result: z.array(GameValidator),
+  })
+);
+
 // ** Types ** //
 export type Screenshot = z.infer<typeof ScreenshotSchema>;
 export type Video = z.infer<typeof VideoSchema>;
@@ -127,3 +134,5 @@ export type DetailedGame = z.infer<typeof DetailedGameValidator>;
 
 export type Game = z.infer<typeof GameValidator>;
 export type FaveGame = z.infer<typeof FaveGameValidator>;
+
+export type HomepageGames = z.infer<typeof HomepageResponseValidator>;
