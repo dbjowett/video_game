@@ -15,10 +15,10 @@ import {
   SimilarGameValidator,
   type Game,
   type SimilarGame,
-  type HomepageGames,
 } from "../schemas/games";
+import { queries } from "~/utils/igdb_queries";
 
-const { PS5, XBOX_SERIES, PS4, SWITCH, STEAM_OS, PC } = Platforms;
+// const { PS5, XBOX_SERIES, PS4, SWITCH, STEAM_OS, PC } = Platforms;
 
 export const igdbRouter = createTRPCRouter({
   // ** Get game by id. Returns a single game **
@@ -108,6 +108,7 @@ export const igdbRouter = createTRPCRouter({
 
       return valid.data;
     }),
+
   searchGame: publicProcedure
     .input(
       z.object({
@@ -154,65 +155,60 @@ export const igdbRouter = createTRPCRouter({
       return GameData;
     }),
 
-  getUpcoming: publicProcedure.query(async () => {
-    const query_data: IGDBQueryOptions = {
-      fields: [
-        "name",
-        "cover.url",
-        "genres.name",
-        "total_rating",
-        "first_release_date",
-      ],
-      where: `platforms= (${PS5},${XBOX_SERIES},${PS4},${PC},${SWITCH},${STEAM_OS}) & cover != null & category = 0  & first_release_date != n & first_release_date >${Math.floor(
-        Date.now() / 1000
-      )};`,
-      sort: "first_release_date asc;",
-      limit: 20,
-    };
+  getGames: publicProcedure
+    .input(
+      z.object({
+        type: z.enum(["upcoming", "popular", "newReleases"]),
+      })
+    )
+    .query(async ({ input }) => {
+      const query_data = queries[input.type];
 
-    const { data }: { data: Game[] } = await igdb.post(
-      "/games",
-      constructQuery(query_data)
-    );
+      const { data }: { data: Game[] } = await igdb.post("/games", query_data);
 
-    if (!data) {
-      throw new TRPCError({
-        message: "No Game Data",
-        code: "NOT_FOUND",
-      });
-    }
+      if (!data) {
+        throw new TRPCError({
+          message: "No Game Data",
+          code: "NOT_FOUND",
+        });
+      }
 
-    const valid = GameValidator.array().safeParse(data);
+      const valid = GameValidator.array().safeParse(data);
 
-    if (!valid.success) {
-      console.error(valid.error);
-      return null;
-    }
-    return valid.data;
-  }),
+      if (!valid.success) {
+        console.error(valid.error);
+        return null;
+      }
+      return valid.data;
+    }),
 
   getHomepageGames: publicProcedure.query(async () => {
+    const now = Math.floor(Date.now() / 1000);
+
+    const platformIds = [167, 169, 48, 6, 130, 92].join(","); // Xbox, PS4, Switch, PC, Steam, PS5
+
     const query = `
-      query games "Upcoming" {
+      query games "upcoming" {
         fields name, cover.url, genres.name, total_rating, first_release_date;
-        where platforms != null & platforms = (167,169,48,6,130,92) & cover != null & category = 0 & first_release_date > 1720525149;
+        where platforms != null & platforms = (${platformIds}) & cover != null & category = 0 & first_release_date > ${now};
         sort first_release_date asc;
         limit 20;
       };
   
-      query games "Popular" {
+      query games "popular" {
         fields name, cover.url, genres.name, total_rating, first_release_date;
-        where platforms != null & platforms = (167,169,48,6,130,92) & cover != null & category = 0 & total_rating > 9 & total_rating_count > 100;
+        where platforms != null & platforms = (${platformIds}) & cover != null & category = 0 & total_rating > 9 & total_rating_count > 100;
         sort total_rating desc;
         limit 20;
       };
   
-      query games "Top Rated" {
-        fields name, cover.url, genres.name, total_rating, first_release_date;
-        where platforms != null & platforms = (167,169,48,6,130,92) & cover != null & category = 0 & total_rating > 9 & total_rating_count > 100;
-        sort total_rating desc;
-        limit 20;
-      };
+     query games "newReleases" {
+      fields name, cover.url, genres.name, total_rating, first_release_date;
+      where platforms != null & platforms = (${platformIds}) & cover != null & category = 0 & first_release_date <= ${now};
+      sort first_release_date desc;
+      limit 20;
+};
+
     `;
 
     const response = await igdb.post("/multiquery", query);
@@ -230,21 +226,24 @@ export const igdbRouter = createTRPCRouter({
       console.error(valid.error ?? response);
     }
 
+    const categoryMap = {
+      upcoming: "upcoming",
+      popular: "popular",
+      newReleases: "newReleases",
+    } as const;
+
     const dataMap = valid?.data?.reduce(
       (acc, curr) => {
-        if (curr.name === "Upcoming") {
-          acc.upcoming = curr.result;
-        } else if (curr.name === "Popular") {
-          acc.popular = curr.result;
-        } else if (curr.name === "Top Rated") {
-          acc.toprated = curr.result;
+        const categoryKey = categoryMap[curr.name];
+        if (categoryKey) {
+          acc[categoryKey] = curr.result;
         }
         return acc;
       },
       {
         upcoming: [] as Game[],
         popular: [] as Game[],
-        toprated: [] as Game[],
+        newReleases: [] as Game[],
       }
     );
 

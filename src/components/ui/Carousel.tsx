@@ -69,9 +69,9 @@ export const Carousel = ({
       <div className="m-auto w-11/12">
         <div className="mb-4 flex justify-between align-middle">
           <Text as="h1" size="xl">
-            {TabItems[type].title}
+            {TabItems[type]?.title}
           </Text>
-          <Link className="self-end" href={TabItems[type].param}>
+          <Link className="self-end" href={`category${TabItems[type]?.param}`}>
             <Badge>
               See More <TbArrowNarrowRight />
             </Badge>

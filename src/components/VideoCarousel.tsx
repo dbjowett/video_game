@@ -8,12 +8,14 @@ interface IFrameProps {
   video: Video;
 }
 
+const YOUTUBE_URL = "https://www.youtube.com/embed/";
+
 const IFrame = ({ video }: IFrameProps) => {
   return (
     <div className="relative aspect-video h-full w-full">
       <iframe
         className="absolute left-0 top-0 h-full w-full rounded-xl "
-        src={`https://www.youtube.com/embed/${video.video_id}`}
+        src={`${YOUTUBE_URL}${video.video_id}`}
         title={video.name}
         allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen

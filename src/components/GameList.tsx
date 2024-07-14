@@ -1,15 +1,14 @@
 import { useSession } from "next-auth/react";
-import { useFetchGames } from "~/hooks/useFetchGames";
 
-import { type Game, type FaveGame } from "~/server/api/schemas/games";
+import { type FaveGame, type Game } from "~/server/api/schemas/games";
 import { api } from "~/utils/api";
 import { GameItem } from "./GameItem";
 import { TabItems, type PageTypes } from "./Navbar";
 import Text from "./ui/Text";
 
 interface GameGridProps {
+  games?: Game[] | null;
   faveGames: FaveGame[] | undefined;
-  games: Game[] | undefined;
   refetchFavourites: () => void;
 }
 
@@ -44,21 +43,25 @@ const GameGridHeader = ({ title }: { title: PageTypes }) => {
   );
 };
 
-function GameList({ games, type }: { games?: Game[]; type: PageTypes }) {
-  const { data } = useFetchGames(type);
+function GameList({ type }: { type: PageTypes }) {
+  const { data: games, isLoading } = api.igdb.getGames.useQuery({ type });
+
   const { data: userData } = useSession();
+
   const { data: faveGames, refetch: refetchFavourites } =
     api.games.getFavourites.useQuery(undefined, {
       enabled: !!userData?.user,
     });
 
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div>
       {type ? <GameGridHeader title={type} /> : null}
       <GameGrid
+        games={games}
         faveGames={faveGames}
         refetchFavourites={() => void refetchFavourites()}
-        games={games ?? data}
       />
     </div>
   );

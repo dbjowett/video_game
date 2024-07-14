@@ -20,12 +20,12 @@ import {
 
 export const TabItems = {
   upcoming: { param: "/upcoming", title: "Upcoming" },
-  toprated: { param: "/toprated", title: "Top Rated" },
+  newReleases: { param: "/newReleases", title: "New Releases" },
   popular: { param: "/popular", title: "Popular" },
   favourites: { param: "/favourites", title: "Favourites" },
 };
 
-export type PageTypes = keyof typeof TabItems;
+export type PageTypes = "upcoming" | "newReleases" | "popular";
 
 interface TabBarProps {
   activeTab: PageTypes;

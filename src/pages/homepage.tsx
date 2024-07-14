@@ -96,10 +96,10 @@ const HomePage = () => {
           />
           <Carousel
             isLoading={isFetchingHomepage}
-            games={homepageGames?.toprated}
+            games={homepageGames?.newReleases}
             faveGames={faveGames}
             refetchFavourites={() => void refetchFavourites()}
-            type="toprated"
+            type="newReleases"
           />
         </div>
       )}

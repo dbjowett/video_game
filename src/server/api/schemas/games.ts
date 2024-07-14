@@ -119,7 +119,7 @@ export const FaveGameValidator = z.object({
 
 export const HomepageResponseValidator = z.array(
   z.object({
-    name: z.enum(["Upcoming", "Popular", "Top Rated"]),
+    name: z.enum(["upcoming", "popular", "newReleases"]),
     result: z.array(GameValidator),
   })
 );
